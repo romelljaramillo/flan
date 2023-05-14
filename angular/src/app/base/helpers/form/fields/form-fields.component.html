@@ -1,0 +1,28 @@
+<form (ngSubmit)="onSubmit()" autocomplete="off">
+  <div class="form-row row">
+    <ng-container *ngFor="let field of fields" [formGroup]="form">
+      <input *ngIf="field.type == 'hidden'" [formControlName]="field.key" [id]="field.key" [type]="field.type">
+      <div *ngIf="field.type != 'hidden'" [ngSwitch]="field.type" class="col-sm-12">
+        <app-input-checkbox *ngSwitchCase="'checkbox'" [form]="form" [field]="field"></app-input-checkbox>
+        <app-input-text *ngSwitchCase="'text'" [form]="form" [field]="field"></app-input-text>
+        <app-input-text *ngSwitchCase="'number'" [form]="form" [field]="field"></app-input-text>
+        <app-input-text *ngSwitchCase="'password'" [form]="form" [field]="field"></app-input-text>
+        <app-input-text *ngSwitchCase="'email'" [form]="form" [field]="field"></app-input-text>
+        <app-input-file *ngSwitchCase="'image'" [form]="form" [field]="field"></app-input-file>
+        <app-input-file *ngSwitchCase="'file'" [form]="form" [field]="field"></app-input-file>
+        <app-input-textarea *ngSwitchCase="'textarea'" [form]="form" [field]="field"></app-input-textarea>
+        <app-input-date *ngSwitchCase="'date'" [form]="form" [field]="field"></app-input-date>
+        <app-input-date *ngSwitchCase="'datetime'" [form]="form" [field]="field"></app-input-date>
+        <app-input-select *ngSwitchCase="'select'" [form]="form" [field]="field"></app-input-select>
+      </div>
+    </ng-container>
+  </div>
+  <div class="row mt-3">
+    <div class="col-sm-6 text-left">
+      <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeForm()">cancel</button>
+    </div>
+    <div class="col-sm-6 text-right">
+      <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+  </div>
+</form>
