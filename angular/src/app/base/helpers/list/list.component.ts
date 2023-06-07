@@ -58,6 +58,7 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   filterEven(termino: string) {
+    this.filters.page = 1;
     this.resetFilters();
     this.filters.filter = termino;
     this.emitFilters();

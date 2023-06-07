@@ -91,7 +91,6 @@ class RoleController extends ApiController
      */
     public function update(UpdateRoleRequest $request, Role $role)
     {
-        
         $role->update($request->validated());
         $permissions = explode(',', $request->permissions);
         $permissions = Permission::whereIn('id', $permissions)->pluck('id', 'id');

@@ -5,7 +5,7 @@
 
 export const environment = {
     production: false,
-    base_url: 'http://laravel-sincro.loc/api/v1'
+    base_url: 'http://flan.dvl.to/api/v1'
   };
 
   /*
