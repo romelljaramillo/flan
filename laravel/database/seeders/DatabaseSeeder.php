@@ -28,5 +28,11 @@ class DatabaseSeeder extends Seeder
         ])->assignRole('superadmin', 'admin');
 
         User::factory(50)->create();
+
+        $this->call(SiteGroupSeeder::class);
+        $this->call(SiteSeeder::class);
+        $this->call(SiteUrlSeeder::class);
+        $this->call(LangSeeder::class);
+        
     }
 }

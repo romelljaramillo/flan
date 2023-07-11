@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -12,14 +12,14 @@ use App\Helpers\List\ListFields;
 use App\Helpers\List\Type\DateTimeColumn;
 use App\Helpers\List\Type\NumberColumn;
 use App\Helpers\List\Type\TextColumn;
-use App\Http\Controllers\Api\ApiController;
-use App\Http\Requests\Role\StoreRoleRequest;
-use App\Http\Requests\Role\UpdateRoleRequest;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Requests\Role\RoleStoreRequest;
+use App\Http\Requests\Role\RoleUpdateRequest;
 use App\Http\Resources\Role\RoleCollection;
 use App\Http\Resources\Role\RoleResource;
 use Spatie\Permission\Models\Permission;
 
-class RoleController extends ApiController
+class RoleController extends AdminController
 {
     /**
      * Display a listing of the resource.
@@ -28,23 +28,11 @@ class RoleController extends ApiController
      */
     public function index(Request $request)
     {
-        $perPage = (isset($request->perPage)) ? (int) $request->perPage : 10;
-        $orderBy = (isset($request->orderBy)) ? $request->orderBy : 'DESC';
-        $column = (isset($request->column)) ? $request->column : 'id';
-        $filter = (isset($request->filter)) ? $request->filter : '';
+        $this->setFilter($request);
 
-        if ($request->filters) {
-            $filters = explode("|", $request->filters);
-
-            foreach ($filters as $values) {
-                $fields[] = explode(";", $values);
-            }
-
-            $roles = Role::filterAdvance($fields)->orderBy($column, $orderBy)->paginate($perPage);
-            return RoleCollection::make($roles);
-        }
-
-        $roles = Role::filter($filter)->orderBy($column, $orderBy)->paginate($perPage);
+        $roles = ($this->filterFields) ?
+            Role::filterAdvance($this->filterFields)->orderBy($this->column, $this->orderBy)->paginate($this->perPage) :
+            Role::filter($this->filter)->orderBy($this->column, $this->orderBy)->paginate($this->perPage);
 
         return RoleCollection::make($roles);
     }
@@ -55,7 +43,7 @@ class RoleController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRoleRequest $request)
+    public function store(RoleStoreRequest $request)
     {
         if ($request->validated()) {
             $role = Role::create([
@@ -89,7 +77,7 @@ class RoleController extends ApiController
      * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRoleRequest $request, Role $role)
+    public function update(RoleUpdateRequest $request, Role $role)
     {
         $role->update($request->validated());
         $permissions = explode(',', $request->permissions);

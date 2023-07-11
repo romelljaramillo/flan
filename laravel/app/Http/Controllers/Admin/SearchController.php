@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\Admin\AdminController;
 
-class SearchController extends ApiController
+class SearchController extends AdminController
 {
     private $options = [];
 

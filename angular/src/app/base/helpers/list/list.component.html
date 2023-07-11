@@ -14,7 +14,7 @@
             <i class="fas fa-search"></i>
           </button>
           <app-advancesearch 
-            *ngIf="listService.isAdvanceSearch" 
+            *ngIf="isAdvanceSearch" 
             [fields]="listService.fields"
             (filterSearch)="filterAdvanceEven($event)">
           </app-advancesearch>

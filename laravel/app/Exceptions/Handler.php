@@ -3,6 +3,11 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Auth\AuthenticationException;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
+use Symfony\Component\HttpFoundation\Response as HTTP;
+
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -43,40 +48,39 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //     return $this->shouldReturnJson($request, $exception)
-            //                 // ? response()->json(['message' => $exception->getMessage()], 401)
-            //                 ? sendError($exception->getMessage(), ['error' => $exception->getMessage()], 401)
-            //                 : redirect()->guest($exception->redirectTo() ?? route('login'));
+        $this->renderable(function (AuthenticationException $e, $request) {
+            if ($request->is('api/*')) {
+                return $this->sendError('Unauthenticated.', $e->getMessage(), 401);
+            }
+        });
+
+        $this->renderable(function (NotFoundHttpException $e, $request) {
+            if ($request->is('api/*')) {
+                return $this->sendError('Record not found.', $e->getMessage(), $e->getStatusCode());
+            }
         });
     }
 
     /**
-     * Convert an authentication exception into a response.
+     * Send error response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\AuthenticationException  $exception
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param  string  $message
+     * @param  array  $error
+     * @param  int  $code
+     * @return \Illuminate\Http\Response
      */
-    // protected function unauthenticated($request, AuthenticationException $exception)
-    // {
-    //     return $this->shouldReturnJson($request, $exception)
-    //                 // ? response()->json(['message' => $exception->getMessage()], 401)
-    //                 ? sendError($exception->getMessage(), ['error' => $exception->getMessage()], 401)
-    //                 : redirect()->guest($exception->redirectTo() ?? route('login'));
-    // }
-
-    public function sendError($error, $errorMessages = [], $code = 404)
+    public function sendError($message, $error = [], $code = 404)
     {
         $response = [
             'success' => false,
-            'message' => $error,
+            'message' => $message,
         ];
 
-        if (!empty($errorMessages)) {
-            $response['data'] = $errorMessages;
+        if (!empty($error)) {
+            $response['data'] = $error;
         }
 
         return response()->json($response, $code);
     }
+
 }

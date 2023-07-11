@@ -19,6 +19,7 @@ import { OptionsQuery } from '../../interfaces/base.interface';
 })
 export class ListComponent implements OnInit, OnDestroy {
   @ViewChild('terminoSearch') terminoSearch!: ElementRef;
+  @Input() isAdvanceSearch: boolean = true;
 
   filters: OptionsQuery = {
     page: 1,
@@ -58,14 +59,15 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   filterEven(termino: string) {
-    this.filters.page = 1;
     this.resetFilters();
+    this.filters.page = 1;
     this.filters.filter = termino;
     this.emitFilters();
   }
 
   filterAdvanceEven(dataSearch: DataSearch[]) {
     this.resetFilters();
+    this.filters.page = 1;
     this.filters.filterAdvance = dataSearch;
     this.emitFilters();
   }

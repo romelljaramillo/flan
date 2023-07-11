@@ -58,7 +58,7 @@ export class BaseComponent implements OnInit, OnDestroy {
     public listService?: ListService,
     public formService?: FormService
   ) {
-    this.listService!.isAdvanceSearch = true;
+    
     this.roleService
       ?.validationPermission(this.baseService.entity)
       .subscribe((permissions) => {

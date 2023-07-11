@@ -92,9 +92,4 @@ class User extends Authenticatable
     {
         return $this->email === 'admin2@example.com';
     }
-
-    public function scopeOrderByName($query)
-    {
-        $query->orderBy('last_name')->orderBy('first_name');
-    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\Form\FormFields;
@@ -17,7 +17,7 @@ use App\Helpers\List\Type\DateTimeColumn;
 use App\Helpers\List\Type\ImageColumn;
 use App\Helpers\List\Type\NumberColumn;
 use App\Helpers\List\Type\TextColumn;
-use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\User\UserCollection;
@@ -26,7 +26,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class UserController extends ApiController
+class UserController extends AdminController
 {
 
     public function __construct()
@@ -41,24 +41,11 @@ class UserController extends ApiController
      */
     public function index(Request $request)
     {
-        $perPage = (isset($request->perPage)) ? (int) $request->perPage : 10;
-        $orderBy = (isset($request->orderBy)) ? $request->orderBy : 'DESC';
-        $column = (isset($request->column)) ? $request->column : 'id';
-        $filter = (isset($request->filter)) ? $request->filter : '';
+        $this->setFilter($request);
 
-        if ($request->filters) {
-            $filters = explode("|", $request->filters);
-
-            foreach ($filters as $values) {
-                $fields[] = explode(";", $values);
-            }
-
-            $users = User::filterAdvance($fields)->orderBy($column, $orderBy)->paginate($perPage);
-
-            return UserCollection::make($users);
-        }
-
-        $users = User::filter($filter)->orderBy($column, $orderBy)->paginate($perPage);
+        $users = ($this->filterFields) ?
+            User::filterAdvance($this->filterFields)->orderBy($this->column, $this->orderBy)->paginate($this->perPage) :
+            User::filter($this->filter)->orderBy($this->column, $this->orderBy)->paginate($this->perPage);
 
         return UserCollection::make($users);
     }

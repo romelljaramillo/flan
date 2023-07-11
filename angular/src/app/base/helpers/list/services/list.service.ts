@@ -7,7 +7,7 @@ import { PermissionsCrud } from 'src/app/role/interfaces/role.interface';
   providedIn: 'root',
 })
 export class ListService {
-  public isAdvanceSearch: boolean = true;
+  // public isAdvanceSearch: boolean = true;
   public total: number = 0;
   public fields: FieldList[] = [];
   public data: Array<any> = [];
