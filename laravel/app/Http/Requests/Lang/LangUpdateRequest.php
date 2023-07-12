@@ -24,16 +24,16 @@ class LangUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:32',
-            'active' => 'required|boolean',
-            'iso_code' => 'required|string|max:2',
-            'language_code' => 'required|string|max:5',
-            'locale' => 'required|string|max:5',
-            'date_format_lite' => 'required|string|max:32',
-            'date_format_full' => 'required|string|max:32',
-            'is_rtl' => 'required|boolean',
-            'sites' => 'required|array',
-            'sites.*' => 'exists:sites,id',
+            'name' => 'sometimes|required|string|max:32',
+            'active' => 'sometimes|required|boolean',
+            'iso_code' => 'sometimes|required|string|max:2',
+            'language_code' => 'sometimes|required|string|max:5',
+            'locale' => 'sometimes|required|string|max:5',
+            'date_format_lite' => 'sometimes|required|string|max:32',
+            'date_format_full' => 'sometimes|required|string|max:32',
+            'is_rtl' => 'sometimes|required|boolean',
+            'sites' => 'sometimes|required|array',
+            'sites.*' => 'sometimes|exists:sites,id',
         ];
     }
 }

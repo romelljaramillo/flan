@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\SiteController;
 use App\Http\Controllers\Admin\SiteGroupController;
 Use App\Http\Controllers\Admin\SiteUrlController;
 
+use App\Http\Controllers\Admin\ConfigurationController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -64,6 +66,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // SiteUrls
     Route::apiResource('/siteurls', SiteUrlController::class);
+
+    // Configurations 
+    Route::apiResource('/configurations', ConfigurationController::class);
 });
 
 Route::get('/img/{path}', [ImagesController::class, 'show'])

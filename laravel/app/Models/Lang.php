@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Traits\FilterAdvanceTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Lang extends Model
 {
@@ -24,5 +24,12 @@ class Lang extends Model
     public function sites()
     {
         return $this->belongsToMany(Site::class);
+    }
+
+    public function configurations()
+    {
+        return $this->belongsToMany(Configuration::class)
+        ->withPivot('value')
+        ->withTimestamps();
     }
 }

@@ -14,6 +14,11 @@ class LangResource extends JsonResource
      */
     public function toArray($request)
     {
+        $sites = $this->resource->sites->mapWithKeys(function ($item, $key) {
+            $site[$key] = ['id' => $item['id'], 'value' => $item['name']];
+            return $site;
+        });
+        
         return [
             'type' => 'langs',
             'id' => (string) $this->resource->id,
@@ -27,6 +32,7 @@ class LangResource extends JsonResource
                 'date_format_lite' => $this->resource->date_format_lite,
                 'date_format_full' => $this->resource->date_format_full,
                 'is_rtl' => $this->resource->is_rtl,
+                'sites' => $sites ?? '',
             ],
             'links' => [
                 'self' => route('langs.show', $this->resource),

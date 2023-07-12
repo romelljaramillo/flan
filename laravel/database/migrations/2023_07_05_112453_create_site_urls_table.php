@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('site_urls', function (Blueprint $table) {
             $table->id();
-            $table->integer('site_id');
+            $table->unsignedInteger('site_id');
             $table->string('domain', 150);
             $table->string('domain_ssl', 150);
             $table->string('physical_uri', 64);

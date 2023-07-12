@@ -17,6 +17,13 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(RoleSeeder::class);
+        $this->call([
+            SiteGroupSeeder::class,
+            SiteSeeder::class,
+            SiteUrlSeeder::class,
+            LangSeeder::class,
+            ConfigurationSeeder::class
+        ]);
         
         User::factory()->create([
             'first_name' => 'Romell',
@@ -29,10 +36,7 @@ class DatabaseSeeder extends Seeder
 
         User::factory(50)->create();
 
-        $this->call(SiteGroupSeeder::class);
-        $this->call(SiteSeeder::class);
-        $this->call(SiteUrlSeeder::class);
-        $this->call(LangSeeder::class);
+        
         
     }
 }

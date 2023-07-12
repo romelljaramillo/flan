@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('sites', function (Blueprint $table) {
             $table->id();
-            $table->integer('site_group_id');
+            $table->unsignedInteger('site_group_id');
             $table->string('name', 64);
             $table->string('color', 50);
-            $table->integer('category_id');
+            $table->unsignedInteger('category_id');
             $table->string('theme_name', 255);
             $table->tinyInteger('active');
             $table->timestamps();
