@@ -128,45 +128,6 @@ class PermissionController extends AdminController
      */
     public function getListFields()
     {
-
-        $routes = Route::getRoutes();
-        $namesController = [];
-        foreach ($routes as $route) {
-
-            if ($actionName = $route->getActionName()) {
-                $action = $route->getAction();
-                if(!isset($action['controller'])) continue;
-                $controller = class_basename($actionName);
-                $name = $route->getName() ?? $route->uri();
-                $method = isset($action['uses']) ? explode('@', $action['uses'])[1] : null;
-
-
-                switch ($method) {
-                    case 'index':
-                        $name = str_replace($method, 'read', $name);
-                        break;
-                    case 'store':
-                        $name = str_replace($method, 'create', $name);
-                        break;
-                    case 'update':
-                        $name = str_replace($method, 'update', $name);
-                        break;
-                    case 'destroy':
-                        $name = str_replace($method, 'delete', $name);
-                        break;
-                    default:
-                        $name = $name . '.read';
-                        break;
-                }
-
-                $description = str_replace('.', ' ', $name);
-                $namesController[] = [
-                    'name' => $name,
-                    'description' => $description
-                ];
-            }
-        }
-        
         $this->fields = new ListFields();
         $this->fields->add('id', NumberColumn::class);
         $this->fields->add('name', TextColumn::class, ['label' => 'Nombre']);
