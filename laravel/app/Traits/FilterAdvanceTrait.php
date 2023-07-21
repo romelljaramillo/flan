@@ -1,7 +1,7 @@
 <?php
 namespace App\Traits;
 
-use App\Http\Controllers\Api\SearchController;
+use App\Http\Controllers\Admin\SearchController;
 
 trait FilterAdvanceTrait
 {

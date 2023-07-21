@@ -33,9 +33,11 @@ class LangResource extends JsonResource
                 'date_format_full' => $this->resource->date_format_full,
                 'is_rtl' => $this->resource->is_rtl,
                 'sites' => $sites ?? '',
+                'created_at' => $this->resource->created_at,
+                'updated_at' => $this->resource->updated_at,
             ],
             'links' => [
-                'self' => route('langs.show', $this->resource),
+                'self' => route('admin.langs.show', $this->resource),
             ],
         ];
     }

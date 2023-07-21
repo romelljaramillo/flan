@@ -8,6 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Filesystem\Filesystem;
 
 class Controller extends BaseController
 {
@@ -37,5 +38,12 @@ class Controller extends BaseController
         $resizedPath = $this->imagesDir . '/' . basename($path);
         Storage::disk($disk)->put($resizedPath, $resizedContent);
         return $resizedPath;
+    }
+
+    public function splitCamelCase($input)
+    {
+        $regex = '/(?<!\b)(?=[A-Z])/'; // Expresión regular para encontrar las mayúsculas
+        $words = preg_split($regex, $input);
+        return implode(' ', $words);
     }
 }

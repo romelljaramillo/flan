@@ -27,8 +27,8 @@ class ConfigurationUpdateRequest extends FormRequest
         return [
             'name' => 'sometimes|required|' . Rule::unique('configurations')->ignore($this->configuration->id),
             'value' => 'sometimes|nullable',
-            'site_group_id' => 'integer',
-            'site_id' => 'integer',
+            'site_group_id' => 'sometimes|integer',
+            'site_id' => 'sometimes|integer',
         ];
     }
 }

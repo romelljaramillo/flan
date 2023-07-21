@@ -3,10 +3,12 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Site;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class SitePolicy
+
+class UserPolicy
 {
     use HandlesAuthorization;
 
@@ -25,12 +27,12 @@ class SitePolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Site  $site
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Site $site)
+    public function view(User $user, User $model)
     {
-        return $user->isAdmin() || $user->id === $site->id;
+        return $user->isAdmin() || $user->id === $model->id;
     }
 
     /**
@@ -41,41 +43,43 @@ class SitePolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->isAdmin();
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Site  $site
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Site $site)
+    public function update(User $user, User $model)
     {
-        //
+        return $user->hasRole('admin') || $user->id === $model->id;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Site  $site
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Site $site)
+    public function delete(User $user, User $model)
     {
-        //
+        return $user->isAdmin() && $user->id !== $model->id;
+
+        return $user->hasPermissionTo('delete users') && $user->id !== $model->id;
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Site  $site
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Site $site)
+    public function restore(User $user, User $model)
     {
         //
     }
@@ -84,10 +88,10 @@ class SitePolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Site  $site
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Site $site)
+    public function forceDelete(User $user, User $model)
     {
         //
     }

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
+
 import { BaseService } from 'src/app/base/services/base.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-export class UserService extends BaseService {
+export class LangService extends BaseService {
   override init() {
-    this.url = 'users';
-    this.entity = 'users';
+    this.url = 'langs';
+    this.entity = 'langs';
   }
 }

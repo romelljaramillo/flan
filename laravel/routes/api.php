@@ -7,9 +7,11 @@ use App\Http\Controllers\Admin\ImagesController;
 use App\Http\Controllers\Admin\LangController;
 use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\SiteController;
 use App\Http\Controllers\Admin\SiteGroupController;
 Use App\Http\Controllers\Admin\SiteUrlController;
+
 
 use App\Http\Controllers\Admin\ConfigurationController;
 
@@ -24,51 +26,53 @@ use App\Http\Controllers\Admin\ConfigurationController;
 |
 */
 
-Route::post('/login', [AuthController::class, 'login']);
+Route::name('admin.')->group(function () {
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/logout', [AuthController::class, 'logout']);
-    Route::get('/checkToken', [AuthController::class, 'checkToken']);
-    Route::post('/hasRole', [AuthController::class, 'hasRole']);
-    Route::post('/hasPermission', [AuthController::class, 'hasPermissionsByEntity']);
+        // Auth
+        Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+        Route::get('/check-token', [AuthController::class, 'checkToken'])->name('check-token');
+        Route::post('/hasrole', [AuthController::class, 'hasRole'])->name('hasrole');
+        Route::post('/haspermission', [AuthController::class, 'hasPermissionsByEntity'])->name('haspermission');
 
-    // optener las opciones de busqueda avanzada
-    Route::get('/optionsearch', [SearchController::class, 'getOptionsSearch']);
-    
-    // Users
-    Route::get('/users/fieldsform', [UserController::class, 'getFormFields'])
-    ->middleware('permission:admin_users_create|admin_users_update');
+        // Search
+        Route::get('/optionsearch', [SearchController::class, 'getOptionsSearch'])->name('optionsearch');
+        
+        // Users
+        Route::get('/users/fieldsform', [UserController::class, 'getFormFields'])->name('users.fieldsform');
+        Route::get('/users/fieldslist', [UserController::class, 'getListFields'])->name('users.fieldslist');
+        Route::apiResource('/users', UserController::class);
 
-    Route::get('/users/fieldslist', [UserController::class, 'getListFields'])
-    ->middleware('permission:admin_users_read');
+        // Roles
+        Route::get('/roles/fieldsform', [RoleController::class, 'getFormFields'])->name('roles.fieldsform');
+        Route::get('/roles/fieldslist', [RoleController::class, 'getListFields'])->name('roles.fieldslist');    
+        Route::apiResource('/roles', RoleController::class);
 
-    Route::apiResource('/users', UserController::class)
-    ->middleware('permission:admin_users_read|admin_users_create|admin_users_update|admin_users_delete');
+        // Permissions
+        Route::get('/permissions/fieldsform', [PermissionController::class, 'getFormFields'])->name('permissions.fieldsform');    
+        Route::get('/permissions/fieldslist', [PermissionController::class, 'getListFields'])->name('permissions.fieldslist');
+        Route::apiResource('/permissions', PermissionController::class);
 
-    // Roles
-    Route::get('/roles/fieldsform', [RoleController::class, 'getFormFields'])
-    ->middleware('permission:admin_roles_create|admin_roles_update');
+        // langs
+        Route::get('/langs/fieldsform', [LangController::class, 'getFormFields'])->name('langs.fieldsform');
+        Route::get('/langs/fieldslist', [LangController::class, 'getListFields'])->name('langs.fieldslist');
+        Route::apiResource('/langs', LangController::class);
 
-    Route::get('/roles/fieldslist', [RoleController::class, 'getListFields'])
-    ->middleware('permission:admin_roles_read');
-    
-    Route::apiResource('/roles', RoleController::class)
-    ->middleware('permission:admin_roles_read|admin_roles_create|admin_roles_update|admin_roles_delete');
+        // Sites
+        Route::get('/sites/fieldsform', [SiteController::class, 'getFormFields'])->name('sites.fieldsform');
+        Route::get('/sites/fieldslist', [SiteController::class, 'getListFields'])->name('sites.fieldslist');
+        Route::apiResource('/sites', SiteController::class);
 
-    // langs
-    Route::apiResource('/langs', LangController::class);
+        // SiteGroups
+        Route::apiResource('/sitegroups', SiteGroupController::class);
 
-    // Sites
-    Route::apiResource('/sites', SiteController::class);
+        // SiteUrls
+        Route::apiResource('/siteurls', SiteUrlController::class);
 
-    // SiteGroups
-    Route::apiResource('/sitegroups', SiteGroupController::class);
-
-    // SiteUrls
-    Route::apiResource('/siteurls', SiteUrlController::class);
-
-    // Configurations 
-    Route::apiResource('/configurations', ConfigurationController::class);
+        // Configurations 
+        Route::apiResource('/configurations', ConfigurationController::class);
+    });
 });
 
 Route::get('/img/{path}', [ImagesController::class, 'show'])

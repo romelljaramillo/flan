@@ -30,7 +30,7 @@ class SiteResource extends JsonResource
                 'deleted_at' => $this->resource->deleted_at,
             ],
             'links' => [
-                'self' => route('sites.show', $this->resource),
+                'self' => route('admin.sites.show', $this->resource),
             ],
         ];
     }

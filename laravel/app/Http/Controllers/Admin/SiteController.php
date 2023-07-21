@@ -4,11 +4,22 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Site;
 use Illuminate\Http\Request;
-use App\Http\Resources\Site\SiteResource;
-use App\Http\Resources\Site\SiteCollection;
+use App\Helpers\Form\FormFields;
+use App\Helpers\Form\Type\NumberType;
+use App\Helpers\Form\Type\SelectType;
+use App\Helpers\Form\Type\TextType;
+use App\Helpers\Form\Type\CheckboxType;
+use App\Helpers\List\ListFields;
+use App\Helpers\List\Type\DateTimeColumn;
+use App\Helpers\List\Type\NumberColumn;
+use App\Helpers\List\Type\TextColumn;
+use App\Helpers\List\Type\BooleanColumn;
 use App\Http\Requests\Site\SiteStoreRequest;
 use App\Http\Requests\Site\SiteUpdateRequest;
+use App\Http\Resources\Site\SiteCollection;
+use App\Http\Resources\Site\SiteResource;
 
+use App\Models\SiteGroup;
 
 class SiteController extends AdminController
 {
@@ -21,9 +32,9 @@ class SiteController extends AdminController
     {
         $this->setFilter($request);
 
-        $sites = ($this->filterFields) ?  
-            Site::filterAdvance($this->filterFields)->orderBy($this->column, $this->orderBy)->paginate($this->perPage) :
-            Site::filter($this->filter)->orderBy($this->column, $this->orderBy)->paginate($this->perPage);
+        $sites = ($this->filterFields) ?
+        Site::filterAdvance($this->filterFields)->orderBy($this->column, $this->orderBy)->paginate($this->perPage) :
+        Site::filter($this->filter)->orderBy($this->column, $this->orderBy)->paginate($this->perPage);
 
         return SiteCollection::make($sites);
     }
@@ -85,5 +96,50 @@ class SiteController extends AdminController
         $data = $site;
         $site->delete();
         return $this->sendResponse($data, 'Eliminado');
+    }
+
+    /**
+     * Devuelve los campos que se van a renderizar en el formulario
+     *
+     * @return json
+     */
+    public function getFormFields()
+    {
+        $siteGroups = SiteGroup::get();
+        $optionsSiteGroup = [];
+        foreach ($siteGroups as $value) {
+            $optionsSiteGroup[] = ['id' => $value->id, 'value' => $value->name];
+        }
+
+        $this->fields = new FormFields();
+        $this->fields->add('id', NumberType::class, ['primarykey' => true]);
+        $this->fields->add('name', TextType::class, ['label' => 'Nombre', 'required' => true]);
+        $this->fields->add('color', TextType::class, ['label' => 'color']);
+        $this->fields->add('site_group_id', SelectType::class, ['label' => 'Site Group',
+        'options' => $optionsSiteGroup]);
+        $this->fields->add('active', CheckboxType::class, ['label' => 'Estado']);
+        $fields = $this->fields->getFields();
+
+        return $this->sendResponse(['fields' => $fields], 'Fields form sites');
+    }
+
+    /**
+     * Devuelve los campos que se van a renderizar en las columnas de la tabla
+     *
+     * @return json
+     */
+    public function getListFields()
+    {
+        $this->fields = new ListFields();
+        $this->fields->add('id', NumberColumn::class);
+        $this->fields->add('name', TextColumn::class, ['label' => 'Nombre']);
+        $this->fields->add('site_group_id', TextColumn::class, ['label' => 'Formato de fecha (completo)']);
+        $this->fields->add('active', BooleanColumn::class, ['label' => 'Estado']);
+        $this->fields->add('created_at', DateTimeColumn::class, ['label' => 'Creado']);
+        $this->fields->add('updated_at', DateTimeColumn::class, ['label' => 'Actualizado']);
+
+        $fields = $this->fields->getFields();
+
+        return $this->sendResponse(['fields' => $fields], 'Fields list sites');
     }
 }

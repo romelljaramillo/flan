@@ -31,7 +31,7 @@ class RoleResource extends JsonResource
                 'updated_at' => $this->resource->updated_at,
             ],
             'links' => [
-                'self' => route('roles.show', $this->resource),
+                'self' => route('admin.roles.show', $this->resource),
             ],
         ];
     }

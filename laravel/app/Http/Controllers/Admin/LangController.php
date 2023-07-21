@@ -2,12 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Lang;
-use Illuminate\Http\Request;
-use App\Http\Resources\Lang\LangResource;
-use App\Http\Resources\Lang\LangCollection;
+use App\Helpers\Form\FormFields;
+use App\Helpers\Form\Type\CheckboxType;
+use App\Helpers\Form\Type\NumberType;
+use App\Helpers\Form\Type\TextType;
+use App\Helpers\List\ListFields;
+use App\Helpers\List\Type\BooleanColumn;
+use App\Helpers\List\Type\DateTimeColumn;
+use App\Helpers\List\Type\NumberColumn;
+use App\Helpers\List\Type\TextColumn;
 use App\Http\Requests\Lang\LangStoreRequest;
 use App\Http\Requests\Lang\LangUpdateRequest;
+use App\Http\Resources\Lang\LangCollection;
+use App\Http\Resources\Lang\LangResource;
+use App\Models\Lang;
+use Illuminate\Http\Request;
 
 class LangController extends AdminController
 {
@@ -20,9 +29,9 @@ class LangController extends AdminController
     {
         $this->setFilter($request);
 
-        $langs = ($this->filterFields) ?  
-            Lang::filterAdvance($this->filterFields)->orderBy($this->column, $this->orderBy)->paginate($this->perPage) :
-            Lang::filter($this->filter)->orderBy($this->column, $this->orderBy)->paginate($this->perPage);
+        $langs = ($this->filterFields) ?
+        Lang::filterAdvance($this->filterFields)->orderBy($this->column, $this->orderBy)->paginate($this->perPage) :
+        Lang::filter($this->filter)->orderBy($this->column, $this->orderBy)->paginate($this->perPage);
 
         return LangCollection::make($langs);
     }
@@ -54,7 +63,7 @@ class LangController extends AdminController
         return LangResource::make($lang);
     }
 
-    /**
+    /**LangStoreRequest
      * Display the specified resource.
      *
      * @param  \App\Models\Lang  $lang
@@ -70,7 +79,7 @@ class LangController extends AdminController
      *
      * @param  \App\Http\Requests\LangUpdateRequest  $request
      * @param  \App\Models\Lang  $lang
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\ResponseLangStoreRequest
      */
     public function update(LangUpdateRequest $request, Lang $lang)
     {
@@ -87,14 +96,59 @@ class LangController extends AdminController
     public function destroy(Lang $lang)
     {
         $data = $lang;
-        
+
         if ($lang->sites()->exists()) {
             $lang->sites()->detach();
             $lang->delete();
         } else {
             $lang->forceDelete();
-        }   
+        }
 
         return $this->sendResponse($data, 'Eliminado');
+    }
+
+    /**
+     * Devuelve los campos que se van a renderizar en el formulario
+     *
+     * @return void
+     */
+    public function getFormFields()
+    {
+        $this->fields = new FormFields();
+        $this->fields->add('id', NumberType::class, ['primarykey' => true]);
+        $this->fields->add('name', TextType::class, ['label' => 'Nombre', 'required' => true]);
+        $this->fields->add('iso_code', TextType::class, ['label' => 'Código ISO', 'required' => true]);
+        $this->fields->add('language_code', TextType::class, ['label' => 'Código del idioma', 'required' => true]);
+        $this->fields->add('date_format_lite', TextType::class, ['label' => 'Formato de fecha', 'required' => true]);
+        $this->fields->add('date_format_full', TextType::class, ['label' => 'Formato de fecha (completo)', 'required' => true]);
+        $this->fields->add('locale', TextType::class, ['label' => 'locale', 'required' => true]);
+        $this->fields->add('is_rtl', CheckboxType::class, ['label' => 'Idioma RTL']);
+        $this->fields->add('active', CheckboxType::class, ['label' => 'Estado']);
+        $fields = $this->fields->getFields();
+
+        return $this->sendResponse(['fields' => $fields], 'Fields form langs');
+    }
+
+    /**
+     * Devuelve los campos que se van a renderizar en las columnas de la tabla
+     *
+     * @return void
+     */
+    public function getListFields()
+    {
+        $this->fields = new ListFields();
+        $this->fields->add('id', NumberColumn::class);
+        $this->fields->add('name', TextColumn::class, ['label' => 'Nombre']);
+        $this->fields->add('iso_code', TextColumn::class, ['label' => 'Código ISO']);
+        $this->fields->add('language_code', TextColumn::class, ['label' => 'Código del idioma']);
+        $this->fields->add('date_format_lite', TextColumn::class, ['label' => 'Formato de fecha']);
+        $this->fields->add('date_format_full', TextColumn::class, ['label' => 'Formato de fecha (completo)']);
+        $this->fields->add('active', BooleanColumn::class, ['label' => 'Estado']);
+        $this->fields->add('created_at', DateTimeColumn::class, ['label' => 'Creado']);
+        $this->fields->add('updated_at', DateTimeColumn::class, ['label' => 'Actualizado']);
+
+        $fields = $this->fields->getFields();
+
+        return $this->sendResponse(['fields' => $fields], 'Fields list langs');
     }
 }

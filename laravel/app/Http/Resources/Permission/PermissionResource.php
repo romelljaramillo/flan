@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\SiteGroup;
+namespace App\Http\Resources\Permission;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SiteGroupResource extends JsonResource
+class PermissionResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,22 +15,18 @@ class SiteGroupResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'type' => 'sitegroups',
+            'type' => 'permissions',
             'id' => (string) $this->resource->id,
             'attribute' => [
-                'id' => $this->resource->id,
+                'id' => (string) $this->resource->id,
                 'name' => $this->resource->name,
-                'color' => $this->resource->color,
-                'share_customer' => $this->resource->share_customer,
-                'share_order' => $this->resource->share_order,
-                'share_stock' => $this->resource->share_stock,
-                'active' => $this->resource->active,
+                'description' => $this->resource->description,
+                'guard_name' => $this->resource->guard_name,
                 'created_at' => $this->resource->created_at,
                 'updated_at' => $this->resource->updated_at,
-                'deleted_at' => $this->resource->deleted_at,
             ],
             'links' => [
-                'self' => route('admin.sitegroups.show', $this->resource),
+                'self' => route('admin.permissions.show', $this->resource),
             ],
         ];
     }

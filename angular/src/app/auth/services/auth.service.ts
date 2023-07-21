@@ -108,7 +108,7 @@ export class AuthService {
     }
 
     return this.http
-      .get<AuthCheckResponse>(`${base_url}/checkToken`, { headers: this.headers})
+      .get<AuthCheckResponse>(`${base_url}/check-token`, { headers: this.headers})
       .pipe(map((response: AuthCheckResponse) => {
         console.log(response);
           if (!response.success) {

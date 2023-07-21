@@ -5,7 +5,6 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,8 +15,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(RoleSeeder::class);
         $this->call([
+            RolePermissionSeeder::class,
             SiteGroupSeeder::class,
             SiteSeeder::class,
             SiteUrlSeeder::class,
@@ -35,8 +34,5 @@ class DatabaseSeeder extends Seeder
         ])->assignRole('superadmin', 'admin');
 
         User::factory(50)->create();
-
-        
-        
     }
 }

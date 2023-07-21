@@ -33,6 +33,24 @@ const routes: Routes = [
         data: { title: 'Roles', entity: 'roles' },
         canActivate: [RoleGuard]
       },
+      {
+        path: 'permissions',
+        loadChildren: () => import('../../permission/permission.module').then(m => m.PermissionModule),
+        data: { title: 'Permissions', entity: 'permissions' },
+        canActivate: [RoleGuard]
+      },
+      {
+        path: 'langs',
+        loadChildren: () => import('../../lang/lang.module').then(m => m.LangModule),
+        data: { title: 'Langs', entity: 'langs' },
+        canActivate: [RoleGuard]
+      },
+      {
+        path: 'sites',
+        loadChildren: () => import('../../site/site.module').then(m => m.SiteModule),
+        data: { title: 'Sites', entity: 'sites' },
+        canActivate: [RoleGuard]
+      },
     ]
   },
   

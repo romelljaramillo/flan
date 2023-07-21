@@ -22,7 +22,7 @@ export class RoleService extends BaseService {
     const headers = this.authService.headers;
     const permissionsDefalt = { create: false, read: false, update: false, delete: false };
     
-    return this.http.post<PermissionsResponse>(`${base_url}/hasPermission`, {entity: entity}, {headers: headers})
+    return this.http.post<PermissionsResponse>(`${base_url}/haspermission`, {entity: entity}, {headers: headers})
     .pipe(
       map(response => {
         console.log(response.data);

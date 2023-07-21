@@ -29,10 +29,12 @@ use Illuminate\Http\Request;
 class UserController extends AdminController
 {
 
-    public function __construct()
+    /* public function __construct()
     {
+        parent::__construct();
+        // $this->authorizeResource(User::class, 'user');
         $this->imagesDir = 'users';
-    }
+    } */
 
     /**
      * Display a listing of the resource.
@@ -154,8 +156,11 @@ class UserController extends AdminController
         $this->fields->add('active', CheckboxType::class, ['label' => 'Activar']);
 
         if (Auth::user()->hasRole(['superadmin'])) {
-            $this->fields->add('roles', SelectType::class, ['label' => 'Roles',
-            'multiple' => true, 'options' => $optionsRoles]);
+            $this->fields->add('roles', SelectType::class, [
+                'label' => 'Roles',
+                'multiple' => true, 
+                'options' => $optionsRoles
+            ]);
         }
         
         $this->fields->add('photo', ImageType::class, ['label' => 'Imagen Avatar']);
@@ -175,8 +180,10 @@ class UserController extends AdminController
         $this->fields = new ListFields();
         $this->fields->add('id', NumberColumn::class);
         $this->fields->add('photo', ImageColumn::class, ['label' => 'Avatar']);
-        $this->fields->add('name', TextColumn::class, ['label' => 'Nombre']);
-        $this->fields->add('fullname', TextColumn::class, ['label' => 'Full name', 'orderby' => false]);
+        $this->fields->add('name', TextColumn::class, ['label' => 'Usuario']);
+        // $this->fields->add('fullname', TextColumn::class, ['label' => 'Full name', 'orderby' => false]);
+        $this->fields->add('first_name', TextColumn::class, ['label' => 'Nombre']);
+        $this->fields->add('last_name', TextColumn::class, ['label' => 'Apellidos']);
         $this->fields->add('email', TextColumn::class, ['label' => 'Email']);
         $this->fields->add('active', BooleanColumn::class, ['label' => 'Activo']);
         $this->fields->add('created_at', DateTimeColumn::class, ['label' => 'Create']);

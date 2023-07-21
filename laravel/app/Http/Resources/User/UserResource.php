@@ -48,7 +48,7 @@ class UserResource extends JsonResource
                 'deleted_at' => $this->resource->deleted_at,
             ],
             'links' => [
-                'self' => route('users.show', $this->resource),
+                'self' => route('admin.users.show', $this->resource),
             ],
         ];
     }

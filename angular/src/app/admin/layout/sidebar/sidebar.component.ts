@@ -12,6 +12,23 @@ declare var $: any;
 export class SidebarComponent implements OnInit {
   public user: UserAttribute;
 
+  public menuRoutes = [
+    { tab: 'Dashboard', icon: 'tachometer-alt', submenu: [
+      {title: 'Home', url: '/dashboard', icon: 'circle'}
+    ]},
+    { tab: 'Usuarios', icon: 'users', submenu: [
+      {title: 'Usuarios', url: '/dashboard/users', icon: 'circle'},
+      {title: 'Roles', url: '/dashboard/roles', icon: 'circle'},
+      {title: 'Permissions', url: '/dashboard/permissions', icon: 'circle'}
+    ]},
+    { tab: 'International', icon: 'globe', submenu: [
+      {title: 'Langs', url: '/dashboard/langs', icon: 'circle'}
+    ]},
+    { tab: 'Parámetros Avanzados', icon: 'cog', submenu: [
+      {title: 'Sites', url: '/dashboard/sites', icon: 'circle'}
+    ]},
+  ];
+
   constructor(
     private authService: AuthService
   ) {

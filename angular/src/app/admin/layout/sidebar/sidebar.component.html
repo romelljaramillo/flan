@@ -40,47 +40,26 @@
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+        <li *ngFor="let menu of menuRoutes" class="nav-item">
+          <a href="javascript:void(0)" class="nav-link">
+            
+            <i *ngIf="menu.icon" class="nav-icon fas fa-{{menu.icon}}"></i>
+            <p>
+              {{menu.tab | slice:0:17}}
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview" *ngFor="let submenu of menu.submenu">
+            <li class="nav-item">
+              <a routerLink="{{submenu.url}}"  routerLinkActive="active-link" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <i *ngIf="submenu.icon" class="nav-icon fas fa-{{submenu.icon}}"></i>
+                <p>{{submenu.title}}</p>
+              </a>
+            </li>
+          </ul>
+        </li>
 
-        <li class="nav-item">
-          <a href="javascript:void(0)" class="nav-link">
-            <i class="nav-icon fas fa-tachometer-alt"></i>
-            <p>
-              Dashboard
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a routerLink="/dashboard" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>home</p>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a href="javascript:void(0)" class="nav-link">
-            <i class="nav-icon fas fa-users"></i>
-            <p>
-              Usuarios
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a routerLink="/dashboard/users"  routerLinkActive="active-link" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Usuarios</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a routerLink="/dashboard/roles"  routerLinkActive="active-link" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Roles</p>
-              </a>
-            </li>
-          </ul>
-        </li>
       </ul>
     </nav>
     <!-- /.sidebar-menu -->
