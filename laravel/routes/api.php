@@ -63,10 +63,7 @@ Route::name(env('PREF_PERMISSION_ADMIN'))->group(function () {
         // langs
         Route::get('/langs/fieldsform', [LangController::class, 'getFormFields'])->name('langs.fieldsform');
         Route::get('/langs/fieldslist', [LangController::class, 'getListFields'])->name('langs.fieldslist');
-
-        Route::group(['middleware' => ['check-permissions']], function () {
-            Route::apiResource('/langs', LangController::class);
-        });
+        Route::apiResource('/langs', LangController::class);
 
         // Sites
         Route::get('/sites/fieldsform', [SiteController::class, 'getFormFields'])->name('sites.fieldsform');

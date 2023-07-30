@@ -39,10 +39,12 @@ class AdminController extends Controller
 
     public function __construct()
     {
+        // if($this->model = $this->getModel()) {
+        //     $this->authorizeResource($this->model::class);
+        // }
 
-        if($this->model = $this->getModel()) {
-            $this->authorizeResource($this->model::class, 'user');
-        }
+        // $this->middleware('check-permissions:administracion');
+        $this->middleware('check-permissions');
     }
 
     protected function getModel()

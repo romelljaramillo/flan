@@ -143,6 +143,4 @@ class PermissionController extends AdminController
         return ApiResponse::success(['fields' => $fields], 'Fields list permissions');
     }
 
-
-    
 }
