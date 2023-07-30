@@ -51,15 +51,4 @@ export interface RolesMetaLink {
   label: string;
   active: boolean;
 }
-export interface PermissionsResponse {
-  data: PermissionsCrud;
-  message: string;
-  success: boolean;
-}
 
-export interface PermissionsCrud {
-  create: boolean;
-  read: boolean;
-  update: boolean;
-  delete: boolean;
-}

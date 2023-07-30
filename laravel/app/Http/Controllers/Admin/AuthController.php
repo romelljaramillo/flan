@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
+use App\Helpers\ApiResponse;
+
 class AuthController extends AdminController
 {
 
@@ -29,11 +31,11 @@ class AuthController extends AdminController
             );
 
             if ($validateUser->fails()) {
-                return $this->sendError('Unauthorised.', ['error' => $validateUser->errors()], 401);
+                return ApiResponse::error('Unauthorised.', ['error' => $validateUser->errors()], 401);
             }
 
             if (!Auth::attempt($request->only(['email', 'password']))) {
-                return $this->sendError(
+                return ApiResponse::error(
                     'Unauthorised.',
                     ['error' => 'Email o Contraseña no coincide con nuestro registro.'],
                     401
@@ -43,19 +45,22 @@ class AuthController extends AdminController
             /** @var User $user */
             $user = Auth::user();
             if ($user->active) {
-                $success['token'] = $user->createToken('API TOKEN')->plainTextToken;
-                $success['name'] = $user->name;
-                $success['email'] = $user->email;
+                $data = [
+                    'token' => $user->createToken('API TOKEN')->plainTextToken,
+                    'user' => $user->name,
+                    'email' => $user->email,
+                ];
+
             } else {
                 $error = "usuario no activo";
                 $errorMessages = "usuario no activo";
-                return $this->sendError($error, $errorMessages, 403);
+                return ApiResponse::error($error, $errorMessages, 403);
             }
 
-            return $this->sendResponse($success, 'User login successfully.');
+            return ApiResponse::success($data, 'User login successfully.');
 
         } catch (\Throwable$th) {
-            return $this->sendError('500 Internal Server Error.', ['error' => $th->getMessage()], 500);
+            return ApiResponse::error('500 Internal Server Error.', ['error' => $th->getMessage()], 500);
         }
     }
 
@@ -64,33 +69,31 @@ class AuthController extends AdminController
         /** @var User $user */
         Auth::user();
         $request->user()->tokens()->delete();
-        $success['logout'] = true;
-        return $this->sendResponse($success, 'User logout successfully.');
+        
+        return ApiResponse::success([
+            'logout' => true,
+        ], 'User logout successfully.');
     }
 
     public function checkToken(Request $request)
     {
-        $success['checkToken'] = true;
-        $success['user'] = UserResource::make(Auth::user());
-        return $this->sendResponse($success, 'User successfully.');
+        return ApiResponse::success([
+            'checkToken' => true,
+            'user' => UserResource::make(Auth::user()),
+        ], 'User successfully.');
     }
 
-    public function hasPermissionsByEntity(Request $request)
+    public function checkPermission(Request $request)
     {
-        if (!isset($request->entity)) {
-            return false;
-        }
+        $route = $request->input('route');
 
+        $permissionName = env('PREF_PERMISSION_ADMIN') . $route;
+        
         /** @var User $user */
         $user = Auth::user();
 
-        $success = [
-            'create' => $user->can(env('PREF_PERMISSION_ADMIN') . $request->entity . env('SUF_PERMISION_CRUD_C')),
-            'read' => $user->can(env('PREF_PERMISSION_ADMIN') . $request->entity . env('SUF_PERMISION_CRUD_R')),
-            'update' => $user->can(env('PREF_PERMISSION_ADMIN') . $request->entity . env('SUF_PERMISION_CRUD_U')),
-            'delete' => $user->can(env('PREF_PERMISSION_ADMIN') . $request->entity . env('SUF_PERMISION_CRUD_D')),
-        ];
+        $hasPermission = $user->can($permissionName);
 
-        return $this->sendResponse($success, 'User successfully.');
+        return ApiResponse::success(['hasPermission' => true], 'User successfully.');
     }
 }

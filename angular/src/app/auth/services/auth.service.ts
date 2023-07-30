@@ -32,17 +32,10 @@ const USER_LOCAL_STORAGE_KEY = 'token';
 export class AuthService {
   public user: UserAttribute | any;
 
-  constructor(
-    private http: HttpClient,
-    private router: Router
-  ) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   get token(): string {
     return localStorage.getItem(USER_LOCAL_STORAGE_KEY) || '';
-  }
-
-  get isLoggedIn(): boolean {
-    return localStorage.getItem(USER_LOCAL_STORAGE_KEY) ? true : false;
   }
 
   get headers() {
@@ -66,9 +59,11 @@ export class AuthService {
       });
   }
 
-  postLogin(formData: AuthDataRequest) {
+  loginUser(formData: AuthDataRequest) {
     return this.http.post<AuthResponse>(`${base_url}/login`, formData).pipe(
       tap((response) => {
+        console.log(response);
+        
         if (!response.data.token) {
           Alert.error('Oops algo ha pasado, token no es valido!', {
             text: 'Vuelve a intentarlo',
@@ -102,16 +97,19 @@ export class AuthService {
     this.router.navigate(['login']);
   }
 
-  checkToken(): Observable<boolean> {
+  isLoggedIn(): Observable<boolean> {
     if (!this.token) {
       return of(false);
     }
 
     return this.http
-      .get<AuthCheckResponse>(`${base_url}/check-token`, { headers: this.headers})
-      .pipe(map((response: AuthCheckResponse) => {
-        console.log(response);
-          if (!response.success) {
+      .get<AuthCheckResponse>(`${base_url}/check-token`, {
+        headers: this.headers,
+      })
+      .pipe(
+        map((response: AuthCheckResponse) => {
+          console.log(response);
+          if (!response.data.checkToken) {
             this.clearToken();
             return false;
           }
@@ -125,5 +123,4 @@ export class AuthService {
         })
       );
   }
-
 }

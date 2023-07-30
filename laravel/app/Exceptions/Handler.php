@@ -8,6 +8,8 @@ use Illuminate\Auth\AuthenticationException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\HttpFoundation\Response as HTTP;
 
+use App\Helpers\ApiResponse;
+
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -50,37 +52,14 @@ class Handler extends ExceptionHandler
     {
         $this->renderable(function (AuthenticationException $e, $request) {
             if ($request->is('api/*')) {
-                return $this->sendError('Unauthenticated.', $e->getMessage(), 401);
+                return ApiResponse::error('Unauthenticated.', $e->getMessage(), 401);
             }
         });
 
         $this->renderable(function (NotFoundHttpException $e, $request) {
             if ($request->is('api/*')) {
-                return $this->sendError('Record not found.', $e->getMessage(), $e->getStatusCode());
+                return ApiResponse::error('Record not found.', $e->getMessage(), $e->getStatusCode());
             }
         });
     }
-
-    /**
-     * Send error response.
-     *
-     * @param  string  $message
-     * @param  array  $error
-     * @param  int  $code
-     * @return \Illuminate\Http\Response
-     */
-    public function sendError($message, $error = [], $code = 404)
-    {
-        $response = [
-            'success' => false,
-            'message' => $message,
-        ];
-
-        if (!empty($error)) {
-            $response['data'] = $error;
-        }
-
-        return response()->json($response, $code);
-    }
-
 }

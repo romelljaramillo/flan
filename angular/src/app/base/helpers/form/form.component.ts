@@ -15,7 +15,7 @@ export enum TypeForm {
 @Component({
   selector: 'app-form',
   styles: [''],
-  template: `<div *ngIf="formService.permissions.create" class="text-right">
+  template: `<div *ngIf="formService.permissions.hasPermission" class="text-right">
       <button 
         type="button"
         class="btn btn-primary btn-sm mb-2 "

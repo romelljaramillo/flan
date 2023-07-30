@@ -9,9 +9,6 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { HasRoleDirective } from '../role/directives/hasrole.directive';
 import { AuthRoutingModule } from './auth.routing.module';
-import { AuthService } from './services/auth.service';
-import { AuthGuard } from './guards/auth.guard';
-import { LoginGuard } from './guards/login.guard';
 
 @NgModule({
   declarations: [
@@ -31,7 +28,6 @@ import { LoginGuard } from './guards/login.guard';
     ReactiveFormsModule,
     HttpClientModule,
     AuthRoutingModule
-  ],
-  providers: [AuthService, AuthGuard, LoginGuard],
+  ]
 })
 export class AuthModule { }

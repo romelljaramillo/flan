@@ -12,17 +12,11 @@ const USER_LOCAL_STORAGE_KEY = 'token';
 })
 export class AuthInterceptorService implements HttpInterceptor {
 
-  constructor(
-    private router: Router,
-    private authService: AuthService
-  ) {}
+  constructor(private router: Router) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
   
     const token: string = localStorage.getItem(USER_LOCAL_STORAGE_KEY) || '';;
-    
-    console.log(req);
-    console.log(next);
 
     let request = req;
 

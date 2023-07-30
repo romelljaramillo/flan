@@ -25,6 +25,7 @@ use App\Http\Resources\User\UserResource;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Helpers\ApiResponse;
 
 class UserController extends AdminController
 {
@@ -125,12 +126,12 @@ class UserController extends AdminController
     {
         $data = $user;
         $user->delete();
-        return $this->sendResponse($data, 'Eliminado');
+        return ApiResponse::success($data, 'Eliminado');
     }
 
     public function restore(User $user)
     {
-        return $this->sendResponse($user, 'Eliminado');
+        return ApiResponse::success($user, 'Eliminado');
     }
 
     /**
@@ -155,7 +156,10 @@ class UserController extends AdminController
         $this->fields->add('password', PasswordType::class, ['label' => 'Contraseña']);
         $this->fields->add('active', CheckboxType::class, ['label' => 'Activar']);
 
-        if (Auth::user()->hasRole(['superadmin'])) {
+        /** @var User $user */
+        $user = Auth::user();
+
+        if ($user->hasRole(['superadmin'])) {
             $this->fields->add('roles', SelectType::class, [
                 'label' => 'Roles',
                 'multiple' => true, 
@@ -167,7 +171,7 @@ class UserController extends AdminController
 
         $fields = $this->fields->getFields();
 
-        return $this->sendResponse(['fields' => $fields], 'Fields form users');
+        return ApiResponse::success(['fields' => $fields], 'Fields form users');
     }
 
     /**
@@ -190,6 +194,6 @@ class UserController extends AdminController
 
         $fields = $this->fields->getFields();
 
-        return $this->sendResponse(['fields' => $fields], 'Fields list users');
+        return ApiResponse::success(['fields' => $fields], 'Fields list users');
     }
 }

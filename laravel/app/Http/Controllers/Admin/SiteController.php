@@ -18,6 +18,7 @@ use App\Http\Requests\Site\SiteStoreRequest;
 use App\Http\Requests\Site\SiteUpdateRequest;
 use App\Http\Resources\Site\SiteCollection;
 use App\Http\Resources\Site\SiteResource;
+use App\Helpers\ApiResponse;
 
 use App\Models\SiteGroup;
 
@@ -95,7 +96,7 @@ class SiteController extends AdminController
     {
         $data = $site;
         $site->delete();
-        return $this->sendResponse($data, 'Eliminado');
+        return ApiResponse::success($data, 'Eliminado');
     }
 
     /**
@@ -120,7 +121,7 @@ class SiteController extends AdminController
         $this->fields->add('active', CheckboxType::class, ['label' => 'Estado']);
         $fields = $this->fields->getFields();
 
-        return $this->sendResponse(['fields' => $fields], 'Fields form sites');
+        return ApiResponse::success(['fields' => $fields], 'Fields form sites');
     }
 
     /**
@@ -140,6 +141,6 @@ class SiteController extends AdminController
 
         $fields = $this->fields->getFields();
 
-        return $this->sendResponse(['fields' => $fields], 'Fields list sites');
+        return ApiResponse::success(['fields' => $fields], 'Fields list sites');
     }
 }

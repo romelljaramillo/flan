@@ -59,7 +59,7 @@ export class LoginComponent {
       this.redirectTo = redirectTo;
     }
 
-    this.authService.postLogin(this.loginForm.value).subscribe(
+    this.authService.loginUser(this.loginForm.value).subscribe(
       (response) => {
         if (this.loginForm.value.remember) {
           localStorage.setItem('email', this.loginForm.value.email);
@@ -68,13 +68,10 @@ export class LoginComponent {
         }
 
         this.loading = false;
-        console.log(this.redirectTo);
-
         this.router.navigateByUrl(this.redirectTo);
       },
       (error) => {
         console.log(error);
-
         this.loading = false;
       }
     );

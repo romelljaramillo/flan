@@ -9,7 +9,7 @@ import {
   Route,
   UrlTree,
 } from '@angular/router';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -26,15 +26,20 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log('canActivate auth');
-
-    return this.authService.checkToken().pipe(
-      tap((response) => {
-        if (!response) {
-          this.router.navigate(['login'], {
-            queryParams: { redirectTo: state.url },
-          });
+      
+    return this.authService.isLoggedIn().pipe(
+      tap((isLoggedIn) => {
+        if (!isLoggedIn && state.url !== '/login') {
+          this.router.navigate(['/login']);
+        } else if (isLoggedIn && state.url === '/login') {
+          this.router.navigate(['/dashboard']);
         }
+      }),
+      map((isLoggedIn) => {
+        if (state.url === '/login') {
+          return true;
+        }
+        return isLoggedIn;
       })
     );
   }

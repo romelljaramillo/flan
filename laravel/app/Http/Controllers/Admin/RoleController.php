@@ -18,6 +18,7 @@ use App\Http\Requests\Role\RoleStoreRequest;
 use App\Http\Requests\Role\RoleUpdateRequest;
 use App\Http\Resources\Role\RoleCollection;
 use App\Http\Resources\Role\RoleResource;
+use App\Helpers\ApiResponse;
 
 class RoleController extends AdminController
 {
@@ -97,7 +98,7 @@ class RoleController extends AdminController
     {
         $data = $role;
         $role->delete();
-        return $this->sendResponse($data, 'Eliminado');
+        return ApiResponse::success($data, 'Eliminado');
     }
 
     /**
@@ -120,7 +121,7 @@ class RoleController extends AdminController
             'multiple' => true, 'options' => $optionsPermissions]);
         $fields = $this->fields->getFields();
 
-        return $this->sendResponse(['fields' => $fields], 'Fields form users');
+        return ApiResponse::success(['fields' => $fields], 'Fields form users');
     }
 
     /**
@@ -139,6 +140,6 @@ class RoleController extends AdminController
 
         $fields = $this->fields->getFields();
 
-        return $this->sendResponse(['fields' => $fields], 'Fields list roles');
+        return ApiResponse::success(['fields' => $fields], 'Fields list roles');
     }
 }

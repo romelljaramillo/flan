@@ -18,7 +18,10 @@ class UserResource extends JsonResource
     {
         $roles = '';
         
-        if (Auth::user()->hasRole('superadmin')) {
+        /** @var User $user */
+        $user = Auth::user();
+
+        if ($user->hasRole('superadmin')) {
             $roles = $this->resource->roles->mapWithKeys(function ($item, $key) {
                 $permi[$key] = ['id' => $item['id'], 'value' => $item['name']];
                 return $permi;
@@ -39,7 +42,7 @@ class UserResource extends JsonResource
                 'two_factor_confirmed' => $this->resource->two_factor_confirmed_at,
                 'current_team_id' => $this->resource->current_team_id,
                 'photo' => $this->resource->profile_photo_path ?
-                URL::route('image', ['path' => 'images/users/' .
+                URL::route('admin.image', ['path' => 'images/users/' .
                     $this->resource->profile_photo_path, 'w' => 100, 'h' => 100, 'fit' => 'crop']) : null,
                 'active' => $this->resource->active,
                 'roles' => $roles,

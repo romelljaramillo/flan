@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Helpers\ApiResponse;
 
 class SearchController extends AdminController
 {
@@ -31,7 +32,7 @@ class SearchController extends AdminController
             $response[] = array_diff_key($value, array_flip(["operator"]));
         }
 
-        return $this->sendResponse($response, 'OK');
+        return ApiResponse::success($response, 'OK');
     }
 
     public static function getOptions()

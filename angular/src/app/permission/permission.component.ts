@@ -7,7 +7,6 @@ import { PermissionService } from './services/permission.service';
 import { BaseComponent } from '../base/base.component';
 import { ListService } from '../base/helpers/list/services/list.service';
 import { FormService } from '../base/helpers/form/services/form.service';
-import { RoleService } from '../role/services/role.service';
 
 
 @Component({
@@ -30,11 +29,10 @@ export class PermissionComponent extends BaseComponent {
   override items: Array<PermissionAttribute> = [];
 
   constructor(
-    public permissionService: PermissionService,
-    public override roleService: RoleService,
+    public override permissionService: PermissionService,
     public override listService: ListService,
     public override formService: FormService
   ) {
-    super(permissionService, roleService, listService, formService);
+    super(permissionService, undefined, listService, formService);
   }
 }

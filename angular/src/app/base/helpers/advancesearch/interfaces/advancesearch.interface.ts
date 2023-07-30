@@ -5,7 +5,7 @@ export interface DataSearch {
 }
 
 export interface OptionsSearchResponse {
-  success: boolean;
+  success: string;
   data:    FilterOptions[];
   message: string;
 }

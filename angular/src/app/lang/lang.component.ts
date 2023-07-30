@@ -7,7 +7,7 @@ import { LangService } from './services/lang.service';
 import { BaseComponent } from '../base/base.component';
 import { ListService } from '../base/helpers/list/services/list.service';
 import { FormService } from '../base/helpers/form/services/form.service';
-import { RoleService } from '../role/services/role.service';
+import { PermissionService } from '../permission/services/permission.service';
 
 
 @Component({
@@ -31,10 +31,10 @@ export class LangComponent extends BaseComponent {
 
   constructor(
     public langService: LangService,
-    public override roleService: RoleService,
+    public override permissionService: PermissionService,
     public override listService: ListService,
     public override formService: FormService
   ) {
-    super(langService, roleService, listService, formService);
+    super(langService, permissionService, listService, formService);
   }
 }

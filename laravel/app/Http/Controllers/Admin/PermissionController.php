@@ -17,7 +17,7 @@ use App\Http\Requests\Permission\PermissionStoreRequest;
 use App\Http\Requests\Permission\PermissionUpdateRequest;
 use App\Http\Resources\Permission\PermissionCollection;
 use App\Http\Resources\Permission\PermissionResource;
-
+use App\Helpers\ApiResponse;
 use Illuminate\Support\Facades\Route;
 
 class PermissionController extends AdminController
@@ -49,6 +49,7 @@ class PermissionController extends AdminController
         if ($request->validated()) {
             $permission = Permission::create([
                 'name' => $request->name,
+                'description' => $request->description,
                 'guard_name' => 'web',
             ]);
 
@@ -98,7 +99,7 @@ class PermissionController extends AdminController
     {
         $data = $permission;
         $permission->delete();
-        return $this->sendResponse($data, 'Eliminado');
+        return ApiResponse::success($data, 'Eliminado');
     }
 
     /**
@@ -116,9 +117,10 @@ class PermissionController extends AdminController
 
         $this->fields = new FormFields();
         $this->fields->add('id', NumberType::class, ['primarykey' => true]);
-        $this->fields->add('name', TextType::class, ['label' => 'Nombre', 'required' => true]);
+        $this->fields->add('name', TextType::class, ['label' => 'Name', 'required' => true]);
+        $this->fields->add('description', TextType::class, ['label' => 'Description', 'required' => true]);
 
-        return $this->sendResponse(['fields' => $this->fields->getFields()], 'Fields form users');
+        return ApiResponse::success(['fields' => $this->fields->getFields()], 'Fields form users');
     }
 
     /**
@@ -138,7 +140,7 @@ class PermissionController extends AdminController
 
         $fields = $this->fields->getFields();
 
-        return $this->sendResponse(['fields' => $fields], 'Fields list permissions');
+        return ApiResponse::success(['fields' => $fields], 'Fields list permissions');
     }
 
 

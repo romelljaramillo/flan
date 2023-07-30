@@ -7,7 +7,7 @@ import { SiteService } from './services/site.service';
 import { BaseComponent } from '../base/base.component';
 import { ListService } from '../base/helpers/list/services/list.service';
 import { FormService } from '../base/helpers/form/services/form.service';
-import { RoleService } from '../role/services/role.service';
+import { PermissionService } from '../permission/services/permission.service';
 
 
 @Component({
@@ -31,10 +31,10 @@ export class SiteComponent extends BaseComponent {
 
   constructor(
     public siteService: SiteService,
-    public override roleService: RoleService,
+    public override permissionService: PermissionService,
     public override listService: ListService,
     public override formService: FormService
   ) {
-    super(siteService, roleService, listService, formService);
+    super(siteService, permissionService, listService, formService);
   }
 }

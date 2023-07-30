@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
+use App\Models\Dashboard;
 use App\Models\User;
-use App\Models\lang;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class LangPolicy
+class DashboardPolicy
 {
     use HandlesAuthorization;
 
@@ -18,19 +18,19 @@ class LangPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        return $user->hasPermissionTo('admin.dashboard');
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\lang  $lang
+     * @param  \App\Models\Dashboard  $dashboard
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, lang $lang)
+    public function view(User $user, Dashboard $dashboard)
     {
-        return true;
+        //
     }
 
     /**
@@ -41,54 +41,54 @@ class LangPolicy
      */
     public function create(User $user)
     {
-        return true;
+        //
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\lang  $lang
+     * @param  \App\Models\Dashboard  $dashboard
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, lang $lang)
+    public function update(User $user, Dashboard $dashboard)
     {
-        return true;
+        //
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\lang  $lang
+     * @param  \App\Models\Dashboard  $dashboard
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, lang $lang)
+    public function delete(User $user, Dashboard $dashboard)
     {
-        return true;
+        //
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\lang  $lang
+     * @param  \App\Models\Dashboard  $dashboard
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, lang $lang)
+    public function restore(User $user, Dashboard $dashboard)
     {
-        return true;
+        //
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\lang  $lang
+     * @param  \App\Models\Dashboard  $dashboard
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, lang $lang)
+    public function forceDelete(User $user, Dashboard $dashboard)
     {
-        return true;
+        //
     }
 }

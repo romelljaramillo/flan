@@ -9,6 +9,8 @@ use App\Http\Resources\SiteGroup\SiteGroupCollection;
 use App\Http\Requests\SiteGroup\SiteGroupStoreRequest;
 use App\Http\Requests\SiteGroup\SiteGroupUpdateRequest;
 
+use App\Helpers\ApiResponse;
+
 class SiteGroupController extends AdminController
 {
     /**
@@ -84,11 +86,11 @@ class SiteGroupController extends AdminController
         $data = $sitegroup;
 
         if ($sitegroup->sites()->exists()) {
-            return $this->sendError('Unauthorised.', ['error' => 'No se puede eliminar el grupo de tiendas, tiene tiendas relacionadas.'], 403);
+            return ApiResponse::error('Unauthorised.', ['error' => 'No se puede eliminar el grupo de tiendas, tiene tiendas relacionadas.'], 403);
         }
         
         $sitegroup->delete();
 
-        return $this->sendResponse($data, 'Eliminado');
+        return ApiResponse::success($data, 'Eliminado');
     }
 }

@@ -17,6 +17,7 @@ use App\Http\Resources\Lang\LangCollection;
 use App\Http\Resources\Lang\LangResource;
 use App\Models\Lang;
 use Illuminate\Http\Request;
+use App\Helpers\ApiResponse;
 
 class LangController extends AdminController
 {
@@ -104,7 +105,7 @@ class LangController extends AdminController
             $lang->forceDelete();
         }
 
-        return $this->sendResponse($data, 'Eliminado');
+        return ApiResponse::success($data, 'Eliminado');
     }
 
     /**
@@ -126,7 +127,7 @@ class LangController extends AdminController
         $this->fields->add('active', CheckboxType::class, ['label' => 'Estado']);
         $fields = $this->fields->getFields();
 
-        return $this->sendResponse(['fields' => $fields], 'Fields form langs');
+        return ApiResponse::success(['fields' => $fields], 'Fields form langs');
     }
 
     /**
@@ -149,6 +150,6 @@ class LangController extends AdminController
 
         $fields = $this->fields->getFields();
 
-        return $this->sendResponse(['fields' => $fields], 'Fields list langs');
+        return ApiResponse::success(['fields' => $fields], 'Fields list langs');
     }
 }

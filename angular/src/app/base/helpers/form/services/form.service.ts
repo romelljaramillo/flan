@@ -18,7 +18,7 @@ import {
   TextareaField,
   TextField,
 } from '../fields';
-import { PermissionsCrud } from 'src/app/role/interfaces/role.interface';
+import { PermissionsData } from 'src/app/permission/interfaces/permission.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -32,13 +32,7 @@ export class FormService {
   public postData = new EventEmitter<any>();
 
   public files: Array<any> = [];
-
-  public permissions: PermissionsCrud = {
-    create: false,
-    read: false,
-    update: false,
-    delete: false,
-  };
+  public permissions: PermissionsData = {hasPermission: false};
 
   constructor() { }
 

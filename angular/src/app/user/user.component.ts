@@ -7,7 +7,7 @@ import { UserService } from './services/user.service';
 import { BaseComponent } from '../base/base.component';
 import { ListService } from '../base/helpers/list/services/list.service';
 import { FormService } from '../base/helpers/form/services/form.service';
-import { RoleService } from '../role/services/role.service';
+import { PermissionService } from '../permission/services/permission.service';
 
 @Component({
   selector: 'app-user',
@@ -30,10 +30,10 @@ export class UserComponent extends BaseComponent {
 
   constructor(
     public userService: UserService,
-    public override roleService: RoleService,
+    public override permissionService: PermissionService,
     public override listService: ListService,
     public override formService: FormService
   ) {
-    super(userService, roleService, listService, formService);
+    super(userService, permissionService, listService, formService);
   }
 }

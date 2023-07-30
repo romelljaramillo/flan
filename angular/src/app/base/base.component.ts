@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Optional } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { DefaultResponse, OptionsQuery } from './interfaces/base.interface';
@@ -8,8 +8,8 @@ import { FieldList } from './helpers/list/interfaces/list.interface';
 import { ListService } from './helpers/list/services/list.service';
 import { FormService } from './helpers/form/services/form.service';
 import { FieldForm } from './helpers/form/interfaces/form.interface';
-import { RoleService } from '../role/services/role.service';
-import { PermissionsCrud } from '../role/interfaces/role.interface';
+import { PermissionService } from '../permission/services/permission.service';
+import { PermissionsData } from '../permission/interfaces/permission.interface';
 import { Alert } from '../shared/alert/alert';
 
 @Component({
@@ -28,12 +28,7 @@ export class BaseComponent implements OnInit, OnDestroy {
   private listSubscriptionDelete?: Subscription;
   private formSubscription?: Subscription;
   private formPostSubscription?: Subscription;
-  public permissions: PermissionsCrud = {
-    create: false,
-    read: false,
-    update: false,
-    delete: false,
-  };
+  public permissions: PermissionsData = {hasPermission: false};
   public typeForm: TypeForm = TypeForm.modal;
   public isLoading: boolean = false;
 
@@ -53,14 +48,14 @@ export class BaseComponent implements OnInit, OnDestroy {
   public items: Array<any> = [];
 
   constructor(
-    private baseService: BaseService,
-    public roleService?: RoleService,
-    public listService?: ListService,
-    public formService?: FormService
+    protected baseService: BaseService,
+    @Optional() protected permissionService?: PermissionService,
+    protected listService?: ListService,
+    protected formService?: FormService
   ) {
     
-    this.roleService
-      ?.validationPermission(this.baseService.entity)
+    this.permissionService
+      ?.checkPermission(this.baseService.entity)
       .subscribe((permissions) => {
         this.listService!.permissions = permissions;
         this.formService!.permissions = permissions;

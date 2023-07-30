@@ -1,5 +1,5 @@
 export interface FieldResponseList {
-  success: boolean;
+  success: string;
   data:    FieldData;
   message: string;
 }

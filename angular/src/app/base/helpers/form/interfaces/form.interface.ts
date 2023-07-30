@@ -4,7 +4,7 @@ export interface FormActive {
 }
 
 export interface FieldResponseForm {
-  success: boolean;
+  success: string;
   data:    FieldData;
   message: string;
 }

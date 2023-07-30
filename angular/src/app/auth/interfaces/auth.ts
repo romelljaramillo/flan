@@ -13,7 +13,7 @@ interface AuthDataResponse {
 }
 
 interface AuthCheckResponse {
-  success: boolean;
+  success: string;
   data: AuthCheckData;
   message: string;
 }
@@ -24,7 +24,7 @@ interface AuthCheckData {
 }
 
 interface AuthResponse {
-  success: boolean;
+  success: string;
   data: AuthDataResponse;
   message: string;
 }

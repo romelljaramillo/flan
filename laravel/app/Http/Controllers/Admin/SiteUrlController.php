@@ -9,6 +9,7 @@ use App\Http\Resources\SiteUrl\SiteUrlResource;
 use App\Http\Resources\SiteUrl\SiteUrlCollection;
 use App\Http\Requests\SiteUrl\SiteUrlStoreRequest;
 use App\Http\Requests\SiteUrl\SiteUrlUpdateRequest;
+use App\Helpers\ApiResponse;
 
 class SiteUrlController extends AdminController
 {
@@ -88,6 +89,6 @@ class SiteUrlController extends AdminController
     {
         $data = $siteurl;
         $siteurl->delete();
-        return $this->sendResponse($data, 'Eliminado');
+        return ApiResponse::success($data, 'Eliminado');
     }
 }
