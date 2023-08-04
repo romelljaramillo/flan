@@ -1,50 +1,23 @@
-import { EventEmitter, Injectable, OnInit } from '@angular/core';
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-} from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Injectable } from '@angular/core';
 
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { tap, map, catchError } from 'rxjs/operators';
-
-import { environment } from 'src/environments/environment';
 
 import {
   AuthCheckResponse,
   AuthDataRequest,
   AuthResponse,
 } from '../interfaces/auth';
-
 import { UserAttribute } from '../../user/interfaces/user.interface';
-
 import { UserModel } from '../../user/user.model';
-import { HandleError } from '../../shared/errors/handle-error';
-import { Alert } from 'src/app/shared/alert/alert';
-
-const base_url = environment.base_url;
-const USER_LOCAL_STORAGE_KEY = 'token';
+import { BaseService } from 'src/app/base/services/base.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AuthService extends BaseService{
+
   public user: UserAttribute | any;
-
-  constructor(private http: HttpClient, private router: Router) {}
-
-  get token(): string {
-    return localStorage.getItem(USER_LOCAL_STORAGE_KEY) || '';
-  }
-
-  get headers() {
-    return new HttpHeaders()
-      .set('Accept-Language', 'application/json')
-      .set('Accept', 'application/json')
-      .set('Authorization', 'Bearer ' + this.token);
-    // .set("Content-Type", "multipart/form-data")
-  }
 
   get userSession(): UserAttribute {
     return this.user.user;
@@ -52,7 +25,7 @@ export class AuthService {
 
   logout(): void {
     this.http
-      .get(`${base_url}/logout`, { headers: this.headers })
+      .get(`${this.base_url}/logout`, { headers: this.headers })
       .subscribe(() => {
         this.clearToken();
         this.redirectToLogin();
@@ -60,12 +33,12 @@ export class AuthService {
   }
 
   loginUser(formData: AuthDataRequest) {
-    return this.http.post<AuthResponse>(`${base_url}/login`, formData).pipe(
+    return this.http.post<AuthResponse>(`${this.base_url}/login`, formData).pipe(
       tap((response) => {
         console.log(response);
         
         if (!response.data.token) {
-          Alert.error('Oops algo ha pasado, token no es valido!', {
+          this.notification.error('Oops algo ha pasado, token no es valido!', {
             text: 'Vuelve a intentarlo',
             icon: 'error',
           });
@@ -76,25 +49,17 @@ export class AuthService {
         this.setToken(response.data.token);
       }),
       tap(() => this.redirectToDashboard()),
-      catchError(HandleError.message)
+      catchError( error => this.errorHandlerService.handleError(error))
     );
   }
 
   private setToken(token: string) {
-    localStorage.setItem(USER_LOCAL_STORAGE_KEY, token);
+    localStorage.setItem(this.USER_LOCAL_STORAGE_KEY, token);
   }
 
   private clearToken() {
-    localStorage.removeItem(USER_LOCAL_STORAGE_KEY);
+    localStorage.removeItem(this.USER_LOCAL_STORAGE_KEY);
     this.redirectToLogin();
-  }
-
-  private redirectToDashboard(): void {
-    this.router.navigate(['dashboard']);
-  }
-
-  private redirectToLogin(): void {
-    this.router.navigate(['login']);
   }
 
   isLoggedIn(): Observable<boolean> {
@@ -103,7 +68,7 @@ export class AuthService {
     }
 
     return this.http
-      .get<AuthCheckResponse>(`${base_url}/check-token`, {
+      .get<AuthCheckResponse>(`${this.base_url}/check-token`, {
         headers: this.headers,
       })
       .pipe(

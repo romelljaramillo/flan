@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller as Controller;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Route;
+use App\Helpers\ApiResponse;
 
 class AdminController extends Controller
 {
@@ -39,12 +41,12 @@ class AdminController extends Controller
 
     public function __construct()
     {
-        // if($this->model = $this->getModel()) {
-        //     $this->authorizeResource($this->model::class);
-        // }
-
-        // $this->middleware('check-permissions:administracion');
-        $this->middleware('check-permissions');
+        if($this->model = $this->getModel()) {
+            $this->authorizeResource($this->model::class);
+            // if(!$this->authorizeResource($this->model::class)) {
+            //     $this->middleware('check-permissions');
+            // }
+        }
     }
 
     protected function getModel()
@@ -136,5 +138,26 @@ class AdminController extends Controller
         }
 
         return response()->json($response, $code);
+    }
+
+    public function getListFields()
+    {
+        $routeName = Route::currentRouteName();
+        $this->authorize($routeName);
+
+
+        $fields = $this->fields->getFields();
+
+        return ApiResponse::success(['fields' => $fields], 'Fields list users');
+    }
+
+    public function getFormFields()
+    {
+        $routeName = Route::currentRouteName();
+        $this->authorize($routeName, $this->getModel());
+
+        $fields = $this->fields->getFields();
+
+        return ApiResponse::success(['fields' => $fields], 'Fields list users');
     }
 }

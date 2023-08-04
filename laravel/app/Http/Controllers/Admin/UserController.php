@@ -169,6 +169,8 @@ class UserController extends AdminController
         
         $this->fields->add('photo', ImageType::class, ['label' => 'Imagen Avatar']);
 
+        return parent::getFormFields();
+
         $fields = $this->fields->getFields();
 
         return ApiResponse::success(['fields' => $fields], 'Fields form users');
@@ -191,6 +193,8 @@ class UserController extends AdminController
         $this->fields->add('email', TextColumn::class, ['label' => 'Email']);
         $this->fields->add('active', BooleanColumn::class, ['label' => 'Activo']);
         $this->fields->add('created_at', DateTimeColumn::class, ['label' => 'Create']);
+
+        return parent::getListFields();
 
         $fields = $this->fields->getFields();
 

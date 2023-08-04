@@ -10,7 +10,7 @@ import { FormService } from './helpers/form/services/form.service';
 import { FieldForm } from './helpers/form/interfaces/form.interface';
 import { PermissionService } from '../permission/services/permission.service';
 import { PermissionsData } from '../permission/interfaces/permission.interface';
-import { Alert } from '../shared/alert/alert';
+import { NotificationService } from '../shared/notification/notification.service';
 
 @Component({
   selector: 'app-base',
@@ -24,10 +24,10 @@ import { Alert } from '../shared/alert/alert';
   </div>`,
 })
 export class BaseComponent implements OnInit, OnDestroy {
-  private listSubscription?: Subscription;
-  private listSubscriptionDelete?: Subscription;
-  private formSubscription?: Subscription;
-  private formPostSubscription?: Subscription;
+  protected listSubscription?: Subscription;
+  protected listSubscriptionDelete?: Subscription;
+  protected formSubscription?: Subscription;
+  protected formPostSubscription?: Subscription;
   public permissions: PermissionsData = {hasPermission: false};
   public typeForm: TypeForm = TypeForm.modal;
   public isLoading: boolean = false;
@@ -49,17 +49,20 @@ export class BaseComponent implements OnInit, OnDestroy {
 
   constructor(
     protected baseService: BaseService,
+    @Optional() protected listService?: ListService,
+    @Optional() protected formService?: FormService,
+    @Optional() protected notificationService?: NotificationService,
     @Optional() protected permissionService?: PermissionService,
-    protected listService?: ListService,
-    protected formService?: FormService
   ) {
+    console.log(this.baseService.entity);
     
     this.permissionService
-      ?.checkPermission(this.baseService.entity)
-      .subscribe((permissions) => {
-        this.listService!.permissions = permissions;
-        this.formService!.permissions = permissions;
-      });
+    ?.checkPermission(this.baseService.entity)
+    .subscribe((permissions) => {
+      this.listService!.permissions = permissions;
+      this.formService!.permissions = permissions;
+    });
+
   }
 
   ngOnInit(): void {
@@ -70,7 +73,8 @@ export class BaseComponent implements OnInit, OnDestroy {
 
   getAll(): void {
     this.isLoading = true;
-    this.baseService.getAll(this.filters).subscribe((response) => {
+    this.baseService.getAll(this.filters)
+    .subscribe((response) => {
       this.data = response.data;
       this.filters.perPage = response.meta.per_page;
       this.filters.page = response.meta.current_page;
@@ -87,7 +91,8 @@ export class BaseComponent implements OnInit, OnDestroy {
       this.items.push(item);
     });
 
-    this.baseService.getFieldsList().subscribe((response: FieldList[]) => {
+    this.baseService.getFieldsList()
+    .subscribe((response: FieldList[]) => {
       this.fields = response;
       this.listService!.data = this.items;
       this.listService!.fields = this.fields;
@@ -100,7 +105,7 @@ export class BaseComponent implements OnInit, OnDestroy {
       console.log(response);
       this.formService!.renderForm.emit(false);
 
-      Alert.success('Se ha creado con éxito.');
+      this.notificationService?.success('Se ha creado con éxito.');
 
       this.getAll();
     });
@@ -111,7 +116,7 @@ export class BaseComponent implements OnInit, OnDestroy {
       console.log(response);
       this.formService!.renderForm.emit(false);
 
-      Alert.success('Actualización exitosa.');
+      this.notificationService?.success('Actualización exitosa.');
 
       this.getAll();
     });
@@ -130,7 +135,7 @@ export class BaseComponent implements OnInit, OnDestroy {
   delete(id: string) {
     this.baseService.delete(id).subscribe((response) => {
       if (response) {
-        Alert.success('Se ha eliminado con éxito.');
+        this.notificationService?.success('Se ha eliminado con éxito.');
         this.getAll();
       }
     });
@@ -155,7 +160,7 @@ export class BaseComponent implements OnInit, OnDestroy {
 
     this.listSubscriptionDelete = this.listService!.deleteAction.subscribe(
       (id) => {
-        Alert.confirm('Está seguro de eliminar?', {
+        this.notificationService?.confirm('Está seguro de eliminar?', {
           text: '¡No podrás revertir esto!',
         }).then((result: any) => {
           if (result.isConfirmed) {
@@ -189,8 +194,8 @@ export class BaseComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.listSubscription?.unsubscribe();
+    this.listSubscriptionDelete?.unsubscribe();
     this.formSubscription?.unsubscribe();
     this.formPostSubscription?.unsubscribe();
-    this.listSubscriptionDelete?.unsubscribe();
   }
 }

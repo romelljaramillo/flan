@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
 
 import { LangAttribute, LangResponseData } from './interfaces/lang.interface';
-
 import { LangService } from './services/lang.service';
-
 import { BaseComponent } from '../base/base.component';
 import { ListService } from '../base/helpers/list/services/list.service';
 import { FormService } from '../base/helpers/form/services/form.service';
-import { PermissionService } from '../permission/services/permission.service';
 
 
 @Component({
@@ -31,10 +28,9 @@ export class LangComponent extends BaseComponent {
 
   constructor(
     public langService: LangService,
-    public override permissionService: PermissionService,
-    public override listService: ListService,
-    public override formService: FormService
+    protected override listService: ListService,
+    protected override formService: FormService
   ) {
-    super(langService, permissionService, listService, formService);
+    super(langService, listService, formService);
   }
 }

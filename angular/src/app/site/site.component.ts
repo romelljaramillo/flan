@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
 
 import { SiteAttribute, SiteResponseData } from './interfaces/site.interface';
-
 import { SiteService } from './services/site.service';
-
 import { BaseComponent } from '../base/base.component';
 import { ListService } from '../base/helpers/list/services/list.service';
 import { FormService } from '../base/helpers/form/services/form.service';
-import { PermissionService } from '../permission/services/permission.service';
 
 
 @Component({
@@ -30,11 +27,10 @@ export class SiteComponent extends BaseComponent {
   override items: Array<SiteAttribute> = [];
 
   constructor(
-    public siteService: SiteService,
-    public override permissionService: PermissionService,
-    public override listService: ListService,
-    public override formService: FormService
+    protected siteService: SiteService,
+    protected override listService: ListService,
+    protected override formService: FormService
   ) {
-    super(siteService, permissionService, listService, formService);
+    super(siteService, listService, formService);
   }
 }

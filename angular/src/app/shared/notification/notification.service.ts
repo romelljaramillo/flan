@@ -1,14 +1,20 @@
+import { Injectable } from '@angular/core';
+
 import Swal, { SweetAlertOptions } from 'sweetalert2';
 
-export class Alert {
-  static Toast = Swal.mixin({
+@Injectable({
+  providedIn: 'root'
+})
+export class NotificationService {
+
+  private Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
     showConfirmButton: false,
     timer: 3000,
   });
 
-  static Confirm = Swal.mixin({
+  private Confirm = Swal.mixin({
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#0069d9',
@@ -17,16 +23,16 @@ export class Alert {
     confirmButtonText: 'Eliminar',
   });
 
-  static toast(options?: SweetAlertOptions) {
+  toast(options?: SweetAlertOptions) {
     this.Toast.fire({ ...options });
   }
 
-  static confirm(message: string, options?: SweetAlertOptions) {
+  confirm(message: string, options?: SweetAlertOptions) {
     return this.Confirm.fire({ ...options, title: message });
   }
 
   // convenience methods
-  static success(message: string, options?: SweetAlertOptions) {
+  success(message: string, options?: SweetAlertOptions) {
     this.toast({
       ...options,
       title: message,
@@ -36,7 +42,7 @@ export class Alert {
     });
   }
 
-  static error(message: string, options?: SweetAlertOptions) {
+  error(message: string, options?: SweetAlertOptions) {
     this.toast({
       ...options,
       title: message,
@@ -46,7 +52,7 @@ export class Alert {
     });
   }
 
-  static info(message: string, options?: SweetAlertOptions) {
+  info(message: string, options?: SweetAlertOptions) {
     this.toast({
       ...options,
       title: message,
@@ -56,7 +62,7 @@ export class Alert {
     });
   }
 
-  static warn(message: string, options?: SweetAlertOptions) {
+  warn(message: string, options?: SweetAlertOptions) {
     this.toast({
       ...options,
       title: message,
@@ -66,3 +72,4 @@ export class Alert {
     });
   }
 }
+

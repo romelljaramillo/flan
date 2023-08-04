@@ -5,10 +5,6 @@ import { map, catchError } from 'rxjs/operators';
 import { BaseService } from 'src/app/base/services/base.service';
 import { PermissionsData, HasPermissionsResponse } from '../interfaces/permission.interface';
 
-import { environment } from 'src/environments/environment';
-
-
-const base_url = environment.base_url;
 @Injectable({
   providedIn: 'root'
 })
@@ -18,12 +14,11 @@ export class PermissionService extends BaseService {
     this.entity = 'permissions';
   }
 
-
   checkPermission(route: string): Observable<PermissionsData> {
-    const headers = this.authService.headers;
+    const headers = this.headers;
     const permissionsDefalt = { hasPermission: false };
     
-    return this.http.post<HasPermissionsResponse>(`${base_url}/check-permissions`, {route: route}, {headers: headers})
+    return this.http.post<HasPermissionsResponse>(`${this.base_url}/check-permissions`, {route: route}, {headers: headers})
     .pipe(
       map(response => {
         console.log(response.data);

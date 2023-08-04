@@ -1,16 +1,10 @@
 import { Component } from '@angular/core';
 
-import {
-  RoleAttribute,
-  RoleResponseData
-} from './interfaces/role.interface';
-
+import { RoleAttribute, RoleResponseData } from './interfaces/role.interface';
 import { RoleService } from './services/role.service';
-
 import { BaseComponent } from '../base/base.component';
 import { ListService } from '../base/helpers/list/services/list.service';
 import { FormService } from '../base/helpers/form/services/form.service';
-import { PermissionService } from '../permission/services/permission.service';
 
 @Component({
   selector: 'app-role',
@@ -32,11 +26,10 @@ export class RoleComponent extends BaseComponent {
   override items: Array<RoleAttribute> = [];
 
   constructor(
-    public roleService: RoleService,
-    public override permissionService: PermissionService,
-    public override listService: ListService,
-    public override formService: FormService
+    protected roleService: RoleService,
+    protected override listService: ListService,
+    protected override formService: FormService
   ) {
-    super(roleService, permissionService, listService, formService);
+    super(roleService,listService,formService);
   }
 }

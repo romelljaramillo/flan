@@ -27,13 +27,9 @@ class CheckUserPermissions
         }
 
         /** @var User $user */
-        $user = $authGuard->user(); // obtener el usuario actual
+        $user = $authGuard->user();
 
-        $routeName = $request->route()->getName(); // obtener el nombre de la ruta
-
-        //  if (!$user->hasPermissionTo($routeName)) {
-        //     return ApiResponse::error($message, 'Unauthorized', 403);
-        // }
+        $routeName = $request->route()->getName();
 
         if (!$roleOrPermission) {
             $roleOrPermission = $routeName;
@@ -42,12 +38,18 @@ class CheckUserPermissions
         $rolesOrPermissions = is_array($roleOrPermission)
         ? $roleOrPermission
         : explode('|', $roleOrPermission);
-
+        
         if (!$user->hasAnyRole($rolesOrPermissions) && !$user->hasAnyPermission($rolesOrPermissions)) {
-            return ApiResponse::error($message, 'Unauthorized', 403);
+            $routeParameters = $request->route()->parameters();
+            if (isset($routeParameters['user'])) {
+                if ($user->id !== $routeParameters['user']->id) {
+                    return ApiResponse::error($message, 'Unauthorized', 403);
+                }
+            } else {
+                return ApiResponse::error($message, 'Unauthorized', 403);
+            }
         }
        
-
         return $next($request);
     }
 }

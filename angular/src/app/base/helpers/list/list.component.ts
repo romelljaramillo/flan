@@ -11,6 +11,8 @@ import { DataSearch } from '../advancesearch/interfaces/advancesearch.interface'
 import { FormService } from '../form/services/form.service';
 import { ListService } from './services/list.service';
 import { OptionsQuery } from '../../interfaces/base.interface';
+import { Permission } from '../../../permission/interfaces/permission.interface';
+import { PermissionService } from '../../../permission/services/permission.service';
 
 @Component({
   selector: 'app-list',
@@ -35,6 +37,7 @@ export class ListComponent implements OnInit, OnDestroy {
   constructor(
     public listService: ListService,
     private formService: FormService,
+    private PermissionService: PermissionService
   ) {
     this.fieldsSubscription = this.listService.filters.subscribe((filters) => {
       this.filters = filters;

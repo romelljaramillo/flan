@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 
 import { UserAttribute, UserResponseData } from './interfaces/user.interface';
-
 import { UserService } from './services/user.service';
-
 import { BaseComponent } from '../base/base.component';
 import { ListService } from '../base/helpers/list/services/list.service';
 import { FormService } from '../base/helpers/form/services/form.service';
@@ -29,11 +27,10 @@ export class UserComponent extends BaseComponent {
   override items: Array<UserAttribute> = [];
 
   constructor(
-    public userService: UserService,
-    public override permissionService: PermissionService,
-    public override listService: ListService,
-    public override formService: FormService
+    protected userService: UserService,
+    protected override listService: ListService,
+    protected override formService: FormService,
   ) {
-    super(userService, permissionService, listService, formService);
+    super(userService,listService,formService);
   }
 }

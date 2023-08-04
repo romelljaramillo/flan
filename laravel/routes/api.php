@@ -25,6 +25,11 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
+Route::get('/', function () {
+
+    return response()->json(['message' => 'API v1.0'], 200);
+});
+
 Route::name(env('PREF_PERMISSION_ADMIN'))->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login');
 

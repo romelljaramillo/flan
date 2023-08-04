@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
 
 import { PermissionAttribute, PermissionResponseData } from './interfaces/permission.interface';
-
 import { PermissionService } from './services/permission.service';
-
 import { BaseComponent } from '../base/base.component';
 import { ListService } from '../base/helpers/list/services/list.service';
 import { FormService } from '../base/helpers/form/services/form.service';
-
 
 @Component({
   selector: 'app-permission',
@@ -29,10 +26,10 @@ export class PermissionComponent extends BaseComponent {
   override items: Array<PermissionAttribute> = [];
 
   constructor(
-    public override permissionService: PermissionService,
-    public override listService: ListService,
-    public override formService: FormService
+    protected override permissionService: PermissionService,
+    protected override listService: ListService,
+    protected override formService: FormService
   ) {
-    super(permissionService, undefined, listService, formService);
+    super(permissionService, listService, formService);
   }
 }
