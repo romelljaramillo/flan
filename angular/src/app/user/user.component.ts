@@ -1,11 +1,7 @@
 import { Component } from '@angular/core';
 
 import { UserAttribute, UserResponseData } from './interfaces/user.interface';
-import { UserService } from './services/user.service';
 import { BaseComponent } from '../base/base.component';
-import { ListService } from '../base/helpers/list/services/list.service';
-import { FormService } from '../base/helpers/form/services/form.service';
-import { PermissionService } from '../permission/services/permission.service';
 
 @Component({
   selector: 'app-user',
@@ -26,11 +22,6 @@ export class UserComponent extends BaseComponent {
   override data: UserResponseData[] = [];
   override items: Array<UserAttribute> = [];
 
-  constructor(
-    protected userService: UserService,
-    protected override listService: ListService,
-    protected override formService: FormService,
-  ) {
-    super(userService,listService,formService);
-  }
+  override url = 'users';
+  override entity = 'users';
 }

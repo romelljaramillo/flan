@@ -31,6 +31,8 @@ export class BaseComponent implements OnInit, OnDestroy {
   public permissions: PermissionsData = {hasPermission: false};
   public typeForm: TypeForm = TypeForm.modal;
   public isLoading: boolean = false;
+  public entity: string = '';
+  public url: string = '';
 
   // opciones list y paginación
   public total: number = 0;
@@ -54,8 +56,6 @@ export class BaseComponent implements OnInit, OnDestroy {
     @Optional() protected notificationService?: NotificationService,
     @Optional() protected permissionService?: PermissionService,
   ) {
-    console.log(this.baseService.entity);
-    
     this.permissionService
     ?.checkPermission(this.baseService.entity)
     .subscribe((permissions) => {
@@ -66,6 +66,10 @@ export class BaseComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    console.log(this.entity);
+
+    this.baseService.entity = this.entity;
+    this.baseService.url = this.url;
     this.actionsList();
     this.actionsForm();
     this.getAll();

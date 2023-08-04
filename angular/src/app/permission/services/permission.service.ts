@@ -9,10 +9,6 @@ import { PermissionsData, HasPermissionsResponse } from '../interfaces/permissio
   providedIn: 'root'
 })
 export class PermissionService extends BaseService {
-  override init() {
-    this.url = 'permissions';
-    this.entity = 'permissions';
-  }
 
   checkPermission(route: string): Observable<PermissionsData> {
     const headers = this.headers;

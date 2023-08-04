@@ -1,11 +1,7 @@
 import { Component } from '@angular/core';
 
 import { LangAttribute, LangResponseData } from './interfaces/lang.interface';
-import { LangService } from './services/lang.service';
 import { BaseComponent } from '../base/base.component';
-import { ListService } from '../base/helpers/list/services/list.service';
-import { FormService } from '../base/helpers/form/services/form.service';
-
 
 @Component({
   selector: 'app-lang',
@@ -25,12 +21,6 @@ import { FormService } from '../base/helpers/form/services/form.service';
 export class LangComponent extends BaseComponent {
   override data: LangResponseData[] = [];
   override items: Array<LangAttribute> = [];
-
-  constructor(
-    public langService: LangService,
-    protected override listService: ListService,
-    protected override formService: FormService
-  ) {
-    super(langService, listService, formService);
-  }
+  override url = 'langs';
+  override entity = 'langs';
 }

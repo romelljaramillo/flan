@@ -15,5 +15,6 @@ export class ListService {
   public filters = new EventEmitter<OptionsQuery>();
   public permissions: PermissionsData = {hasPermission: false};
 
-  constructor() {}
+  constructor() {
+  }
 }

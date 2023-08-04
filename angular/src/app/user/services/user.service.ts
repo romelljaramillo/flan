@@ -5,8 +5,5 @@ import { BaseService } from 'src/app/base/services/base.service';
   providedIn: 'root',
 })
 export class UserService extends BaseService {
-  override init() {
-    this.url = 'users';
-    this.entity = 'users';
-  }
+
 }
