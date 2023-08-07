@@ -1,17 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthGuard } from 'src/app/auth/guards/auth.guard';
-import { PermissionGuard } from 'src/app/permission/guards/permission.guard';
 import { DashboardComponent } from './dashboard.component';
+import { ActionCrud } from '../permission/interfaces/permission.interface';
 
 const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
-    data: { title: 'Dashboard', entity: 'dashboard' },
-    canActivate: [AuthGuard, PermissionGuard],
-    canLoad: [AuthGuard, PermissionGuard],
+    data: { title: 'Dashboard', entity: 'dashboard', action:  ActionCrud.list},
   }
 ]
 

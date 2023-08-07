@@ -104,11 +104,11 @@
             </td>
             <td class="text-right py-0 align-middle">
               <div class="btn-group btn-group-sm">
-                <button *ngIf="listService.permissions.hasPermission" type="button" class="btn btn-default" title="crear nuevo" data-toggle="modal" data-target="#form" (click)="editAction(item.id)">
+                <button *ngIf="canEdit" type="button" class="btn btn-default" title="crear nuevo" data-toggle="modal" data-target="#form" (click)="editAction(item.id)">
                   <i class="fas fa-edit"></i>
                 </button>
                 
-                <button *ngIf="listService.permissions.hasPermission" type="button" class="btn btn-default" title="eliminar" (click)="deleteAction(item.id)">
+                <button *ngIf="canDelete" type="button" class="btn btn-default" title="eliminar" (click)="deleteAction(item.id)">
                   <i class="fas fa-trash"></i>
                 </button>
               </div>

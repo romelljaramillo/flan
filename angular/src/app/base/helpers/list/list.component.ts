@@ -11,8 +11,8 @@ import { DataSearch } from '../advancesearch/interfaces/advancesearch.interface'
 import { FormService } from '../form/services/form.service';
 import { ListService } from './services/list.service';
 import { OptionsQuery } from '../../interfaces/base.interface';
-import { Permission } from '../../../permission/interfaces/permission.interface';
-import { PermissionService } from '../../../permission/services/permission.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { Permission, RouteDataPermission, ActionCrud } from '../../../permission/interfaces/permission.interface';
 
 @Component({
   selector: 'app-list',
@@ -34,17 +34,38 @@ export class ListComponent implements OnInit, OnDestroy {
 
   private fieldsSubscription: Subscription;
 
+  public canEdit: boolean = false;
+  public canDelete: boolean = false;
+
   constructor(
     public listService: ListService,
     private formService: FormService,
-    private PermissionService: PermissionService
+    public authService: AuthService
   ) {
     this.fieldsSubscription = this.listService.filters.subscribe((filters) => {
       this.filters = filters;
     });
   }
-  
-  ngOnInit() {}
+
+  ngOnInit() {
+    console.log(this.authService.entity);
+    this.permissions();
+  }
+
+  private permissions() {
+    this.authService
+      .checkPermission({
+        entity: this.authService.entity,
+        action: ActionCrud.edit,
+      })
+      .subscribe((canEdit) => (this.canEdit = canEdit));
+    this.authService
+      .checkPermission({
+        entity: this.authService.entity,
+        action: ActionCrud.edit,
+      })
+      .subscribe((canDelete) => (this.canDelete = canDelete));
+  }
 
   emitFilters() {
     this.listService.filters.emit(this.filters);

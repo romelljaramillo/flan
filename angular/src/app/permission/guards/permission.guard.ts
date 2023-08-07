@@ -2,21 +2,19 @@ import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
-  CanLoad,
-  Route,
   Router,
   RouterStateSnapshot,
-  UrlSegment,
   UrlTree,
 } from '@angular/router';
-import { map, Observable, tap } from 'rxjs';
-import { PermissionService } from '../../permission/services/permission.service';
+import { map, Observable } from 'rxjs';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { Permission, RouteDataPermission } from '../interfaces/permission.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PermissionGuard implements CanActivate {
-  constructor(private permissionService: PermissionService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -26,15 +24,21 @@ export class PermissionGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
+    console.log(route.data);
 
-    return this.permissionService.checkPermission(state.url).pipe(
+    return this.authService.checkPermission(route.data).pipe(
       map((response) => {
-        if (!response.hasPermission) {
+        if (response) {
+          return true;
+        } else if (!response && state.url !== '/dashboard') {
           this.router.navigate(['/dashboard'], {
             queryParams: { redirectTo: state.url },
           });
+        } else if (!response && state.url === '/dashboard') {
+          this.authService.logout();
+          this.router.navigate(['/login']);
         }
-        return true;
+        return false;
       })
     );
   }

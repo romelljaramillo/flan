@@ -1,17 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthGuard } from 'src/app/auth/guards/auth.guard';
-import { PermissionGuard } from 'src/app/permission/guards/permission.guard';
 import { PermissionComponent } from './permission.component';
+import { ActionCrud, RouteDataPermission } from './interfaces/permission.interface';
 
 const routes: Routes = [
   {
     path: '',
     component: PermissionComponent,
-    data: { title: 'Permissions', entity: 'permissions' },
-    canActivate: [AuthGuard, PermissionGuard],
-    canLoad: [AuthGuard, PermissionGuard],
+    data: { title: 'Permissions', entity: 'permissions', action: ActionCrud.list } as RouteDataPermission,
   }
 ]
 

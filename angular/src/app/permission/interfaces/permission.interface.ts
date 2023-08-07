@@ -61,3 +61,18 @@ export interface HasPermissionsResponse {
 export interface PermissionsData {
   hasPermission: boolean;
 }
+
+export interface RouteDataPermission {
+  title?: string;
+  entity?: string;
+  action?: ActionCrud;
+}
+
+export enum ActionCrud {
+  list = 'index',
+  view = 'show',
+  create = 'create',
+  edit = 'update',
+  delete = 'delete',
+}
+

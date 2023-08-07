@@ -11,6 +11,7 @@ import { FieldForm } from './helpers/form/interfaces/form.interface';
 import { PermissionService } from '../permission/services/permission.service';
 import { PermissionsData } from '../permission/interfaces/permission.interface';
 import { NotificationService } from '../shared/notification/notification.service';
+import { AuthService } from '../auth/services/auth.service';
 
 @Component({
   selector: 'app-base',
@@ -51,24 +52,15 @@ export class BaseComponent implements OnInit, OnDestroy {
 
   constructor(
     protected baseService: BaseService,
+    protected authService: AuthService,
     @Optional() protected listService?: ListService,
     @Optional() protected formService?: FormService,
     @Optional() protected notificationService?: NotificationService,
-    @Optional() protected permissionService?: PermissionService,
-  ) {
-    this.permissionService
-    ?.checkPermission(this.baseService.entity)
-    .subscribe((permissions) => {
-      this.listService!.permissions = permissions;
-      this.formService!.permissions = permissions;
-    });
-
-  }
+  ) { }
 
   ngOnInit(): void {
     console.log(this.entity);
-
-    this.baseService.entity = this.entity;
+    this.authService.entity = this.entity;
     this.baseService.url = this.url;
     this.actionsList();
     this.actionsForm();

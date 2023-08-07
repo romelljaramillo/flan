@@ -1,17 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthGuard } from 'src/app/auth/guards/auth.guard';
-import { PermissionGuard } from 'src/app/permission/guards/permission.guard';
 import { SiteComponent } from './site.component';
+import { ActionCrud, RouteDataPermission } from '../permission/interfaces/permission.interface';
 
 const routes: Routes = [
   {
     path: '',
     component: SiteComponent,
-    data: { title: 'Sites', entity: 'sites' },
-    canActivate: [AuthGuard, PermissionGuard],
-    canLoad: [AuthGuard, PermissionGuard],
+    data: { title: 'Sites', entity: 'sites', action: ActionCrud.list } as RouteDataPermission,
   }
 ]
 

@@ -21,7 +21,6 @@ import { BaseComponent } from '../base/base.component';
 export class UserComponent extends BaseComponent {
   override data: UserResponseData[] = [];
   override items: Array<UserAttribute> = [];
-
   override url = 'users';
   override entity = 'users';
 }

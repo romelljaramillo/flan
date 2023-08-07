@@ -5,7 +5,7 @@
 
 export const environment = {
     production: false,
-    base_url: 'http://flan.dvl.to/api/v1'
+    baseUrl: 'http://flan.dvl.to/api/v1'
   };
 
   /*

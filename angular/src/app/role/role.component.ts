@@ -23,5 +23,4 @@ export class RoleComponent extends BaseComponent {
   override items: Array<RoleAttribute> = [];
   override url = 'roles';
   override entity = 'roles';
-
 }

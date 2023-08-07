@@ -39,6 +39,9 @@
               "./node_modules/admin-lte/dist/js/adminlte.min.js",
               "./node_modules/admin-lte/plugins/summernote/summernote-bs5.min.js",
               "./node_modules/summernote/dist/summernote-bs5.min.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "sweetalert2"
             ]
           },
           "configurations": {

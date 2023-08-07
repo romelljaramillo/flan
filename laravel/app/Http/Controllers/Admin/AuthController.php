@@ -85,15 +85,25 @@ class AuthController extends AdminController
 
     public function checkPermission(Request $request)
     {
-        $route = $request->input('route');
+        $permission = $request->input('permission');
 
-        $permissionName = env('PREF_PERMISSION_ADMIN') . $route;
-        
+        $permissionName = env('PREF_PERMISSION_ADMIN') . $permission;
+
         /** @var User $user */
         $user = Auth::user();
 
-        $hasPermission = $user->can($permissionName);
+        if ($user->can($permissionName)) {
+            return response()->json(['can' => true]);
+        }
+    
+        return response()->json(['can' => false]);
 
-        return ApiResponse::success(['hasPermission' => true], 'User successfully.');
+        
+        // /** @var User $user */
+        // $user = Auth::user();
+
+        // $hasPermission = $user->can($permissionName);
+
+        // return ApiResponse::success(['hasPermission' => true], 'User successfully.');
     }
 }
