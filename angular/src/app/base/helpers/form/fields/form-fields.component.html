@@ -2,8 +2,9 @@
   <div class="form-row row">
     <ng-container *ngFor="let field of fields" [formGroup]="form">
       <input *ngIf="field.type == 'hidden'" [formControlName]="field.key" [id]="field.key" [type]="field.type">
-      <div *ngIf="field.type != 'hidden'" [ngSwitch]="field.type" class="col-sm-12">
+      <div *ngIf="field.type != 'hidden'" [ngSwitch]="field.controlType" class="col-sm-12">
         <app-input-checkbox *ngSwitchCase="'checkbox'" [form]="form" [field]="field"></app-input-checkbox>
+        <app-input-checkbox-multi *ngSwitchCase="'checkbox-multi'" [form]="form" [field]="field"></app-input-checkbox-multi>
         <app-input-text *ngSwitchCase="'text'" [form]="form" [field]="field"></app-input-text>
         <app-input-text *ngSwitchCase="'number'" [form]="form" [field]="field"></app-input-text>
         <app-input-text *ngSwitchCase="'password'" [form]="form" [field]="field"></app-input-text>

@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Location } from '@angular/common';
+
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
 
 import { NotificationService } from '../notification/notification.service';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -10,7 +13,8 @@ import { NotificationService } from '../notification/notification.service';
 })
 export class ErrorHandlerService {
   constructor(
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    public router: Router,
   ) {}
 
   handleError(error: HttpErrorResponse) {
@@ -26,6 +30,10 @@ export class ErrorHandlerService {
         break;
       case 401:
         message = 'Usuario ó contraseña no valido';
+        break;
+      case 403:
+        message = 'No tiene permisos para realizar esta acción';
+        this.router.navigate(['403-unauthorized']);
         break;
       case 500:
         message = '500 Internal Server Error';

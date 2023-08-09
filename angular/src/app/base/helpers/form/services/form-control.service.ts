@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { FieldModel } from '../fields/field-model';
 
@@ -7,6 +7,7 @@ import { FieldModel } from '../fields/field-model';
   providedIn: 'root',
 })
 export class FormControlService {
+  
   /**
    * Form group genera y valida formulario
    *
@@ -17,7 +18,7 @@ export class FormControlService {
     const group: any = {};
 
     fieldModel.forEach((field) => {
-      switch (field.type) {
+      switch (field.controlType) {
         case 'email':
           group[field.key] = field.required
             ? new FormControl(field.value || '', [
@@ -48,6 +49,17 @@ export class FormControlService {
               : new FormControl(field.value || '');
           }
           break;
+        case 'checkbox-multi':
+            let checkboxGroup: any = {};
+            field.options?.forEach(option => {
+              checkboxGroup[option.id] = new FormControl(
+                field.value?.some((v: { id: string; }) => v.id === option.id)
+              );
+            });
+
+            group[field.key!] = new FormGroup(checkboxGroup);
+
+            break;
         default:
           group[field.key] = field.required
             ? new FormControl(field.value || '', Validators.required)

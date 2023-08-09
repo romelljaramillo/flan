@@ -9,6 +9,7 @@ export class FieldModel<T> {
   controlType: string;
   type: string;
   class: string;
+  placeholder: string;
   options: OptionInput[];
   primarykey: boolean;
   defaultValue: any;
@@ -20,6 +21,7 @@ export class FieldModel<T> {
     this.value = options.value;
     this.key = options.key || '';
     this.label = options.label || '';
+    this.placeholder = options.placeholder || '';
     this.required = !!options.required;
     this.order = options.order === undefined ? 1 : options.order;
     this.controlType = options.controlType || '';

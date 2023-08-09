@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 
 import {
   CheckboxField,
+  CheckboxMultiField,
   DateField,
   DatetimeField,
   EmailField,
@@ -34,8 +35,6 @@ export class FormService {
   public files: Array<any> = [];
   public permissions: PermissionsData = {hasPermission: false};
 
-  constructor() { }
-
   getForm(dataFields: FieldForm[] = []) {
     const form: FieldModel<string>[] = [];
 
@@ -58,6 +57,9 @@ export class FormService {
               break;
             case 'checkbox':
               form.push(new CheckboxField(field));
+              break;
+            case 'checkbox-multi':
+              form.push(new CheckboxMultiField(field));
               break;
             case 'radio':
               form.push(new RadioField(field));

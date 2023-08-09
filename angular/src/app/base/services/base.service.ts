@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -24,7 +24,7 @@ export class BaseService {
     public authService: AuthService,
     public advanceSearchService: AdvanceSearchService,
     public errorHandlerService: ErrorHandlerService,
-    public notification: NotificationService
+    public notification: NotificationService,
   ) {}
 
   getAll(optionsQuery: OptionsQuery): Observable<DefaultResponse> {
@@ -45,7 +45,7 @@ export class BaseService {
         headers: this.authService.headers,
         params,
       })
-      .pipe(catchError((error) => this.errorHandlerService.handleError(error)));
+      .pipe(catchError((error) => this.errorHandlerService.handleError(error)));   
   }
 
   getById(id: string) {

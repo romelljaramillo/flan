@@ -1,6 +1,7 @@
 export { FieldModel } from './field-model';
 export { SelectField } from './select/select-field';
 export { TextField } from './text/text-field';
+export { CheckboxMultiField } from "./checkbox-multi/checkbox-multi-field";
 export { CheckboxField } from "./checkbox/checkbox-field";
 export { PasswordField } from './text/password-field';
 export { RadioField } from './radio/radio-field';

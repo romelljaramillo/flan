@@ -27,6 +27,7 @@ export interface FieldForm {
   type?:    string; // 'select', 'bool', 'date', 'datetime', 'decimal', 'float', 'percent', 'editable', 'price'
   controlType?:    string; // 'select', 'bool', 'date', 'datetime', 'decimal', 'float', 'percent', 'editable', 'price'
   class?:   string; // CSS
+  placeholder?:   string; // CSS
   search?:  boolean; // true, false
   required?: boolean;
   order?: number;

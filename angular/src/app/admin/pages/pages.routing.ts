@@ -5,7 +5,6 @@ import { NgModule } from '@angular/core';
 
 import { PagesComponent } from './pages.component';
 import { AuthGuard } from 'src/app/auth/guards/auth.guard';
-import { PermissionGuard } from 'src/app/permission/guards/permission.guard';
 import { ActionCrud, RouteDataPermission } from 'src/app/permission/interfaces/permission.interface';
 
 
@@ -14,12 +13,13 @@ const routes: Routes = [
     path: 'dashboard',
     component: PagesComponent,
     data: { title: 'Dashboard', entity: 'dashboard', action: ActionCrud.list } as RouteDataPermission,
-    canActivate: [AuthGuard, PermissionGuard],
+    canLoad: [AuthGuard],
     children: [
       {
         path: '',
         loadChildren: () => import('../../dashboard/dashboard.module').then(m => m.DashboardModule),
         data: { title: 'Dashboard', entity: 'dashboard', action: ActionCrud.list } as RouteDataPermission,
+        canLoad: [AuthGuard],
       },
       {
         path: 'users',

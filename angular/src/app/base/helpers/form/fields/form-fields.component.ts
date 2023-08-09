@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { FormControlService } from '../services/form-control.service';
-import { FormService } from '../services/form.service';
 
+import { FormService } from '../services/form.service';
 import { FieldModel } from './field-model';
 
 @Component({
@@ -22,7 +21,6 @@ export class FormFieldsComponent implements OnInit {
 
   constructor(
     private formService: FormService,
-    private formControlService: FormControlService
   ) {}
 
   get isValid() {
@@ -40,13 +38,74 @@ export class FormFieldsComponent implements OnInit {
         if (active) {
           this.formService.fields.subscribe((fields: FieldModel<string>[]) => {
             this.fields = fields;
-            this.form = this.formControlService.toFormGroup(
-              fields as FieldModel<string>[]
-            );
+            this.form = this.toFormGroup(this.fields as FieldModel<string>[]);
           });
         }
       }
     );
+  }
+
+  /**
+   * Form group genera y valida formulario
+   *
+   * @param fieldModel
+   * @returns
+   */
+  toFormGroup(fieldModel: FieldModel<string>[]) {
+    const group: any = {};
+
+    fieldModel.forEach((field) => {
+      switch (field.controlType) {
+        case 'email':
+          group[field.key] = field.required
+            ? new FormControl(field.value || '', [
+                Validators.required,
+                Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),
+              ])
+            : new FormControl(
+                field.value || '',
+                Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$')
+              );
+          break;
+        case 'file':
+          group[field.key] = field.required
+            ? new FormControl(field.value || null, Validators.required)
+            : new FormControl(field.value || null);
+          break;
+        case 'select':
+          if (field.multiple) {
+            const value = field.value
+              ? field.value.map((objeto: { id: string }) => objeto.id)
+              : [];
+            group[field.key] = field.required
+              ? new FormControl(value, Validators.required)
+              : new FormControl(value);
+          } else {
+            group[field.key] = field.required
+              ? new FormControl(field.value || '', Validators.required)
+              : new FormControl(field.value || '');
+          }
+          break;
+        case 'checkbox-multi':
+            let checkboxGroup: any = {};
+            field.options?.forEach(option => {
+              checkboxGroup[option.id] = new FormControl(
+                field.value?.some((v: { id: string; }) => v.id === option.id)
+              );
+            });
+
+            group[field.key!] = new FormGroup(checkboxGroup);
+
+            break;
+        default:
+          group[field.key] = field.required
+            ? new FormControl(field.value || '', Validators.required)
+            : new FormControl(field.value || '');
+          break;
+      }
+    });
+
+    return new FormGroup(group);
   }
 
   onSubmit() {
@@ -61,8 +120,24 @@ export class FormFieldsComponent implements OnInit {
         }
       });
     }
+    
+    const values = this.form.value;
 
-    this.formService!.postData.emit(this.form.getRawValue());
+    this.processCheckboxFields(values);
+    
+    this.formService!.postData.emit(values);
+  }
+
+  processCheckboxFields(values: any) {
+    this.fields.forEach(field => {
+      if (field.controlType === 'checkbox-multi') {
+        values[field.key] = this.getSelectedCheckboxValues(field, values[field.key]);
+      }
+    });
+  }
+
+  getSelectedCheckboxValues(field: any, checkboxGroup: { [key: number]: boolean }): number[] {
+    return field.options?.filter((option: any) => checkboxGroup[option.id]).map((option: any) => option.id) || [];
   }
 
   closeForm() {

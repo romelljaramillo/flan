@@ -10,7 +10,7 @@ import { FieldModel } from '../field-model';
     <div class="custom-control custom-switch" [formGroup]="form">
       <input [type]="field.type" [id]="field.key" [formControlName]="field.key" [checked]="checked"
         class="custom-control-input" (change)="onChange($event)">
-      <label [attr.for]="field.key" class="custom-control-label">{{label}}</label>
+      <label [for]="field.key" class="custom-control-label">{{label}}</label>
       <div class="text-danger" *ngIf="!isValid">{{field.label}} is invalid</div>
     </div>
     `
@@ -24,8 +24,6 @@ export class CheckboxComponent implements OnInit{
   checked: boolean = false;
 
   get isValid() { return this.form.controls[this.field.key].valid || !this.form.controls[this.field.key].touched; }
-
-  constructor() {}
 
   ngOnInit(){
     this.checked = (this.field.value == this.field.options[0].value) ? true : false;

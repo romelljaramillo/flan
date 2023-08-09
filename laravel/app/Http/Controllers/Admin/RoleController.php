@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Helpers\Form\FormFields;
 use App\Helpers\Form\Type\NumberType;
 use App\Helpers\Form\Type\SelectType;
+use App\Helpers\Form\Type\CheckboxMultiType;
 use App\Helpers\Form\Type\TextType;
 use App\Helpers\List\ListFields;
 use App\Helpers\List\Type\DateTimeColumn;
@@ -117,8 +118,8 @@ class RoleController extends AdminController
         $this->fields = new FormFields();
         $this->fields->add('id', NumberType::class, ['primarykey' => true]);
         $this->fields->add('name', TextType::class, ['label' => 'Nombre', 'required' => true]);
-        $this->fields->add('permissions', SelectType::class, ['label' => 'Permissions',
-            'multiple' => true, 'options' => $optionsPermissions]);
+        $this->fields->add('permissions', CheckboxMultiType::class, ['label' => 'Permissions',
+            'options' => $optionsPermissions, 'multiple' => true]);
         $fields = $this->fields->getFields();
 
         return ApiResponse::success(['fields' => $fields], 'Fields form users');

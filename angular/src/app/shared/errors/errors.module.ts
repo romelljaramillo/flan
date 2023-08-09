@@ -1,13 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PagenofoundComponent } from './pagenofound.component';
+import { PagenofoundComponent } from './page-nofound.component';
+import { RouterModule } from '@angular/router';
+import { PageUnauthorizedComponent } from './page-unauthorized.component';
 
 @NgModule({
   declarations: [
-    PagenofoundComponent
+    PagenofoundComponent,
+    PageUnauthorizedComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
   ]
 })
 export class ErrorsModule { }

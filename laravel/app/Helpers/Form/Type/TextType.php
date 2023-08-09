@@ -69,6 +69,13 @@ class TextType implements InputType
      */
     protected $defaultValue = '';
 
+    /**
+     * placeholder
+     *
+     * @var string
+     */
+    protected $placeholder = '';
+
     public function __construct()
     {
         $this->controlType = $this->type;
@@ -93,6 +100,7 @@ class TextType implements InputType
             'order' => $this->order,
             'primarykey' => $this->primarykey,
             'defaultValue' => $this->defaultValue,
+            'placeholder' => $this->placeholder,
         ];
     }
 }

@@ -8,6 +8,8 @@ import {
   Router,
   Route,
   UrlTree,
+  CanLoad,
+  UrlSegment,
 } from '@angular/router';
 import { map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -15,8 +17,27 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuard implements CanActivate, CanLoad {
   constructor(private authService: AuthService, private router: Router) {}
+
+  canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
+    const routeName = route.path;
+    return this.authService.isLoggedIn().pipe(
+      tap((isLoggedIn) => {
+        if (!isLoggedIn && routeName !== '/login') {
+          this.router.navigate(['/login']);
+        } else if (isLoggedIn && routeName === '/login') {
+          this.router.navigate(['/dashboard']);
+        }
+      }),
+      map((isLoggedIn) => {
+        if (routeName === '/login') {
+          return true;
+        }
+        return isLoggedIn;
+      })
+    );
+  }
 
   canActivate(
     route: ActivatedRouteSnapshot,

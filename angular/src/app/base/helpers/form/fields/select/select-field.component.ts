@@ -35,9 +35,8 @@ export class SelectFieldComponent implements OnInit {
     );
   }
 
-  constructor() {
-    
-  }
+  constructor() {}
   
   ngOnInit() {}
+
 }

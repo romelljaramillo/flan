@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Optional } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { DefaultResponse, OptionsQuery } from './interfaces/base.interface';
+import { DefaultResponse, DefaultResponseMeta, OptionsQuery } from './interfaces/base.interface';
 import { BaseService } from './services/base.service';
 import { TypeForm } from './helpers/form/form.component';
 import { FieldList } from './helpers/list/interfaces/list.interface';
@@ -47,6 +47,7 @@ export class BaseComponent implements OnInit, OnDestroy {
   };
 
   public data: any;
+  public metadata: any;
   public fields: FieldList[] = [];
   public items: Array<any> = [];
 
@@ -56,7 +57,9 @@ export class BaseComponent implements OnInit, OnDestroy {
     @Optional() protected listService?: ListService,
     @Optional() protected formService?: FormService,
     @Optional() protected notificationService?: NotificationService,
-  ) { }
+  ) { 
+    
+  }
 
   ngOnInit(): void {
     console.log(this.entity);
@@ -71,17 +74,26 @@ export class BaseComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.baseService.getAll(this.filters)
     .subscribe((response) => {
-      this.data = response.data;
-      this.filters.perPage = response.meta.per_page;
-      this.filters.page = response.meta.current_page;
-      this.total = response.meta.total;
+      console.log(response);
       this.isLoading = false;
-      this.getList();
+      if(response.data){
+        this.data = response.data;
+        if(this.data.length > 0) {
+          this.metadata = response.meta;
+          this.getList();
+        }
+      }
     });
   }
 
   getList() {
     this.items = [];
+    
+    if(this.metadata){
+      this.filters.perPage = this.metadata.per_page ?? this.filters.perPage;
+      this.filters.page = this.metadata.current_page ?? this.filters.page;
+      this.total = this.metadata.total ?? this.total;
+    }
 
     this.data.forEach((item: any) => {
       this.items.push(item);
