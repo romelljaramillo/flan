@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { FieldModel } from '../field-model';
 
 @Component({
-  selector: 'app-input-date',
+  selector: 'input-date',
   styles: [''],
   template: ` <ng-container [formGroup]="form">
     <label [for]="field.key">{{ field.label }}</label>

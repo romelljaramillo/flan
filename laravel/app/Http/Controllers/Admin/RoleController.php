@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 use App\Helpers\Form\FormFields;
 use App\Helpers\Form\Type\NumberType;
 use App\Helpers\Form\Type\SelectType;
-use App\Helpers\Form\Type\CheckboxMultiType;
+use App\Helpers\Form\Type\CheckboxType;
+use App\Helpers\Form\Type\RadioType;
+use App\Helpers\Form\Type\SwitchType;
 use App\Helpers\Form\Type\TextType;
 use App\Helpers\List\ListFields;
 use App\Helpers\List\Type\DateTimeColumn;
@@ -112,13 +114,13 @@ class RoleController extends AdminController
         $permissions = Permission::get();
         $optionsPermissions = [];
         foreach ($permissions as $value) {
-            $optionsPermissions[] = ['id' => $value->id, 'value' => $value->description];
+            $optionsPermissions[] = ['id' => $value->id, 'name' => $value->description];
         }
 
         $this->fields = new FormFields();
         $this->fields->add('id', NumberType::class, ['primarykey' => true]);
         $this->fields->add('name', TextType::class, ['label' => 'Nombre', 'required' => true]);
-        $this->fields->add('permissions', CheckboxMultiType::class, ['label' => 'Permissions',
+        $this->fields->add('permissions', CheckboxType::class, ['label' => 'Permissions',
             'options' => $optionsPermissions, 'multiple' => true]);
         $fields = $this->fields->getFields();
 

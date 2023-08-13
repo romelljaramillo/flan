@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { FieldModel } from '../field-model';
 
 @Component({
-  selector: 'app-input-text',
+  selector: 'input-text',
   styles: [''],
   template: `
     <ng-container [formGroup]="form">

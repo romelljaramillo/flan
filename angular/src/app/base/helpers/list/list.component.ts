@@ -12,7 +12,7 @@ import { FormService } from '../form/services/form.service';
 import { ListService } from './services/list.service';
 import { OptionsQuery } from '../../interfaces/base.interface';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { Permission, RouteDataPermission, ActionCrud } from '../../../permission/interfaces/permission.interface';
+import { ActionCrud } from '../../../permission/interfaces/permission.interface';
 
 @Component({
   selector: 'app-list',

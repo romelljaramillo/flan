@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\Form\FormFields;
 use App\Helpers\Form\Type\CheckboxType;
+use App\Helpers\Form\Type\SwitchType;
+use App\Helpers\Form\Type\RadioType;
 use App\Helpers\Form\Type\EmailType;
 use App\Helpers\Form\Type\ImageType;
 use App\Helpers\Form\Type\NumberType;
@@ -29,13 +31,6 @@ use App\Helpers\ApiResponse;
 
 class UserController extends AdminController
 {
-
-    /* public function __construct()
-    {
-        parent::__construct();
-        // $this->authorizeResource(User::class, 'user');
-        $this->imagesDir = 'users';
-    } */
 
     /**
      * Display a listing of the resource.
@@ -98,6 +93,8 @@ class UserController extends AdminController
      */
     public function update(UpdateUserRequest $request, User $user)
     {
+        $request->active = $request->active === 'true'? 1: 0;
+
         $validatedData = $request->validated();
 
         if ($request->hasFile('photo')) {
@@ -106,7 +103,6 @@ class UserController extends AdminController
             $validatedData['profile_photo_path'] = $filename;
         }
 
-        $user->update(['active' => (int) $request->active]);
         $user->update($validatedData);
 
         $roles = explode(',', $request->roles);
@@ -144,7 +140,7 @@ class UserController extends AdminController
         $roles = Role::get();
         $optionsRoles = [];
         foreach ($roles as $value) {
-            $optionsRoles[] = ['id' => $value->id, 'value' => $value->name];
+            $optionsRoles[] = ['id' => $value->id, 'name' => $value->name];
         }
 
         $this->fields = new FormFields();

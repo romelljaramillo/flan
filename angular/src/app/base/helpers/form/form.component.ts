@@ -6,6 +6,8 @@ import { FormDefaultComponent } from './default/form-default.component';
 import { FormModalsComponent } from './modals/form-modals.component';
 import { FormDirective } from './form.directive';
 import { FormService } from './services/form.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { ActionCrud } from '../../../permission/interfaces/permission.interface';
 
 export enum TypeForm {
   default,
@@ -15,7 +17,7 @@ export enum TypeForm {
 @Component({
   selector: 'app-form',
   styles: [''],
-  template: `<div *ngIf="formService.permissions.hasPermission" class="text-right">
+  template: `<div *ngIf="canAdd" class="text-right">
       <button 
         type="button"
         class="btn btn-primary btn-sm mb-2 "
@@ -35,12 +37,20 @@ export class FormComponent implements OnInit {
 
   private formSubscriptionInit?: Subscription;
   private formSubscriptionRender?: Subscription;
+  public canAdd: boolean = false;
+  public canEdit: boolean = false;
+  public canDelete: boolean = false;
 
   @ViewChild(FormDirective, { static: true }) viewForm!: FormDirective;
 
-  constructor(public formService: FormService) {}
+  constructor(
+    public formService: FormService,
+    public authService: AuthService
+  ) {}
 
   ngOnInit() {
+    this.permissions();
+    
     this.formSubscriptionInit = this.formService.initForm.subscribe(
       (active) => {
         if (active.active) {
@@ -49,9 +59,7 @@ export class FormComponent implements OnInit {
           if (this.typeForm == 1) {
             this.viewForm.viewContainerRef.createComponent(FormModalsComponent);
           } else {
-            this.viewForm.viewContainerRef.createComponent(
-              FormDefaultComponent
-            );
+            this.viewForm.viewContainerRef.createComponent(FormDefaultComponent);
           }
         } else {
           this.viewForm.viewContainerRef.remove();
@@ -66,6 +74,29 @@ export class FormComponent implements OnInit {
         }
       }
     );
+  }
+
+  private permissions() {
+    this.authService
+      .checkPermission({
+        entity: this.authService.entity,
+        action: ActionCrud.create,
+      })
+      .subscribe((canAdd) => (this.canAdd = canAdd));
+
+    this.authService
+      .checkPermission({
+        entity: this.authService.entity,
+        action: ActionCrud.edit,
+      })
+      .subscribe((canEdit) => (this.canEdit = canEdit));
+
+    this.authService
+      .checkPermission({
+        entity: this.authService.entity,
+        action: ActionCrud.edit,
+      })
+      .subscribe((canDelete) => (this.canDelete = canDelete));
   }
 
   renderForm(active = true) {

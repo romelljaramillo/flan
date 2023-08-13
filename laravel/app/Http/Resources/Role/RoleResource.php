@@ -15,7 +15,7 @@ class RoleResource extends JsonResource
     public function toArray($request)
     {
         $permissions = $this->resource->permissions->mapWithKeys(function ($item, $key) {
-            $permi[$key] = ['id' => $item['id'], 'value' => $item['description']];
+            $permi[$key] = ['id' => $item['id'], 'name' => $item['description']];
             return $permi;
         });
 

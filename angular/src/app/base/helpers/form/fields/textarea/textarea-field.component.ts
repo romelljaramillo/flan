@@ -5,7 +5,7 @@ import { FieldModel } from '../field-model';
 declare var $: any;
 
 @Component({
-  selector: 'app-input-textarea',
+  selector: 'input-textarea',
   styles: [''],
   template: `
     <ng-container [formGroup]="form">

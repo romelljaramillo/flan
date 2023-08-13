@@ -112,7 +112,7 @@ class PermissionController extends AdminController
         $permissions = Permission::get();
         $optionsPermissions = [];
         foreach ($permissions as $value) {
-            $optionsPermissions[] = ['id' => $value->id, 'value' => $value->description];
+            $optionsPermissions[] = ['id' => $value->id, 'name' => $value->description];
         }
 
         $this->fields = new FormFields();

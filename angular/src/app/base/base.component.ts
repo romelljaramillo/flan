@@ -1,14 +1,13 @@
 import { Component, OnInit, OnDestroy, Optional } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { DefaultResponse, DefaultResponseMeta, OptionsQuery } from './interfaces/base.interface';
+import { DefaultResponse, OptionsQuery } from './interfaces/base.interface';
 import { BaseService } from './services/base.service';
 import { TypeForm } from './helpers/form/form.component';
 import { FieldList } from './helpers/list/interfaces/list.interface';
 import { ListService } from './helpers/list/services/list.service';
 import { FormService } from './helpers/form/services/form.service';
 import { FieldForm } from './helpers/form/interfaces/form.interface';
-import { PermissionService } from '../permission/services/permission.service';
 import { PermissionsData } from '../permission/interfaces/permission.interface';
 import { NotificationService } from '../shared/notification/notification.service';
 import { AuthService } from '../auth/services/auth.service';

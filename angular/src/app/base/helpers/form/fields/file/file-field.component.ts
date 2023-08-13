@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { FieldModel } from '../field-model';
 
 @Component({
-  selector: 'app-input-file',
+  selector: 'input-file',
   styles: [''],
   template: `
     <ng-container [formGroup]="form">

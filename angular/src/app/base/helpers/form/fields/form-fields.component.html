@@ -3,18 +3,19 @@
     <ng-container *ngFor="let field of fields" [formGroup]="form">
       <input *ngIf="field.type == 'hidden'" [formControlName]="field.key" [id]="field.key" [type]="field.type">
       <div *ngIf="field.type != 'hidden'" [ngSwitch]="field.controlType" class="col-sm-12">
-        <app-input-checkbox *ngSwitchCase="'checkbox'" [form]="form" [field]="field"></app-input-checkbox>
-        <app-input-checkbox-multi *ngSwitchCase="'checkbox-multi'" [form]="form" [field]="field"></app-input-checkbox-multi>
-        <app-input-text *ngSwitchCase="'text'" [form]="form" [field]="field"></app-input-text>
-        <app-input-text *ngSwitchCase="'number'" [form]="form" [field]="field"></app-input-text>
-        <app-input-text *ngSwitchCase="'password'" [form]="form" [field]="field"></app-input-text>
-        <app-input-text *ngSwitchCase="'email'" [form]="form" [field]="field"></app-input-text>
-        <app-input-file *ngSwitchCase="'image'" [form]="form" [field]="field"></app-input-file>
-        <app-input-file *ngSwitchCase="'file'" [form]="form" [field]="field"></app-input-file>
-        <app-input-textarea *ngSwitchCase="'textarea'" [form]="form" [field]="field"></app-input-textarea>
-        <app-input-date *ngSwitchCase="'date'" [form]="form" [field]="field"></app-input-date>
-        <app-input-date *ngSwitchCase="'datetime'" [form]="form" [field]="field"></app-input-date>
-        <app-input-select *ngSwitchCase="'select'" [form]="form" [field]="field"></app-input-select>
+        <input-switch *ngSwitchCase="'switch'" [form]="form" [field]="field"></input-switch>
+        <input-checkbox *ngSwitchCase="'checkbox'" [form]="form" [field]="field"></input-checkbox>
+        <input-radio *ngSwitchCase="'radio'" [form]="form" [field]="field"></input-radio>
+        <input-text *ngSwitchCase="'text'" [form]="form" [field]="field"></input-text>
+        <input-text *ngSwitchCase="'number'" [form]="form" [field]="field"></input-text>
+        <input-text *ngSwitchCase="'password'" [form]="form" [field]="field"></input-text>
+        <input-text *ngSwitchCase="'email'" [form]="form" [field]="field"></input-text>
+        <input-file *ngSwitchCase="'image'" [form]="form" [field]="field"></input-file>
+        <input-file *ngSwitchCase="'file'" [form]="form" [field]="field"></input-file>
+        <input-textarea *ngSwitchCase="'textarea'" [form]="form" [field]="field"></input-textarea>
+        <input-date *ngSwitchCase="'date'" [form]="form" [field]="field"></input-date>
+        <input-date *ngSwitchCase="'datetime'" [form]="form" [field]="field"></input-date>
+        <input-select *ngSwitchCase="'select'" [form]="form" [field]="field"></input-select>
       </div>
     </ng-container>
   </div>

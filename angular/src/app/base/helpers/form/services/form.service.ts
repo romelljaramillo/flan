@@ -3,8 +3,8 @@ import { FormActive, FieldForm } from '../interfaces/form.interface';
 import { Observable, of } from 'rxjs';
 
 import {
+  SwitchField,
   CheckboxField,
-  CheckboxMultiField,
   DateField,
   DatetimeField,
   EmailField,
@@ -55,11 +55,11 @@ export class FormService {
             case 'email':
               form.push(new EmailField(field));
               break;
+            case 'switch':
+              form.push(new SwitchField(field));
+              break;
             case 'checkbox':
               form.push(new CheckboxField(field));
-              break;
-            case 'checkbox-multi':
-              form.push(new CheckboxMultiField(field));
               break;
             case 'radio':
               form.push(new RadioField(field));

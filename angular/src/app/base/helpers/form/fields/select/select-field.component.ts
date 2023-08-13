@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { FieldModel } from '../field-model';
 
 @Component({
-  selector: 'app-input-select',
+  selector: 'input-select',
   styles: [''],
   template: `
     <ng-container [formGroup]="form">
@@ -15,7 +15,7 @@ import { FieldModel } from '../field-model';
         [class]="!isValid ? 'is-invalid' : ''" 
         [multiple]="field.multiple">
         <option *ngFor="let opt of field.options; let i=index" [value]="opt.id">
-          {{ opt.value }}
+          {{ opt.name }}
         </option>
       </select>
       <div class="text-danger" *ngIf="!isValid">
@@ -34,8 +34,6 @@ export class SelectFieldComponent implements OnInit {
       !this.form.controls[this.field.key].touched
     );
   }
-
-  constructor() {}
   
   ngOnInit() {}
 

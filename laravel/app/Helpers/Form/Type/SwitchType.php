@@ -6,19 +6,22 @@ use App\Helpers\Form\Type\TextType;
 
 class SwitchType extends TextType
 {
-    protected $type = 'switch';
+    protected $type = 'checkbox';
     protected $options = [
         [
-            'id' => 'active_on',
-            'value' => 1,
-            'label' => 'yes',
+            'id' => 1,
+            'name' => 'yes',
         ],
         [
-            'id' => 'active_off',
-            'value' => 0,
-            'label' => 'no',
+            'id' => 0,
+            'name' => 'no',
         ],
     ];
+
+    public function __construct()
+    {
+        $this->controlType = 'switch';
+    }
 
     public function getFiel()
     {

@@ -9,14 +9,12 @@ class RadioType extends TextType
     protected $type = 'radio';
     protected $options = [
         [
-            'id' => 'active_on',
-            'value' => 1,
-            'label' => 'yes',
+            'id' => 1,
+            'name' => 'yes',
         ],
         [
-            'id' => 'active_off',
-            'value' => 0,
-            'label' => 'no',
+            'id' => 0,
+            'name' => 'no',
         ],
     ];
 

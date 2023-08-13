@@ -86,17 +86,23 @@ export class FormFieldsComponent implements OnInit {
               : new FormControl(field.value || '');
           }
           break;
-        case 'checkbox-multi':
-            let checkboxGroup: any = {};
-            field.options?.forEach(option => {
-              checkboxGroup[option.id] = new FormControl(
-                field.value?.some((v: { id: string; }) => v.id === option.id)
-              );
-            });
+        case 'checkbox':
+            let checkbox: any = {};
+            if(field.options.length){
+              field.options.forEach(option => {
+                if(!field.value) field.value = [];
+                checkbox[option.id] = new FormControl(
+                  field.value.some((v: { id: string; }) => v.id === option.id)
+                );
+              });
 
-            group[field.key!] = new FormGroup(checkboxGroup);
-
-            break;
+              group[field.key!] = new FormGroup(checkbox);
+            } else {
+              group[field.key] = field.required
+              ? new FormControl(field.value || false, Validators.required)
+              : new FormControl(field.value || false);
+            }
+          break;
         default:
           group[field.key] = field.required
             ? new FormControl(field.value || '', Validators.required)
@@ -128,16 +134,22 @@ export class FormFieldsComponent implements OnInit {
     this.formService!.postData.emit(values);
   }
 
-  processCheckboxFields(values: any) {
+  private processCheckboxFields(values: any): void {
     this.fields.forEach(field => {
-      if (field.controlType === 'checkbox-multi') {
+      console.log(field);
+      
+      if (field.controlType === 'checkbox') {
+        if(!field.options.length){
+          values[field.key] = values[field.key] ? 1 : 0;
+          return;
+        }
         values[field.key] = this.getSelectedCheckboxValues(field, values[field.key]);
       }
     });
   }
 
-  getSelectedCheckboxValues(field: any, checkboxGroup: { [key: number]: boolean }): number[] {
-    return field.options?.filter((option: any) => checkboxGroup[option.id]).map((option: any) => option.id) || [];
+  private getSelectedCheckboxValues(field: any, checkbox: { [key: number]: boolean }): number[] {
+    return field.options?.filter((option: any) => checkbox[option.id]).map((option: any) => option.id) || [];
   }
 
   closeForm() {

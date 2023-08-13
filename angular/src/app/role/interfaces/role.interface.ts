@@ -21,7 +21,7 @@ export interface RoleAttribute {
 
 export interface RolePermissions {
   id: string;
-  value: string;
+  name: string;
 }
 
 export interface RoleLink {

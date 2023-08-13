@@ -11,8 +11,7 @@ export interface FieldResponseForm {
 
 export interface OptionInput {
   id: string; 
-  value: string; 
-  label?: string;
+  name?: string;
 }
 
 export interface FieldData {
