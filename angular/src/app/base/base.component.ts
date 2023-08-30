@@ -1,16 +1,22 @@
-import { Component, OnInit, OnDestroy, Optional } from '@angular/core';
+import { Component, OnInit, Optional } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { DefaultResponse, OptionsQuery } from './interfaces/base.interface';
+import {
+  BaseAttribute,
+  BaseResponse,
+  BaseResponseData,
+  BaseResponseMeta,
+} from './interfaces/base.interface';
 import { BaseService } from './services/base.service';
 import { TypeForm } from './helpers/form/form.component';
-import { FieldList } from './helpers/list/interfaces/list.interface';
-import { ListService } from './helpers/list/services/list.service';
-import { FormService } from './helpers/form/services/form.service';
-import { FieldForm } from './helpers/form/interfaces/form.interface';
-import { PermissionsData } from '../permission/interfaces/permission.interface';
+import {
+  FieldList,
+  OptionsQuery,
+} from './helpers/list/interfaces/list.interface';
+import { PermissionData } from '../permission/interfaces/permission.interface';
 import { NotificationService } from '../shared/notification/notification.service';
 import { AuthService } from '../auth/services/auth.service';
+import { FieldModel } from './helpers/form/fields';
 
 @Component({
   selector: 'app-base',
@@ -23,18 +29,13 @@ import { AuthService } from '../auth/services/auth.service';
     </div>
   </div>`,
 })
-export class BaseComponent implements OnInit, OnDestroy {
-  protected listSubscription?: Subscription;
-  protected listSubscriptionDelete?: Subscription;
+export class BaseComponent implements OnInit {
   protected formSubscription?: Subscription;
   protected formPostSubscription?: Subscription;
-  public permissions: PermissionsData = {hasPermission: false};
+  public permission: PermissionData = { hasPermission: false };
   public typeForm: TypeForm = TypeForm.modal;
   public isLoading: boolean = false;
-  public entity: string = '';
-  public url: string = '';
 
-  // opciones list y paginación
   public total: number = 0;
   public filters: OptionsQuery = {
     perPage: 10,
@@ -45,102 +46,119 @@ export class BaseComponent implements OnInit, OnDestroy {
     filterAdvance: [],
   };
 
-  public data: any;
-  public metadata: any;
-  public fields: FieldList[] = [];
-  public items: Array<any> = [];
+  public items!: BaseResponseData[];
+  public item!: BaseResponseData;
+  public meta: BaseResponseMeta = {
+    current_page: 1,
+    from: 0,
+    last_page: 1,
+    links: undefined,
+    path: '',
+    per_page: 10,
+    to: 0,
+    total: 0,
+  };
+  public fieldsList!: FieldList[];
+  public fieldsForm!: FieldModel<string>[];
+  public editable: boolean = false;
+  public deletable: boolean = false;
+  public isFormActive: boolean = false;
 
   constructor(
-    protected baseService: BaseService,
+    protected baseService: BaseService<BaseResponse>,
     protected authService: AuthService,
-    @Optional() protected listService?: ListService,
-    @Optional() protected formService?: FormService,
-    @Optional() protected notificationService?: NotificationService,
-  ) { 
-    
-  }
+    @Optional() protected notificationService?: NotificationService
+  ) {}
 
   ngOnInit(): void {
-    console.log(this.entity);
-    this.authService.entity = this.entity;
-    this.baseService.url = this.url;
-    this.actionsList();
-    this.actionsForm();
-    this.getAll();
+    this.authService.entity = this.baseService.entity;
+    if (this.baseService.url) {
+      this.getAll();
+      this.getFieldsForm();
+    }
   }
 
   getAll(): void {
     this.isLoading = true;
-    this.baseService.getAll(this.filters)
-    .subscribe((response) => {
-      console.log(response);
+    this.baseService.getAll(this.filters).subscribe((response) => {
+      // console.log('getAll ' , response);
       this.isLoading = false;
-      if(response.data){
-        this.data = response.data;
-        if(this.data.length > 0) {
-          this.metadata = response.meta;
-          this.getList();
+      if (response.data && response.data instanceof Array) {
+        this.items = response.data;
+        if (response.meta) {
+          this.meta = response.meta;
         }
+        this.getList();
       }
     });
   }
 
   getList() {
-    this.items = [];
-    
-    if(this.metadata){
-      this.filters.perPage = this.metadata.per_page ?? this.filters.perPage;
-      this.filters.page = this.metadata.current_page ?? this.filters.page;
-      this.total = this.metadata.total ?? this.total;
+    if (this.meta) {
+      this.filters.perPage = this.meta.per_page ?? this.filters.perPage;
+      this.filters.page = this.meta.current_page ?? this.filters.page;
+      this.total = this.meta.total ?? this.total;
     }
 
-    this.data.forEach((item: any) => {
-      this.items.push(item);
-    });
-
-    this.baseService.getFieldsList()
-    .subscribe((response: FieldList[]) => {
-      this.fields = response;
-      this.listService!.data = this.items;
-      this.listService!.fields = this.fields;
-      this.listService!.total = this.total;
+    this.baseService.getFieldsList().subscribe((response) => {
+      this.fieldsList = response.data.fields;
+      this.editable = response.data.editable;
+      this.deletable = response.data.deletable;
     });
   }
 
-  add(data: any) {
+  add(data: BaseAttribute) {
     this.baseService.create(data).subscribe((response) => {
-      console.log(response);
-      this.formService!.renderForm.emit(false);
-
       this.notificationService?.success('Se ha creado con éxito.');
-
       this.getAll();
     });
   }
 
-  update(data: any) {
+  update(data: BaseAttribute) {
+    if(!data.id) return;
     this.baseService.update(data.id, data).subscribe((response) => {
-      console.log(response);
-      this.formService!.renderForm.emit(false);
-
       this.notificationService?.success('Actualización exitosa.');
-
       this.getAll();
     });
   }
 
-  edit(id: string) {
-    this.baseService.getById(id).subscribe((response: DefaultResponse) => {
+  onSubmitAction(data: BaseAttribute) {
+    if (!data) return;
+    if (data.id) {
+      this.update(data);
+    } else {
+      this.add(data);
+    }
+  }
 
-      if (response) {
-        this.formService!.data = response.data.attribute;
-        this.getFieldsForm();
+  onFilter(filters: OptionsQuery) {
+    this.filters = filters;
+    this.getAll();
+  }
+
+  onEdit(item: BaseResponseData) {
+    if (!item.id) return;
+    this.baseService.getById(item.id).subscribe((response) => {
+      if (response.data && !(response.data instanceof Array)) {
+        this.item = response.data;
+        this.isFormActive = true;
       }
     });
   }
 
-  delete(id: string) {
-    this.baseService.delete(id).subscribe((response) => {
+  getFieldsForm() {
+    this.baseService.getFieldsForm().subscribe((response) => {
+      this.fieldsForm = response;
+    });
+  }
+
+  onDelete(item: BaseAttribute) {
+    if (!item.id) return;
+
+    if(!this.notificationService?.confirm('Está seguro de eliminar?', {
+      text: '¡No podrás revertir esto!'})) return;
+
+    this.baseService.delete(item.id).subscribe((response) => {
       if (response) {
         this.notificationService?.success('Se ha eliminado con éxito.');
         this.getAll();
@@ -148,61 +166,4 @@ export class BaseComponent implements OnInit, OnDestroy {
     });
   }
 
-  getFieldsForm() {
-    this.baseService.getFieldsForm().subscribe(
-      (fields: FieldForm[]) => {
-        this.formService!.getForm(fields);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-
-  actionsList() {
-    this.listSubscription = this.listService!.filters.subscribe((filters) => {
-      this.filters = filters;
-      this.getAll();
-    });
-
-    this.listSubscriptionDelete = this.listService!.deleteAction.subscribe(
-      (id) => {
-        this.notificationService?.confirm('Está seguro de eliminar?', {
-          text: '¡No podrás revertir esto!',
-        }).then((result: any) => {
-          if (result.isConfirmed) {
-            this.delete(id);
-          }
-        });
-      }
-    );
-  }
-
-  actionsForm() {
-    this.formSubscription = this.formService!.initForm.subscribe(
-      (formActive) => {
-        if (formActive.id) {
-          this.edit(formActive.id);
-        } else if (formActive.active) {
-          this.formService!.data = [];
-          this.getFieldsForm();
-        }
-      }
-    );
-
-    this.formPostSubscription = this.formService!.postData.subscribe((data) => {
-      if (data.id) {
-        this.update(data);
-      } else {
-        this.add(data);
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    this.listSubscription?.unsubscribe();
-    this.listSubscriptionDelete?.unsubscribe();
-    this.formSubscription?.unsubscribe();
-    this.formPostSubscription?.unsubscribe();
-  }
 }

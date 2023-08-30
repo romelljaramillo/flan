@@ -1,12 +1,10 @@
 import { EventEmitter, Injectable } from '@angular/core';
 
-import { environment } from 'src/environments/environment';
-
 import { DataSearch, OptionsSearchResponse } from '../interfaces/advancesearch.interface';
 import { map } from 'rxjs';
-import { OptionsQuery } from 'src/app/base/interfaces/base.interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { OptionsQuery } from '../../list/interfaces/list.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -36,8 +34,7 @@ export class AdvanceSearchService {
   getOptionsSearch(){
     const headers = this.headers;
     return this.http.get<OptionsSearchResponse>(`${this.authService.baseUrl}/optionsearch`, { headers })
-    .pipe(
-      map((response: OptionsSearchResponse) => response.data));
+    .pipe(map((response: OptionsSearchResponse) => response.data));
   }
 
   advanceSearchToParams(filterAdvance: DataSearch[]) {

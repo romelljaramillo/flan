@@ -104,7 +104,7 @@ class SiteController extends AdminController
      *
      * @return json
      */
-    public function getFormFields()
+    public function getFieldsForm()
     {
         $siteGroups = SiteGroup::get();
         $optionsSiteGroup = [];
@@ -121,7 +121,7 @@ class SiteController extends AdminController
         $this->fields->add('active', CheckboxType::class, ['label' => 'Estado']);
         $fields = $this->fields->getFields();
 
-        return ApiResponse::success(['fields' => $fields], 'Fields form sites');
+        return parent::getFieldsForm();
     }
 
     /**
@@ -129,7 +129,7 @@ class SiteController extends AdminController
      *
      * @return json
      */
-    public function getListFields()
+    public function getFieldsList()
     {
         $this->fields = new ListFields();
         $this->fields->add('id', NumberColumn::class);
@@ -139,8 +139,6 @@ class SiteController extends AdminController
         $this->fields->add('created_at', DateTimeColumn::class, ['label' => 'Creado']);
         $this->fields->add('updated_at', DateTimeColumn::class, ['label' => 'Actualizado']);
 
-        $fields = $this->fields->getFields();
-
-        return ApiResponse::success(['fields' => $fields], 'Fields list sites');
+        return parent::getFieldsList();
     }
 }

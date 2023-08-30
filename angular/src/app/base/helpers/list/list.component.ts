@@ -1,29 +1,37 @@
 import {
   Component,
   OnInit,
-  OnDestroy,
   ViewChild,
   ElementRef,
-  Input
+  Input,
+  Output,
+  EventEmitter
 } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { DataSearch } from '../advancesearch/interfaces/advancesearch.interface';
-import { FormService } from '../form/services/form.service';
-import { ListService } from './services/list.service';
-import { OptionsQuery } from '../../interfaces/base.interface';
-import { AuthService } from 'src/app/auth/services/auth.service';
-import { ActionCrud } from '../../../permission/interfaces/permission.interface';
+import { FieldList, OptionsQuery } from './interfaces/list.interface';
+import { BaseResponseData } from '../../interfaces/base.interface';
+import { NotificationService } from '../../../shared/notification/notification.service';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styles: [''],
 })
-export class ListComponent implements OnInit, OnDestroy {
+export class ListComponent<T extends BaseResponseData> implements OnInit {
   @ViewChild('terminoSearch') terminoSearch!: ElementRef;
+  
+  @Input() fields!: FieldList[];
+  @Input() items: T[] = [];
+  @Input() total: number = 0;
   @Input() isAdvanceSearch: boolean = true;
+  @Input() editable: boolean = false;
+  @Input() deletable: boolean = false;
 
-  filters: OptionsQuery = {
+  @Output() edit = new EventEmitter<T>();
+  @Output() delete = new EventEmitter<T>();
+  @Output() filter = new EventEmitter<OptionsQuery>();
+    
+  filters: OptionsQuery  = {
     page: 1,
     perPage: 10,
     orderBy: 'DESC',
@@ -32,71 +40,42 @@ export class ListComponent implements OnInit, OnDestroy {
     filterAdvance: [],
   };
 
-  private fieldsSubscription: Subscription;
-
-  public canEdit: boolean = false;
-  public canDelete: boolean = false;
-
   constructor(
-    public listService: ListService,
-    private formService: FormService,
-    public authService: AuthService
-  ) {
-    this.fieldsSubscription = this.listService.filters.subscribe((filters) => {
-      this.filters = filters;
-    });
-  }
+    private notificationService?: NotificationService
+  ) {}
 
-  ngOnInit() {
-    console.log(this.authService.entity);
-    this.permissions();
-  }
-
-  private permissions() {
-    this.authService
-      .checkPermission({
-        entity: this.authService.entity,
-        action: ActionCrud.edit,
-      })
-      .subscribe((canEdit) => (this.canEdit = canEdit));
-    this.authService
-      .checkPermission({
-        entity: this.authService.entity,
-        action: ActionCrud.edit,
-      })
-      .subscribe((canDelete) => (this.canDelete = canDelete));
-  }
+  ngOnInit() {}
 
   emitFilters() {
-    this.listService.filters.emit(this.filters);
+    this.filter.emit(this.filters);
   }
 
-  pageChanget(page: number) {
+  onPageChange(page: number) {
     this.filters.page = page;
     this.emitFilters();
   }
 
-  sortColumn(column: string) {
+  onSortColumn(column: string) {
     this.filters.orderBy = this.filters.orderBy == 'DESC' ? 'ASC' : 'DESC';
     this.filters.column = column;
     this.emitFilters();
   }
 
-  filterEven(termino: string) {
+  onFilterEven(termino: string) {
     this.resetFilters();
     this.filters.page = 1;
     this.filters.filter = termino;
     this.emitFilters();
   }
 
-  filterAdvanceEven(dataSearch: DataSearch[]) {
+  onFilterAdvanceEven(dataSearch: DataSearch[]) {
     this.resetFilters();
     this.filters.page = 1;
     this.filters.filterAdvance = dataSearch;
     this.emitFilters();
   }
 
-  filterPerPage(perPage: number) {
+  onFilterPerPage(perPage: number) {
     this.filters.perPage = perPage;
     this.emitFilters();
   }
@@ -107,15 +86,17 @@ export class ListComponent implements OnInit, OnDestroy {
     this.filters.filterAdvance = [];
   }
 
-  editAction(id: string) {
-    this.formService.initForm.emit({ active: true, id: id });
+  editAction(item: T) {
+    this.edit.emit(item);
   }
 
-  deleteAction(id: string) {
-    this.listService.deleteAction.emit(id);
-  }
-
-  ngOnDestroy() {
-    this.fieldsSubscription?.unsubscribe();
+  deleteAction(item: T) {
+    this.notificationService?.confirm('Está seguro de eliminar?', {
+      text: '¡No podrás revertir esto!',
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        this.delete.emit(item);
+      }
+    });
   }
 }

@@ -15,9 +15,8 @@ export class HasAnyPermission implements OnInit, OnDestroy {
     private viewContainerRef: ViewContainerRef,
     private templateRef: TemplateRef<any>
   ) {}
+  
   ngOnInit(): void {
-    console.log(this.hasAnyPermission);
-    
     // this.sub = this.authService.hasPermission(this.hasAnyPermission)
     //   .pipe(
     //     map((permission) => Boolean(permission)),
@@ -30,6 +29,7 @@ export class HasAnyPermission implements OnInit, OnDestroy {
     //   )
     //   .subscribe();
   }
+  
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
   }

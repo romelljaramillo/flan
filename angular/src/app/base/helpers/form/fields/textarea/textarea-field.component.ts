@@ -26,9 +26,7 @@ export class TextareaFieldComponent implements OnInit, AfterViewInit{
 
   get isValid() { return this.form.controls[this.field.key].valid || !this.form.controls[this.field.key].touched; }
 
-  ngOnInit(){
-
-  }
+  ngOnInit(){}
 
   ngAfterViewInit(){
     $('.summernote').summernote();

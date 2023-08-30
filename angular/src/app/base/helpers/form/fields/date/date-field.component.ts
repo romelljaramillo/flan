@@ -34,9 +34,7 @@ export class DateFieldComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    console.log(this.field!.type);
     this.datetype =
     this.field!.type == 'datetime' ? this.field.type + '-local' : this.field.type;
-    console.log(this.datetype);
   }
 }

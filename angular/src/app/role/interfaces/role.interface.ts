@@ -1,7 +1,7 @@
-export interface RolesResponse {
+export interface RoleResponse {
   data: RoleResponseData[];
-  links: RolesResponseLinks;
-  meta: RolesResponseMeta;
+  links: RoleResponseLinks;
+  meta: RoleResponseMeta;
 }
 
 export interface RoleResponseData {
@@ -28,25 +28,25 @@ export interface RoleLink {
   self: string;
 }
 
-export interface RolesResponseLinks {
+export interface RoleResponseLinks {
   first: string;
   last: string;
   prev: null | string;
   next: string;
 }
 
-export interface RolesResponseMeta {
+export interface RoleResponseMeta {
   current_page: number;
-  from: number;
-  last_page: number;
-  links: RolesMetaLink[];
-  path: string;
-  per_page: number;
-  to: number;
-  total: number;
+  from:         number;
+  last_page:    number;
+  links:        RoleMetaLink | undefined;
+  path:         string;
+  per_page:     number;
+  to:           number;
+  total:        number;
 }
 
-export interface RolesMetaLink {
+export interface RoleMetaLink {
   url: null | string;
   label: string;
   active: boolean;

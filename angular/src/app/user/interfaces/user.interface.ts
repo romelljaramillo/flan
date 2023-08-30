@@ -1,7 +1,7 @@
-export interface UsersResponse {
+export interface UserResponse {
   data:  UserResponseData[];
-  links: UsersResponseLinks;
-  meta:  UsersResponseMeta;
+  links: UserResponseLinks;
+  meta:  UserResponseMeta;
 }
 
 export interface UserResponseData {
@@ -13,7 +13,6 @@ export interface UserResponseData {
 
 export interface UserAttribute {
   id:                   string;
-  fullname:             string;
   first_name:           string;
   last_name:            string;
   name:                 string;
@@ -32,25 +31,25 @@ export interface UserLink {
   self: string;
 }
 
-export interface UsersResponseLinks {
+export interface UserResponseLinks {
   first: string;
   last:  string;
   prev:  null | string;
   next:  string;
 }
 
-export interface UsersResponseMeta {
+export interface UserResponseMeta {
   current_page: number;
   from:         number;
   last_page:    number;
-  links:        UsersMetaLink[];
+  links:        UserMetaLink | undefined;
   path:         string;
   per_page:     number;
   to:           number;
   total:        number;
 }
 
-export interface UsersMetaLink {
+export interface UserMetaLink {
   url:    null | string;
   label:  string;
   active: boolean;

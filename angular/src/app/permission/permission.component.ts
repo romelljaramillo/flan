@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 
-import { PermissionAttribute, PermissionResponseData } from './interfaces/permission.interface';
+import { PermissionResponseData } from './interfaces/permission.interface';
 import { BaseComponent } from '../base/base.component';
+import { PermissionService } from './services/permission.service';
+import { AuthService } from '../auth/services/auth.service';
+import { NotificationService } from '../shared/notification/notification.service';
 
 @Component({
   selector: 'app-permission',
@@ -11,22 +14,38 @@ import { BaseComponent } from '../base/base.component';
       <i class="fas fa-spinner fa-pulse"></i>
     </div>
     <div class="col-12">
-      <app-form [typeForm]="typeForm"></app-form>
+      <app-form 
+        [typeForm]="typeForm" 
+        [data]="item" 
+        [fields]="fieldsForm"
+        [isActive]="isFormActive"
+        (submitAction)="onSubmitAction($event)"
+        >
+      </app-form>
     </div>
     <div class="col-12">
-      <app-list></app-list>
+      <app-list 
+        [fields]="fieldsList"
+        [deletable]="deletable"
+        [editable]="editable"
+        [items]="items"
+        [total]="total"
+        (edit)="onEdit($event)" 
+        (delete)="onDelete($event)"
+        (filter)="onFilter($event)">
+      </app-list>
     </div>
   </div>`,
 })
 export class PermissionComponent extends BaseComponent {
-  override data: PermissionResponseData[] = [];
-  override items: Array<PermissionAttribute> = [];
+  override items: PermissionResponseData[] = [];
+  override item!: PermissionResponseData;
 
-  override url = 'permissions';
-  override entity = 'permissions';
-
-  // override init() {
-  //   this.url = 'permissions';
-  //   this.entity = 'permissions';
-  // }
+  constructor(
+    protected permissionService: PermissionService,
+    protected override authService: AuthService,
+    protected override notificationService?: NotificationService
+  ) { 
+    super(permissionService, authService, notificationService);
+  }
 }

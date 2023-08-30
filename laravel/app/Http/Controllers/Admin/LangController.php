@@ -113,7 +113,7 @@ class LangController extends AdminController
      *
      * @return void
      */
-    public function getFormFields()
+    public function getFieldsForm()
     {
         $this->fields = new FormFields();
         $this->fields->add('id', NumberType::class, ['primarykey' => true]);
@@ -127,7 +127,7 @@ class LangController extends AdminController
         $this->fields->add('active', CheckboxType::class, ['label' => 'Estado']);
         $fields = $this->fields->getFields();
 
-        return ApiResponse::success(['fields' => $fields], 'Fields form langs');
+        return parent::getFieldsForm();
     }
 
     /**
@@ -135,7 +135,7 @@ class LangController extends AdminController
      *
      * @return void
      */
-    public function getListFields()
+    public function getFieldsList()
     {
         $this->fields = new ListFields();
         $this->fields->add('id', NumberColumn::class);
@@ -148,8 +148,6 @@ class LangController extends AdminController
         $this->fields->add('created_at', DateTimeColumn::class, ['label' => 'Creado']);
         $this->fields->add('updated_at', DateTimeColumn::class, ['label' => 'Actualizado']);
 
-        $fields = $this->fields->getFields();
-
-        return ApiResponse::success(['fields' => $fields], 'Fields list langs');
+        return parent::getFieldsList();
     }
 }

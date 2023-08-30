@@ -1,3 +1,5 @@
+import { FieldModel } from "../fields/field-model";
+
 export interface FormActive {
   active: boolean;
   id?:    string;
@@ -15,9 +17,8 @@ export interface OptionInput {
 }
 
 export interface FieldData {
-  fields: FieldForm[];
+  fields: FieldModel<string>[];
 }
-
 
 export interface FieldForm {
   value?: any;

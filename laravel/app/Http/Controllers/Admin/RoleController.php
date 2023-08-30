@@ -7,10 +7,7 @@ use App\Models\Permission;
 use Illuminate\Http\Request;
 use App\Helpers\Form\FormFields;
 use App\Helpers\Form\Type\NumberType;
-use App\Helpers\Form\Type\SelectType;
 use App\Helpers\Form\Type\CheckboxType;
-use App\Helpers\Form\Type\RadioType;
-use App\Helpers\Form\Type\SwitchType;
 use App\Helpers\Form\Type\TextType;
 use App\Helpers\List\ListFields;
 use App\Helpers\List\Type\DateTimeColumn;
@@ -109,7 +106,7 @@ class RoleController extends AdminController
      *
      * @return void
      */
-    public function getFormFields()
+    public function getFieldsForm()
     {
         $permissions = Permission::get();
         $optionsPermissions = [];
@@ -122,9 +119,8 @@ class RoleController extends AdminController
         $this->fields->add('name', TextType::class, ['label' => 'Nombre', 'required' => true]);
         $this->fields->add('permissions', CheckboxType::class, ['label' => 'Permissions',
             'options' => $optionsPermissions, 'multiple' => true]);
-        $fields = $this->fields->getFields();
-
-        return ApiResponse::success(['fields' => $fields], 'Fields form users');
+        
+        return parent::getFieldsForm();
     }
 
     /**
@@ -132,7 +128,7 @@ class RoleController extends AdminController
      *
      * @return void
      */
-    public function getListFields()
+    public function getFieldsList()
     {
         $this->fields = new ListFields();
         $this->fields->add('id', NumberColumn::class);
@@ -141,8 +137,6 @@ class RoleController extends AdminController
         $this->fields->add('created_at', DateTimeColumn::class, ['label' => 'Creado']);
         $this->fields->add('updated_at', DateTimeColumn::class, ['label' => 'Actualizado']);
 
-        $fields = $this->fields->getFields();
-
-        return ApiResponse::success(['fields' => $fields], 'Fields list roles');
+        return parent::getFieldsList();
     }
 }

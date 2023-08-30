@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 
-import { UserAttribute, UserResponseData } from './interfaces/user.interface';
+import { UserResponseData } from './interfaces/user.interface';
 import { BaseComponent } from '../base/base.component';
+import { UserService } from './services/user.service';
+import { AuthService } from '../auth/services/auth.service';
+import { NotificationService } from '../shared/notification/notification.service';
 
 @Component({
   selector: 'app-user',
@@ -11,17 +14,39 @@ import { BaseComponent } from '../base/base.component';
       <i class="fas fa-spinner fa-pulse"></i>
     </div>
     <div class="col-12">
-      <app-form [typeForm]="typeForm"></app-form>
+      <app-form 
+        [typeForm]="typeForm" 
+        [data]="item" 
+        [fields]="fieldsForm"
+        [isActive]="isFormActive"
+        (submitAction)="onSubmitAction($event)"
+        >
+      </app-form>
     </div>
     <div class="col-12">
-      <app-list></app-list>
+      <app-list 
+        [fields]="fieldsList"
+        [deletable]="deletable"
+        [editable]="editable"
+        [items]="items"
+        [total]="total"
+        (edit)="onEdit($event)" 
+        (delete)="onDelete($event)"
+        (filter)="onFilter($event)">
+      </app-list>
     </div>
   </div>`,
 })
 export class UserComponent extends BaseComponent {
-  override data: UserResponseData[] = [];
-  override metadata: UserResponseData[] = [];
-  override items: Array<UserAttribute> = [];
-  override url = 'users';
-  override entity = 'users';
+  override items: UserResponseData[] = [];
+  override item!: UserResponseData;
+
+  constructor(
+    protected userService: UserService,
+    protected override authService: AuthService,
+    protected override notificationService?: NotificationService
+  ) { 
+    super(userService, authService, notificationService);
+  }
+
 }

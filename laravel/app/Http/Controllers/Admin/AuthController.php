@@ -97,13 +97,5 @@ class AuthController extends AdminController
         }
     
         return response()->json(['can' => false]);
-
-        
-        // /** @var User $user */
-        // $user = Auth::user();
-
-        // $hasPermission = $user->can($permissionName);
-
-        // return ApiResponse::success(['hasPermission' => true], 'User successfully.');
     }
 }

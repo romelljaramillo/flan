@@ -2,6 +2,7 @@ import { FieldForm, OptionInput } from "../interfaces/form.interface";
 
 export class FieldModel<T> {
   value: any | undefined;
+  // value: T | undefined;
   key: string;
   label: string;
   required: boolean;

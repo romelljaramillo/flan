@@ -51,28 +51,28 @@ Route::name(env('PREF_PERMISSION_ADMIN'))->group(function () {
         Route::get('/optionsearch', [SearchController::class, 'getOptionsSearch'])->name('optionsearch');
 
         // Users
-        Route::get('/users/fieldsform', [UserController::class, 'getFormFields'])->name('users.fieldsform');
-        Route::get('/users/fieldslist', [UserController::class, 'getListFields'])->name('users.fieldslist');
+        Route::get('/users/fieldsform', [UserController::class, 'getFieldsForm'])->name('users.fieldsform');
+        Route::get('/users/fieldslist', [UserController::class, 'getFieldsList'])->name('users.fieldslist');
         Route::apiResource('/users', UserController::class);
 
         // Roles
-        Route::get('/roles/fieldsform', [RoleController::class, 'getFormFields'])->name('roles.fieldsform');
-        Route::get('/roles/fieldslist', [RoleController::class, 'getListFields'])->name('roles.fieldslist');
+        Route::get('/roles/fieldsform', [RoleController::class, 'getFieldsForm'])->name('roles.fieldsform');
+        Route::get('/roles/fieldslist', [RoleController::class, 'getFieldsList'])->name('roles.fieldslist');
         Route::apiResource('/roles', RoleController::class);
 
         // Permissions
-        Route::get('/permissions/fieldsform', [PermissionController::class, 'getFormFields'])->name('permissions.fieldsform');
-        Route::get('/permissions/fieldslist', [PermissionController::class, 'getListFields'])->name('permissions.fieldslist');
+        Route::get('/permissions/fieldsform', [PermissionController::class, 'getFieldsForm'])->name('permissions.fieldsform');
+        Route::get('/permissions/fieldslist', [PermissionController::class, 'getFieldsList'])->name('permissions.fieldslist');
         Route::apiResource('/permissions', PermissionController::class);
 
         // langs
-        Route::get('/langs/fieldsform', [LangController::class, 'getFormFields'])->name('langs.fieldsform');
-        Route::get('/langs/fieldslist', [LangController::class, 'getListFields'])->name('langs.fieldslist');
+        Route::get('/langs/fieldsform', [LangController::class, 'getFieldsForm'])->name('langs.fieldsform');
+        Route::get('/langs/fieldslist', [LangController::class, 'getFieldsList'])->name('langs.fieldslist');
         Route::apiResource('/langs', LangController::class);
 
         // Sites
-        Route::get('/sites/fieldsform', [SiteController::class, 'getFormFields'])->name('sites.fieldsform');
-        Route::get('/sites/fieldslist', [SiteController::class, 'getListFields'])->name('sites.fieldslist');
+        Route::get('/sites/fieldsform', [SiteController::class, 'getFieldsForm'])->name('sites.fieldsform');
+        Route::get('/sites/fieldslist', [SiteController::class, 'getFieldsList'])->name('sites.fieldslist');
         Route::apiResource('/sites', SiteController::class);
 
         // SiteGroups

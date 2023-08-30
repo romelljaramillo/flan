@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\Form\FormFields;
 use App\Helpers\Form\Type\CheckboxType;
-use App\Helpers\Form\Type\SwitchType;
-use App\Helpers\Form\Type\RadioType;
 use App\Helpers\Form\Type\EmailType;
 use App\Helpers\Form\Type\ImageType;
 use App\Helpers\Form\Type\NumberType;
@@ -135,7 +133,7 @@ class UserController extends AdminController
      *
      * @return void
      */
-    public function getFormFields()
+    public function getFieldsForm()
     {
         $roles = Role::get();
         $optionsRoles = [];
@@ -165,11 +163,7 @@ class UserController extends AdminController
         
         $this->fields->add('photo', ImageType::class, ['label' => 'Imagen Avatar']);
 
-        return parent::getFormFields();
-
-        $fields = $this->fields->getFields();
-
-        return ApiResponse::success(['fields' => $fields], 'Fields form users');
+        return parent::getFieldsForm();
     }
 
     /**
@@ -177,23 +171,18 @@ class UserController extends AdminController
      *
      * @return void
      */
-    public function getListFields()
+    public function getFieldsList()
     {
         $this->fields = new ListFields();
         $this->fields->add('id', NumberColumn::class);
         $this->fields->add('photo', ImageColumn::class, ['label' => 'Avatar']);
         $this->fields->add('name', TextColumn::class, ['label' => 'Usuario']);
-        // $this->fields->add('fullname', TextColumn::class, ['label' => 'Full name', 'orderby' => false]);
         $this->fields->add('first_name', TextColumn::class, ['label' => 'Nombre']);
         $this->fields->add('last_name', TextColumn::class, ['label' => 'Apellidos']);
         $this->fields->add('email', TextColumn::class, ['label' => 'Email']);
         $this->fields->add('active', BooleanColumn::class, ['label' => 'Activo']);
         $this->fields->add('created_at', DateTimeColumn::class, ['label' => 'Create']);
 
-        return parent::getListFields();
-
-        $fields = $this->fields->getFields();
-
-        return ApiResponse::success(['fields' => $fields], 'Fields list users');
+        return parent::getFieldsList();
     }
 }

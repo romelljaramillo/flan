@@ -24,8 +24,6 @@ export class PermissionGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log(route.data);
-
     return this.authService.checkPermission(route.data).pipe(
       map((response) => {
         if (response) {

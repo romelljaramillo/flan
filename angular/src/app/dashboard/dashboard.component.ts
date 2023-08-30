@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
+import { BaseResponse } from '../base/interfaces/base.interface';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,6 +8,5 @@ import { BaseComponent } from '../base/base.component';
   styles: ['']
 })
 export class DashboardComponent extends BaseComponent {
-  override url = 'dashboard';
-  override entity = 'dashboard';
+
 }

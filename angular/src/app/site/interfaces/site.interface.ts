@@ -1,7 +1,7 @@
-export interface SitesResponse {
+export interface SiteResponse {
     data: SiteResponseData[];
-    links:SitesResponseLinks;
-    meta: SitesResponseMeta;
+    links:SiteResponseLinks;
+    meta: SiteResponseMeta;
 }
 
 export interface SiteResponseData {
@@ -21,37 +21,32 @@ export interface SiteAttribute {
     active:        number;
     created_at:    string;
     updated_at:    string;
-    deleted_at:    string|null;
-}
-
-export interface Site {
-    id:    number;
-    value: string;
+    deleted_at:    null | string;
 }
 
 export interface SiteLinks {
     self: string;
 }
 
-export interface SitesResponseLinks {
+export interface SiteResponseLinks {
     first: string;
     last:  string;
-    prev:  null;
-    next:  null;
+    prev:  null | string;
+    next:  string;
 }
 
-export interface SitesResponseMeta {
+export interface SiteResponseMeta {
     current_page: number;
     from:         number;
     last_page:    number;
-    links:        SitesMetaLink[];
+    links:        SiteMetaLink | undefined;
     path:         string;
     per_page:     number;
     to:           number;
     total:        number;
 }
 
-export interface SitesMetaLink {
+export interface SiteMetaLink {
     url:    null | string;
     label:  string;
     active: boolean;

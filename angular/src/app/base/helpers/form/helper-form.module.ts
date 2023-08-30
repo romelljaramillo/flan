@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 //Form
 import { FormComponent } from './form.component';
-import { FormModalsComponent } from './modals/form-modals.component';
-import { FormDefaultComponent } from './default/form-default.component';
-import { FormDirective } from './form.directive';
+import { FormModalsComponent } from './form-modals.component';
+import { FormDefaultComponent } from './form-default.component';
+import { InsertFormDirective } from './insert-form.directive';
 import { FormFieldsModule } from './fields/form-fields.module';
 
 
@@ -13,17 +14,18 @@ import { FormFieldsModule } from './fields/form-fields.module';
     FormComponent,
     FormModalsComponent,
     FormDefaultComponent,
-    FormDirective,
+    InsertFormDirective,
   ],
   imports: [
     CommonModule,
     FormFieldsModule,
+    ReactiveFormsModule,
   ],
   exports: [
     FormComponent,
     FormModalsComponent,
     FormDefaultComponent,
-    FormDirective,
+    InsertFormDirective,
   ],
 })
 export class HelperFormModule {}

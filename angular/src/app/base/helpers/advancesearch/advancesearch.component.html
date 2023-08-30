@@ -35,9 +35,9 @@
                     <div class="col-4 form-group">
                       <select class="form-control" formControlName="field" (ngModelChange)="getOptions($event)">
                         <option value="">Seleccione una opción</option>
-                        <ng-container *ngFor="let item of fields">
-                          <option *ngIf="item['searchAdvance']" value="{{ item['key'] }}">
-                            {{ item['key']  }}
+                        <ng-container *ngFor="let field of fields">
+                          <option *ngIf="field['searchAdvance']" value="{{ field['key'] }}">
+                            {{ field['key']  }}
                           </option>
                         </ng-container>
                       </select>
@@ -45,8 +45,8 @@
                     <div class="col-3 form-group">
                       <select class="form-control" formControlName="option">
 
-                        <ng-container *ngFor="let item of filterOptions">
-                          <option value="{{ item.option }}">{{item.description}}</option>
+                        <ng-container *ngFor="let opt of filterOptions">
+                          <option value="{{ opt.option }}">{{opt.description}}</option>
                         </ng-container>
 
                       </select>

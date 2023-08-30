@@ -1,110 +1,89 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ComponentRef, EventEmitter, Input, OnChanges, OnInit, Output, Type, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { Subscription } from 'rxjs';
-import { FormDefaultComponent } from './default/form-default.component';
-import { FormModalsComponent } from './modals/form-modals.component';
-import { FormDirective } from './form.directive';
+import { Observable, Subscription } from 'rxjs';
 import { FormService } from './services/form.service';
-import { AuthService } from 'src/app/auth/services/auth.service';
-import { ActionCrud } from '../../../permission/interfaces/permission.interface';
+import { FieldForm } from './interfaces/form.interface';
+import { BaseResponseData } from '../../interfaces/base.interface';
+import { InsertFormDirective } from './insert-form.directive';
+import { FormModalsComponent } from './form-modals.component';
+import { FormDefaultComponent } from './form-default.component';
+import { FieldModel } from './fields/field-model';
 
 export enum TypeForm {
-  default,
-  modal,
+  default = 'default',
+  modal = 'modal',
 }
 
 @Component({
   selector: 'app-form',
   styles: [''],
-  template: `<div *ngIf="canAdd" class="text-right">
-      <button 
+  template: `<div class="text-right">
+      <button
         type="button"
         class="btn btn-primary btn-sm mb-2 "
         title="crear nuevo"
         data-toggle="modal"
         data-target="#form"
-        (click)="renderForm()"
-      >
-        Nuevo 
+        (click)="onActiveForm()">
+        Nuevo
         <i class="fas fa-plus"></i>
       </button>
     </div>
-    <ng-template viewForm></ng-template>`,
+    <ng-template appInsertForm></ng-template>`,
 })
-export class FormComponent implements OnInit {
+export class FormComponent<T extends BaseResponseData> implements OnInit, OnChanges {
   @Input() typeForm: TypeForm = TypeForm.default;
+  @Input() isActive: boolean = false;
+  @Input() data: T | undefined;
+  @Input() dataAttibute: any = {};
+  @Input() fields!: FieldModel<string>[];
+  @Output() submitAction = new EventEmitter<T>();
 
-  private formSubscriptionInit?: Subscription;
-  private formSubscriptionRender?: Subscription;
-  public canAdd: boolean = false;
-  public canEdit: boolean = false;
-  public canDelete: boolean = false;
+  public form!: FormGroup;
+  componentRef!: ComponentRef<FormModalsComponent | FormDefaultComponent>;
 
-  @ViewChild(FormDirective, { static: true }) viewForm!: FormDirective;
+  private subscActiveForm?: Subscription;
+  private subscPostForm?: Subscription;
 
-  constructor(
-    public formService: FormService,
-    public authService: AuthService
-  ) {}
+  @ViewChild(InsertFormDirective, { static: true }) insertForm!: InsertFormDirective;
+
+  constructor(public formService: FormService) {}
 
   ngOnInit() {
-    this.permissions();
-    
-    this.formSubscriptionInit = this.formService.initForm.subscribe(
-      (active) => {
-        if (active.active) {
-          this.viewForm.viewContainerRef.remove();
-
-          if (this.typeForm == 1) {
-            this.viewForm.viewContainerRef.createComponent(FormModalsComponent);
-          } else {
-            this.viewForm.viewContainerRef.createComponent(FormDefaultComponent);
-          }
-        } else {
-          this.viewForm.viewContainerRef.remove();
-        }
+    this.loadForm();
+    this.subscPostForm = this.formService.postForm.subscribe((dataForm) => {
+      if (dataForm) {
+        this.onSubmitAction(dataForm);
       }
-    );
-
-    this.formSubscriptionRender = this.formService.renderForm.subscribe(
-      (active) => {
-        if (!active) {
-          this.viewForm.viewContainerRef.remove();
-        }
-      }
-    );
+    });
   }
 
-  private permissions() {
-    this.authService
-      .checkPermission({
-        entity: this.authService.entity,
-        action: ActionCrud.create,
-      })
-      .subscribe((canAdd) => (this.canAdd = canAdd));
-
-    this.authService
-      .checkPermission({
-        entity: this.authService.entity,
-        action: ActionCrud.edit,
-      })
-      .subscribe((canEdit) => (this.canEdit = canEdit));
-
-    this.authService
-      .checkPermission({
-        entity: this.authService.entity,
-        action: ActionCrud.edit,
-      })
-      .subscribe((canDelete) => (this.canDelete = canDelete));
+  onSubmitAction(dataForm: T) {
+    this.submitAction.emit(dataForm);
   }
 
-  renderForm(active = true) {
-    this.formService.initForm.emit({ active: active });
+  ngOnChanges() {
+    if(this.isActive && this.fields && this.data?.attribute){
+      this.dataAttibute = this.data.attribute;
+      this.formService.getForm(this.fields, this.dataAttibute);
+    }
+  }
+
+  loadForm() {
+    const viewContainerRef = this.insertForm.viewContainerRef;
+    viewContainerRef.clear();
+    (this.typeForm === TypeForm.modal)
+      ? this.componentRef = viewContainerRef.createComponent(FormModalsComponent)
+      : this.componentRef = viewContainerRef.createComponent(FormDefaultComponent);
+  }
+
+  onActiveForm() {
+    this.formService.getForm(this.fields,[]);
   }
 
   ngOnDestroy() {
-    this.formSubscriptionInit?.unsubscribe();
-    this.formSubscriptionRender?.unsubscribe();
+    this.subscActiveForm?.unsubscribe();
+    this.subscPostForm?.unsubscribe();
   }
 }

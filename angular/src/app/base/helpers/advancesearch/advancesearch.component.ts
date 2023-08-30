@@ -2,11 +2,12 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FieldList } from '../list/interfaces/list.interface';
+import { FieldList, OptionsSearch } from '../list/interfaces/list.interface';
 import {
   DataSearch,
   FilterOptions,
@@ -16,9 +17,9 @@ import { AdvanceSearchService } from './services/advancesearch.service';
 @Component({
   selector: 'app-advancesearch',
   templateUrl: './advancesearch.component.html',
-  styles: ['']
+  styles: [''],
 })
-export class AdvancesearchComponent {
+export class AdvancesearchComponent implements OnInit {
   @ViewChild('closeModal') closeModal: any;
 
   @Output() filterSearch = new EventEmitter<DataSearch[]>();
@@ -29,7 +30,7 @@ export class AdvancesearchComponent {
   isModalActive: boolean = false;
   valor: string = '';
 
-  @Input() fields: FieldList[] = [];
+  @Input() fields!: FieldList[];
 
   filterOptions: FilterOptions[] = [];
 
@@ -42,31 +43,37 @@ export class AdvancesearchComponent {
     return this.form.get('filter') as FormArray;
   }
 
-  getOptions(option: string) {
-    const optionsSearch = this.fields
-                          .filter((field) => field.key == option)
-                          .map((field) => field.optionsSearch );
-
-    this.setFilterOptions(optionsSearch[0]);
-  }
-
-  setFilterOptions(optionsSearch: any) {
-    this.filterOptions = [];
-    this.advanceSearchService.getOptionsSearch().subscribe((filter) => {
-      filter.forEach((options) => {
-        if (!optionsSearch || optionsSearch[options.option] !== false) {
-          this.filterOptions.push(options);
-        }
-      });
-    });
-  }
-
   ngOnInit(): void {
     this.formFilter = this.filterAddNew();
 
     this.form = this.fb.group({
       filter: this.fb.array([]),
     });
+  }
+
+  getOptions(option: string) {
+    const nameOptionsSearch = this.fields.find(
+      (item) => item.key === option
+    )?.optionsSearch;
+    this.setFilterOptions(nameOptionsSearch);
+  }
+
+  setFilterOptions(optionsSearch: OptionsSearch | undefined): void {
+    this.filterOptions = [];
+    this.advanceSearchService
+      .getOptionsSearch()
+      .subscribe((filter: FilterOptions[]) => {
+        if (optionsSearch !== undefined) {
+          filter.forEach((item) => {
+            const optionKey = item.option as keyof OptionsSearch;
+            if (optionsSearch[optionKey] !== false) {
+              this.filterOptions.push(item);
+            }
+          });
+        } else {
+          this.filterOptions = filter;
+        }
+      });
   }
 
   filterAdd() {
@@ -91,24 +98,17 @@ export class AdvancesearchComponent {
       this.formFilterArray.removeAt(i);
     }
   }
-  
-  resetSearch(){
+
+  resetSearch() {
     this.filterRemoveAll();
     let filters: DataSearch[] = [];
     this.filterSearch.emit(filters);
   }
 
   getSearch() {
-    // if (this.search == this.form.get('filter')?.value) {
-    //   return;
-    // }
-
     this.closeModal.nativeElement.click();
-
     this.search = this.form.get('filter')?.value ?? '';
-
     let filters: DataSearch[] = [];
-
     this.search.forEach((item: DataSearch) => {
       if (!item.field || !item.option) {
         return;

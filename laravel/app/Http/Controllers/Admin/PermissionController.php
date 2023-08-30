@@ -6,7 +6,6 @@ use App\Models\Permission;
 use Illuminate\Http\Request;
 use App\Helpers\Form\FormFields;
 use App\Helpers\Form\Type\NumberType;
-use App\Helpers\Form\Type\SelectType;
 use App\Helpers\Form\Type\TextType;
 use App\Helpers\List\ListFields;
 use App\Helpers\List\Type\DateTimeColumn;
@@ -18,7 +17,6 @@ use App\Http\Requests\Permission\PermissionUpdateRequest;
 use App\Http\Resources\Permission\PermissionCollection;
 use App\Http\Resources\Permission\PermissionResource;
 use App\Helpers\ApiResponse;
-use Illuminate\Support\Facades\Route;
 
 class PermissionController extends AdminController
 {
@@ -107,7 +105,7 @@ class PermissionController extends AdminController
      *
      * @return void
      */
-    public function getFormFields()
+    public function getFieldsForm()
     {
         $permissions = Permission::get();
         $optionsPermissions = [];
@@ -120,7 +118,7 @@ class PermissionController extends AdminController
         $this->fields->add('name', TextType::class, ['label' => 'Name', 'required' => true]);
         $this->fields->add('description', TextType::class, ['label' => 'Description', 'required' => true]);
 
-        return ApiResponse::success(['fields' => $this->fields->getFields()], 'Fields form users');
+        return parent::getFieldsForm();
     }
 
     /**
@@ -128,7 +126,7 @@ class PermissionController extends AdminController
      *
      * @return void
      */
-    public function getListFields()
+    public function getFieldsList()
     {
         $this->fields = new ListFields();
         $this->fields->add('id', NumberColumn::class);
@@ -138,9 +136,7 @@ class PermissionController extends AdminController
         $this->fields->add('created_at', DateTimeColumn::class, ['label' => 'Creado']);
         $this->fields->add('updated_at', DateTimeColumn::class, ['label' => 'Actualizado']);
 
-        $fields = $this->fields->getFields();
-
-        return ApiResponse::success(['fields' => $fields], 'Fields list permissions');
+        return parent::getFieldsList();
     }
 
 }

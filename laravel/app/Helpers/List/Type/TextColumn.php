@@ -3,7 +3,7 @@
 namespace App\Helpers\List\Type;
 
 use App\Helpers\List\Type\ColumnType;
-use App\Http\Controllers\Api\SearchController;
+use App\Http\Controllers\Admin\SearchController;
 
 class TextColumn implements ColumnType
 {

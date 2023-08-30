@@ -72,8 +72,6 @@ export class AuthService {
   loginUser(formData: AuthDataRequest) {
     return this.http.post<AuthResponse>(`${this.baseUrl}/login`, formData).pipe(
       tap((response) => {
-        console.log(response);
-        
         if (!response.data.token) {
           this.notification.error('Oops algo ha pasado, token no es valido!', {
             text: 'Vuelve a intentarlo',
@@ -106,7 +104,6 @@ export class AuthService {
       })
       .pipe(
         map((response: AuthCheckResponse) => {
-          console.log(response);
           if (!response.data.checkToken) {
             this.clearToken();
             return false;
@@ -128,7 +125,6 @@ export class AuthService {
     } else {
       permission = this.entity + '.' + dataPermission.action;
     }
-    console.log(permission);
     return this.http
     .post(`${this.baseUrl}/check-permissions`, {permission}, {headers: this.headers})
     .pipe(

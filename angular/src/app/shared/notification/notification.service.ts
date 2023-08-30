@@ -28,10 +28,10 @@ export class NotificationService {
   }
 
   confirm(message: string, options?: SweetAlertOptions) {
-    return this.Confirm.fire({ ...options, title: message });
+    return this.Confirm.fire({ ...options, title: message })
+    .then((result) => result.isConfirmed);
   }
 
-  // convenience methods
   success(message: string, options?: SweetAlertOptions) {
     this.toast({
       ...options,
@@ -72,4 +72,5 @@ export class NotificationService {
     });
   }
 }
+
 

@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller as Controller;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use App\Helpers\ApiResponse;
+use Illuminate\Support\Facades\Auth;
+
 
 class AdminController extends Controller
 {
@@ -16,6 +17,11 @@ class AdminController extends Controller
      * Carntidad registros por pagina
      */
     public $perPage = 10;
+
+    /**
+     * Current page
+     */
+    public $currentPage = 1;
 
     /**
      * Ordenamiento
@@ -140,24 +146,32 @@ class AdminController extends Controller
         return response()->json($response, $code);
     }
 
-    public function getListFields()
+    public function getFieldsList()
     {
         $routeName = Route::currentRouteName();
         $this->authorize($routeName);
 
-
         $fields = $this->fields->getFields();
 
-        return ApiResponse::success(['fields' => $fields], 'Fields list users');
+        /** @var User $user */
+        $user = Auth::user();
+        $deletable = $user->can('delete', $this->model);
+        $editable = $user->can('update', $this->model);
+
+        return ApiResponse::success([
+            'fields' => $fields,
+            'deletable' => $deletable,
+            'editable' => $editable,
+        ], 'Fields list route: ' . $routeName);
     }
 
-    public function getFormFields()
+    public function getFieldsForm()
     {
         $routeName = Route::currentRouteName();
         $this->authorize($routeName, $this->getModel());
 
         $fields = $this->fields->getFields();
 
-        return ApiResponse::success(['fields' => $fields], 'Fields list users');
+        return ApiResponse::success(['fields' => $fields], 'Fields form route: ' . $routeName);
     }
 }

@@ -1,7 +1,7 @@
-export interface LangsResponse {
+export interface LangResponse {
     data: LangResponseData[];
-    links:LangsResponseLinks;
-    meta: LangsResponseMeta;
+    links:LangResponseLinks;
+    meta: LangResponseMeta;
 }
 
 export interface LangResponseData {
@@ -33,25 +33,25 @@ export interface LangLinks {
     self: string;
 }
 
-export interface LangsResponseLinks {
+export interface LangResponseLinks {
     first: string;
     last:  string;
-    prev:  null;
-    next:  null;
+    prev:  null | string;
+    next:  string;
 }
 
-export interface LangsResponseMeta {
+export interface LangResponseMeta {
     current_page: number;
     from:         number;
     last_page:    number;
-    links:        LangsMetaLink[];
+    links:        LangMetaLink | undefined;
     path:         string;
     per_page:     number;
     to:           number;
     total:        number;
 }
 
-export interface LangsMetaLink {
+export interface LangMetaLink {
     url:    null | string;
     label:  string;
     active: boolean;

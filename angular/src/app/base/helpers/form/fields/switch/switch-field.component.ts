@@ -32,7 +32,6 @@ export class SwitchFieldComponent implements OnInit{
   
   onChange(event: any) {
     this.label = event.target.checked ? this.field.options[0].name : this.field.options[1].name;
-    console.log(this.form.controls[this.field.key].value);
   }
 
 }

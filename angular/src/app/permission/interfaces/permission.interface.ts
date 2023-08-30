@@ -1,7 +1,7 @@
-export interface PermissionsResponse {
+export interface PermissionResponse {
   data: PermissionResponseData[];
-  links: PermissionsResponseLinks;
-  meta: PermissionsResponseMeta;
+  links: PermissionResponseLinks;
+  meta: PermissionResponseMeta;
 }
 
 export interface PermissionResponseData {
@@ -19,46 +19,41 @@ export interface PermissionAttribute {
   updated_at: string;
 }
 
-export interface Permission {
-  id: number;
-  value: string;
-}
-
 export interface PermissionLinks {
   self: string;
 }
 
-export interface PermissionsResponseLinks {
+export interface PermissionResponseLinks {
   first: string;
   last: string;
-  prev: null;
-  next: null;
+  prev: null | string;
+  next: string;
 }
 
-export interface PermissionsResponseMeta {
+export interface PermissionResponseMeta {
   current_page: number;
   from: number;
   last_page: number;
-  links: PermissionsMetaLink[];
+  links: PermissionMetaLink | undefined;
   path: string;
   per_page: number;
   to: number;
   total: number;
 }
 
-export interface PermissionsMetaLink {
+export interface PermissionMetaLink {
   url: null | string;
   label: string;
   active: boolean;
 }
 
-export interface HasPermissionsResponse {
-  data: PermissionsData;
+export interface HasPermissionResponse {
+  data: PermissionData;
   message: string;
   success: string;
 }
 
-export interface PermissionsData {
+export interface PermissionData {
   hasPermission: boolean;
 }
 
