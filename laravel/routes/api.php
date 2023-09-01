@@ -82,6 +82,7 @@ Route::name(env('PREF_PERMISSION_ADMIN'))->group(function () {
         Route::apiResource('/siteurls', SiteUrlController::class);
 
         // Configurations
+        Route::get('/configurations/fieldsform', [ConfigurationController::class, 'getFieldsForm'])->name('configurations.fieldsform');
         Route::apiResource('/configurations', ConfigurationController::class);
     });
 });

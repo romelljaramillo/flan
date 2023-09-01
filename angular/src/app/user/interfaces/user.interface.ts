@@ -1,5 +1,5 @@
 export interface UserResponse {
-  data:  UserResponseData[];
+  data:  UserResponseData[] | UserResponseData;
   links: UserResponseLinks;
   meta:  UserResponseMeta;
 }
@@ -42,7 +42,7 @@ export interface UserResponseMeta {
   current_page: number;
   from:         number;
   last_page:    number;
-  links:        UserMetaLink | undefined;
+  links?:       UserMetaLink;
   path:         string;
   per_page:     number;
   to:           number;

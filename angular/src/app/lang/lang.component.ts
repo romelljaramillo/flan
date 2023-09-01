@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { LangAttribute, LangResponse, LangResponseData } from './interfaces/lang.interface';
+import { LangAttribute, LangResponse, LangResponseData, LangResponseLinks, LangResponseMeta } from './interfaces/lang.interface';
 import { BaseComponent } from '../base/base.component';
 import { LangService } from './services/lang.service';
 import { AuthService } from '../auth/services/auth.service';
@@ -37,9 +37,11 @@ import { NotificationService } from '../shared/notification/notification.service
       </div>
     </div>`,
 })
-export class LangComponent extends BaseComponent {
-  override items: LangResponseData[] = [];
-  override item!: LangResponseData;
+export class LangComponent extends BaseComponent<
+  LangResponse,
+  LangResponseData,
+  LangResponseMeta
+> {
 
   constructor(
     protected langService: LangService,

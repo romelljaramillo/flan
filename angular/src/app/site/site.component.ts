@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { SiteResponseData } from './interfaces/site.interface';
+import { SiteResponse, SiteResponseData, SiteResponseMeta } from './interfaces/site.interface';
 import { BaseComponent } from '../base/base.component';
 import { SiteService } from './services/site.service';
 import { AuthService } from '../auth/services/auth.service';
@@ -37,9 +37,11 @@ import { NotificationService } from '../shared/notification/notification.service
     </div>
   </div>`,
 })
-export class SiteComponent extends BaseComponent {
-  override items: SiteResponseData[] = [];
-  override item!: SiteResponseData;
+export class SiteComponent extends BaseComponent<
+SiteResponse,
+SiteResponseData,
+SiteResponseMeta
+> {
 
   constructor(
     protected siteService: SiteService,

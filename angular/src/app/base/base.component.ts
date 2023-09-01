@@ -2,7 +2,6 @@ import { Component, OnInit, Optional } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import {
-  BaseAttribute,
   BaseResponse,
   BaseResponseData,
   BaseResponseMeta,
@@ -29,7 +28,12 @@ import { FieldModel } from './helpers/form/fields';
     </div>
   </div>`,
 })
-export class BaseComponent implements OnInit {
+export class BaseComponent<
+  T extends BaseResponse,
+  D extends BaseResponseData,
+  M extends BaseResponseMeta
+> implements OnInit
+{
   protected formSubscription?: Subscription;
   protected formPostSubscription?: Subscription;
   public permission: PermissionData = { hasPermission: false };
@@ -46,9 +50,9 @@ export class BaseComponent implements OnInit {
     filterAdvance: [],
   };
 
-  public items!: BaseResponseData[];
-  public item!: BaseResponseData;
-  public meta: BaseResponseMeta = {
+  public items!: D[];
+  public item!: D;
+  public meta: M = {
     current_page: 1,
     from: 0,
     last_page: 1,
@@ -57,7 +61,8 @@ export class BaseComponent implements OnInit {
     per_page: 10,
     to: 0,
     total: 0,
-  };
+  } as unknown as M;
+
   public fieldsList!: FieldList[];
   public fieldsForm!: FieldModel<string>[];
   public editable: boolean = false;
@@ -65,7 +70,7 @@ export class BaseComponent implements OnInit {
   public isFormActive: boolean = false;
 
   constructor(
-    protected baseService: BaseService<BaseResponse>,
+    private baseService: BaseService<T>,
     protected authService: AuthService,
     @Optional() protected notificationService?: NotificationService
   ) {}
@@ -81,12 +86,11 @@ export class BaseComponent implements OnInit {
   getAll(): void {
     this.isLoading = true;
     this.baseService.getAll(this.filters).subscribe((response) => {
-      // console.log('getAll ' , response);
       this.isLoading = false;
       if (response.data && response.data instanceof Array) {
-        this.items = response.data;
+        this.items = response.data as unknown as D[];
         if (response.meta) {
-          this.meta = response.meta;
+          this.meta = response.meta as unknown as M;
         }
         this.getList();
       }
@@ -107,22 +111,22 @@ export class BaseComponent implements OnInit {
     });
   }
 
-  add(data: BaseAttribute) {
+  add(data: D) {
     this.baseService.create(data).subscribe((response) => {
       this.notificationService?.success('Se ha creado con éxito.');
       this.getAll();
     });
   }
 
-  update(data: BaseAttribute) {
-    if(!data.id) return;
+  update(data: D) {
+    if (!data.id) return;
     this.baseService.update(data.id, data).subscribe((response) => {
       this.notificationService?.success('Actualización exitosa.');
       this.getAll();
     });
   }
 
-  onSubmitAction(data: BaseAttribute) {
+  onSubmitAction(data: D) {
     if (!data) return;
     if (data.id) {
       this.update(data);
@@ -136,11 +140,11 @@ export class BaseComponent implements OnInit {
     this.getAll();
   }
 
-  onEdit(item: BaseResponseData) {
+  onEdit(item: D) {
     if (!item.id) return;
     this.baseService.getById(item.id).subscribe((response) => {
       if (response.data && !(response.data instanceof Array)) {
-        this.item = response.data;
+        this.item = response.data as unknown as D;
         this.isFormActive = true;
       }
     });
@@ -152,11 +156,15 @@ export class BaseComponent implements OnInit {
     });
   }
 
-  onDelete(item: BaseAttribute) {
+  onDelete(item: D) {
     if (!item.id) return;
 
-    if(!this.notificationService?.confirm('Está seguro de eliminar?', {
-      text: '¡No podrás revertir esto!'})) return;
+    if (
+      !this.notificationService?.confirm('Está seguro de eliminar?', {
+        text: '¡No podrás revertir esto!',
+      })
+    )
+      return;
 
     this.baseService.delete(item.id).subscribe((response) => {
       if (response) {
@@ -165,5 +173,4 @@ export class BaseComponent implements OnInit {
       }
     });
   }
-
 }

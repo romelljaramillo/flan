@@ -6,6 +6,9 @@ use App\Models\Configuration;
 use Illuminate\Http\Request;
 use App\Http\Requests\Configuration\ConfigurationStoreRequest;
 use App\Http\Requests\Configuration\ConfigurationUpdateRequest;
+use App\Helpers\Form\FormFields;
+use App\Helpers\Form\Type\CheckboxType;
+use App\Helpers\ApiResponse;
 
 class ConfigurationController extends AdminController
 {
@@ -40,5 +43,20 @@ class ConfigurationController extends AdminController
         $configuration = Configuration::find($id);
         $configuration->delete();
         return response()->json(null, 204);
+    }
+
+    /**
+     * Devuelve los campos que se van a renderizar en el formulario
+     *
+     * @return void
+     */
+    public function getFieldsForm()
+    {
+        $this->fields = new FormFields();
+        $this->fields->add('RJ_SSL_ENABLED', CheckboxType::class, ['label' => 'Activar SSL en todas las páginas']);
+        $this->fields->add('RJ_DISPLAY_MANUFACTURERS', CheckboxType::class, ['label' => 'Mostrar marcas']);
+        $this->fields->add('RJ_BLOCK_BESTSELLERS_DISPLAY', CheckboxType::class, ['label' => 'Mostrar los productos más vendidos']);
+
+        return parent::getFieldsForm();
     }
 }

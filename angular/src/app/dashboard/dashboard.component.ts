@@ -7,6 +7,6 @@ import { BaseResponse } from '../base/interfaces/base.interface';
   templateUrl: './dashboard.component.html',
   styles: ['']
 })
-export class DashboardComponent extends BaseComponent {
+export class DashboardComponent {
 
 }
