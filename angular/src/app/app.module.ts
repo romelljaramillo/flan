@@ -9,7 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BaseModule } from './base/base.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { AuthInterceptorService } from './auth/interceptor/auth-interceptor';
+import { AuthInterceptor } from './auth/interceptor/auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,7 @@ import { AuthInterceptorService } from './auth/interceptor/auth-interceptor';
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptorService,
+      useClass: AuthInterceptor,
       multi: true
     }
   ],

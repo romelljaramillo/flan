@@ -30,7 +30,7 @@ export interface BaseResponseMeta {
   current_page: number;
   from:         number;
   last_page:    number;
-  links?:        BaseMetaLink;
+  links?:       BaseMetaLink;
   path:         string;
   per_page:     number;
   to:           number;

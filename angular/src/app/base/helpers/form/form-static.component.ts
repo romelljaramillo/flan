@@ -9,18 +9,9 @@ import { FormControlService } from './services/form-control.service';
 @Component({
   selector: 'app-form-default',
   styles: [''],
-  template: `<div *ngIf="isActiveForm" class="card card-primary mt-2">
+  template: `<div class="card card-primary mt-2">
     <div class="card-header">
       <h3 class="card-title">Formulario</h3>
-      <button
-            #Modal
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true" (click)="closeForm()">×</span>
-      </button>
     </div>
     <div class="card-body">
       <form (ngSubmit)="onSubmit()" [formGroup]="form" autocomplete="off">
@@ -29,14 +20,6 @@ import { FormControlService } from './services/form-control.service';
         </div>
         <div class="row mt-3">
           <div class="col-sm-6 text-left">
-            <button
-              type="button"
-              class="btn btn-default"
-              data-dismiss="modal"
-              (click)="closeForm()"
-            >
-              cancel
-            </button>
           </div>
           <div class="col-sm-6 text-right">
             <button type="submit" class="btn btn-primary">Guardar</button>
@@ -46,12 +29,11 @@ import { FormControlService } from './services/form-control.service';
     </div>
   </div>`,
 })
-export class FormDefaultComponent implements OnInit {
+export class FormStaticComponent implements OnInit {
   public fields!: FieldModel<string>[];
   public form!: FormGroup;
   private subscActiveForm?: Subscription;
   private subscFieldsForm?: Subscription;
-  public isActiveForm: boolean = false;
 
   constructor(
     private formService: FormService,
@@ -61,7 +43,6 @@ export class FormDefaultComponent implements OnInit {
   ngOnInit() {
     this.form = new FormGroup({});
     this.subscActiveForm = this.formService!.activeForm.subscribe((active) => {
-      this.isActiveForm = active;
       if (active) {
         this.subscFieldsForm = this.formService.fields.subscribe(
           (fields: FieldModel<string>[]) => {
@@ -89,11 +70,6 @@ export class FormDefaultComponent implements OnInit {
     const values = this.form.value;
     this.formControlService.processCheckboxFields(values);
     this.formService!.postForm.emit(values);
-    this.closeForm();
-  }
-
-  closeForm() {
-    this.formService!.activeForm.emit(false);
   }
 
   ngOnDestroy() {

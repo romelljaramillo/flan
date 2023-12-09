@@ -4,42 +4,35 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { environment } from 'src/environments/environment';
 
 const USER_LOCAL_STORAGE_KEY = 'token';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthInterceptorService implements HttpInterceptor {
+export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-  
-    const token: string = localStorage.getItem(USER_LOCAL_STORAGE_KEY) || '';;
 
-    let request = req;
+    const token = this.authService.token;
 
-    if (token) {
-      request = req.clone({
-        setHeaders: {
-          authorization: `Bearer ${ token }`
-        }
-      });
+    if (token === null || this.isThirdPartyRequest(req.url)) {
+      return next.handle(req);
     }
 
-    return next.handle(request).pipe(
-      catchError((err: HttpErrorResponse) => {
+    const requestWithHeader = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-        if (err.status === 401) {
-          localStorage.removeItem(USER_LOCAL_STORAGE_KEY);
-          this.router.navigateByUrl('/login');
-        }
-
-        return throwError( err );
-
-      })
-    );
+    return next.handle(requestWithHeader);
   }
-
+  
+  private isThirdPartyRequest(url: string): boolean {
+    return url.startsWith(environment.API_BASE_URL) === false;
+  }
 }

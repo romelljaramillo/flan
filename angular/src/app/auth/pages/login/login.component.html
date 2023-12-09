@@ -7,45 +7,58 @@
         <div class="card">
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
-    
-                <form class="form-horizontal form-material" 
-                    autocomplete="off"
-                    [formGroup]="loginForm"
-                    (ngSubmit)="login()"
-                    id="loginform">
+
+                <form class="form-horizontal form-material" autocomplete="off" [formGroup]="loginForm"
+                    (ngSubmit)="signIn()" id="loginform">
 
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Email" 
-                        formControlName="email" id="email">
+                        <input type="email" class="form-control" placeholder="Email" formControlName="email" id="email">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
                             </div>
                         </div>
+
+                        <app-form-error-container [forControl]="emailControl">
+                            <app-form-error-msg forErrorCode="required"></app-form-error-msg>
+                            <app-form-error-msg forErrorCode="email"></app-form-error-msg>
+                        </app-form-error-container>
                     </div>
-                    <div class="text-danger" *ngIf="!isEmailValid">email, no es valido</div>
+                    
+                    <!-- <div class="text-danger" *ngIf="!isEmailValid">email, no es valido</div> -->
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Password" 
-                        formControlName="password" id="password">
+                        <input type="password" class="form-control" placeholder="Password" formControlName="password"
+                            id="password">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
                             </div>
                         </div>
+
+                        <app-form-error-container [forControl]="passwordControl">
+                            <app-form-error-msg forErrorCode="required"></app-form-error-msg>
+                        </app-form-error-container>
                     </div>
-                    <div class="text-danger" *ngIf="!isPasswordValid">Password, no es valido</div>
+                    
+                    <app-form-error-container [forControl]="loginForm">
+                        <app-form-error-msg forErrorCode="invalidCredentials"></app-form-error-msg>
+                    </app-form-error-container>
+
+                    <!-- <div class="text-danger" *ngIf="!isPasswordValid">Password, no es valido</div> -->
                     <div class="row">
                         <div class="col-8">
-                            <div class="icheck-primary">
-                                <input type="checkbox" id="remember" formControlName="remember">
-                                <label for="remember">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="remember" formControlName="remember">
+                                <label class="form-check-label" for="remember">
                                     Remember Me
                                 </label>
                             </div>
                         </div>
                         <!-- /.col -->
                         <div class="col-4">
-                            <button type="submit"  class="btn btn-primary btn-block">
+                            <button type="submit" 
+                            [disabled]="(loginForm.statusChanges | async) !== 'VALID'"
+                            class="btn btn-primary btn-block">
                                 <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
                                 Sign In
                             </button>
@@ -53,12 +66,11 @@
                         <!-- /.col -->
                     </div>
                 </form>
-    
                 <p class="mb-1">
-                    <a href="forgot-password.html">I forgot my password</a>
+                    <a routerLink="/login">I forgot my password</a>
                 </p>
                 <p class="mb-0">
-                    <a routerLink="../register" class="text-center">Register a new membership</a>
+                    <a routerLink="/login" class="text-center">Register a new membership</a>
                 </p>
             </div>
             <!-- /.login-card-body -->

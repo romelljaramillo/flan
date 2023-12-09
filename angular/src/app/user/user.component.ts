@@ -8,6 +8,7 @@ import { BaseComponent } from '../base/base.component';
 import { UserService } from './services/user.service';
 import { AuthService } from '../auth/services/auth.service';
 import { NotificationService } from '../shared/notification/notification.service';
+import { TypeForm } from '../base/helpers/form/form.component';
 
 @Component({
   selector: 'app-user',

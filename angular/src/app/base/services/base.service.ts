@@ -18,6 +18,7 @@ import { environment } from 'src/environments/environment';
 export abstract class BaseService<T> {
   public url: string = '';
   public entity: string = '';
+  private baseUrl = environment.API_BASE_URL;
 
   constructor(
     protected http: HttpClient,
@@ -40,8 +41,7 @@ export abstract class BaseService<T> {
     }
 
     return this.http
-      .get<T>(`${environment.baseUrl}/${this.url}`, {
-        headers: this.authService.headers,
+      .get<T>(`${this.baseUrl}/${this.url}`, {
         params,
       })
       .pipe(catchError((error) => this.errorHandlerService.handleError(error)));
@@ -49,14 +49,12 @@ export abstract class BaseService<T> {
 
   getById(id: string): Observable<T> {
     return this.http
-      .get<T>(`${environment.baseUrl}/${this.url}/${id}`, {
-        headers: this.authService.headers,
+      .get<T>(`${this.baseUrl}/${this.url}/${id}`, {
       })
       .pipe(catchError((error) => this.errorHandlerService.handleError(error)));
   }
 
   create<T>(record: T): Observable<T> {
-    const headers = this.authService.headers;
     let formData: any = new FormData();
 
     for (const key in record) {
@@ -64,7 +62,7 @@ export abstract class BaseService<T> {
     }
 
     return this.http
-      .post<T>(`${environment.baseUrl}/${this.url}`, formData, { headers })
+      .post<T>(`${this.baseUrl}/${this.url}`, formData)
       .pipe(catchError((error) => this.errorHandlerService.handleError(error)));
   }
 
@@ -78,25 +76,19 @@ export abstract class BaseService<T> {
     formData.append('_method', 'PUT');
 
     return this.http
-      .post<T>(`${environment.baseUrl}/${this.url}/${id}`, formData, {
-        headers: this.authService.headers,
-      })
+      .post<T>(`${this.baseUrl}/${this.url}/${id}`, formData)
       .pipe(catchError((error) => this.errorHandlerService.handleError(error)));
   }
 
   delete(id: string): Observable<T> {
     return this.http
-      .delete<T>(`${environment.baseUrl}/${this.url}/${id}`, {
-        headers: this.authService.headers,
-      })
+      .delete<T>(`${this.baseUrl}/${this.url}/${id}`)
       .pipe(catchError((error) => this.errorHandlerService.handleError(error)));
   }
 
   getFieldsList(): Observable<FieldResponseList> {
     return this.http
-      .get<FieldResponseList>(`${environment.baseUrl}/${this.url}/fieldslist`, {
-        headers: this.authService.headers,
-      })
+      .get<FieldResponseList>(`${this.baseUrl}/${this.url}/fieldslist`)
       .pipe(
         map((response: FieldResponseList) => response),
         catchError((error) => this.errorHandlerService.handleError(error))
@@ -105,9 +97,7 @@ export abstract class BaseService<T> {
 
   getFieldsForm() {
     return this.http
-      .get<FieldResponseForm>(`${environment.baseUrl}/${this.url}/fieldsform`, {
-        headers: this.authService.headers,
-      })
+      .get<FieldResponseForm>(`${this.baseUrl}/${this.url}/fieldsform`)
       .pipe(
         map((response: FieldResponseForm) => response.data.fields),
         catchError((error) => this.errorHandlerService.handleError(error))

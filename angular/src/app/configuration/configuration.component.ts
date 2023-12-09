@@ -9,6 +9,7 @@ import { BaseComponent } from '../base/base.component';
 import { ConfigurationService } from './services/configuration.service';
 import { AuthService } from '../auth/services/auth.service';
 import { NotificationService } from '../shared/notification/notification.service';
+import { TypeForm } from '../base/helpers/form/form.component';
 
 @Component({
   selector: 'app-configuration',
@@ -40,5 +41,7 @@ export class ConfigurationComponent extends BaseComponent<
     protected override notificationService?: NotificationService
   ) {
     super(configurationService, authService, notificationService);
+    this.typeForm = TypeForm.static;
+    this.isFormActive = true;
   }
 }

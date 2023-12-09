@@ -93,8 +93,8 @@ export class ListComponent<T extends BaseResponseData> implements OnInit {
   deleteAction(item: T) {
     this.notificationService?.confirm('Está seguro de eliminar?', {
       text: '¡No podrás revertir esto!',
-    }).then((result: any) => {
-      if (result.isConfirmed) {
+    }).then((result: boolean = false) => {
+      if (result) {
         this.delete.emit(item);
       }
     });

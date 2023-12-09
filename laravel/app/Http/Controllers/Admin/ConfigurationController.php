@@ -18,8 +18,10 @@ class ConfigurationController extends AdminController
         return response()->json($configurations);
     }
 
-    public function store(ConfigurationStoreRequest $request)
+    public function store(Request $request)
     {
+        $name = $request->input('name');
+        $value = $request->input('value');
         $configuration = Configuration::create($request->all());
         return response()->json($configuration, 201);
     }
@@ -31,7 +33,7 @@ class ConfigurationController extends AdminController
         return response()->json($configuration);
     }
 
-    public function update(ConfigurationUpdateRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $configuration = Configuration::find($id);
         $configuration->update($request->all());

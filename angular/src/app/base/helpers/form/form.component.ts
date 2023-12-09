@@ -1,17 +1,18 @@
-import { Component, ComponentRef, EventEmitter, Input, OnChanges, OnInit, Output, Type, ViewChild } from '@angular/core';
+import { Component, ComponentRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { FormService } from './services/form.service';
-import { FieldForm } from './interfaces/form.interface';
 import { BaseResponseData } from '../../interfaces/base.interface';
 import { InsertFormDirective } from './insert-form.directive';
-import { FormModalsComponent } from './form-modals.component';
 import { FormDefaultComponent } from './form-default.component';
+import { FormModalsComponent } from './form-modals.component';
+import { FormStaticComponent } from './form-static.component';
 import { FieldModel } from './fields/field-model';
 
 export enum TypeForm {
   default = 'default',
+  static = 'static',
   modal = 'modal',
 }
 
@@ -19,7 +20,7 @@ export enum TypeForm {
   selector: 'app-form',
   styles: [''],
   template: `<div class="text-right">
-      <button
+      <button *ngIf="btnNew"
         type="button"
         class="btn btn-primary btn-sm mb-2 "
         title="crear nuevo"
@@ -39,6 +40,8 @@ export class FormComponent<T extends BaseResponseData> implements OnInit, OnChan
   @Input() dataAttibute: any = {};
   @Input() fields!: FieldModel<string>[];
   @Output() submitAction = new EventEmitter<T>();
+
+  public btnNew: boolean = true;
 
   public form!: FormGroup;
   componentRef!: ComponentRef<FormModalsComponent | FormDefaultComponent>;
@@ -67,15 +70,26 @@ export class FormComponent<T extends BaseResponseData> implements OnInit, OnChan
     if(this.isActive && this.fields && this.data?.attribute){
       this.dataAttibute = this.data.attribute;
       this.formService.getForm(this.fields, this.dataAttibute);
+    } else if(this.isActive && this.fields){
+      this.formService.getForm(this.fields,[]);
     }
   }
 
   loadForm() {
     const viewContainerRef = this.insertForm.viewContainerRef;
     viewContainerRef.clear();
-    (this.typeForm === TypeForm.modal)
-      ? this.componentRef = viewContainerRef.createComponent(FormModalsComponent)
-      : this.componentRef = viewContainerRef.createComponent(FormDefaultComponent);
+    switch (this.typeForm) {
+      case TypeForm.modal:
+        viewContainerRef.createComponent(FormModalsComponent);
+        break;
+      case TypeForm.static:
+        this.btnNew = false;
+        viewContainerRef.createComponent(FormStaticComponent);
+        break;
+      default:
+        viewContainerRef.createComponent(FormDefaultComponent);
+        break;
+    }
   }
 
   onActiveForm() {

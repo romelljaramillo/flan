@@ -46,6 +46,11 @@ const routes: Routes = [
         loadChildren: () => import('../../site/site.module').then(m => m.SiteModule),
         data: { title: 'Sites', entity: 'sites', action: ActionCrud.list } as RouteDataPermission,
       },
+      {
+        path: 'configurations',
+        loadChildren: () => import('../../configuration/configuration.module').then(m => m.ConfigurationModule),
+        data: { title: 'Sites', entity: 'sites', action: ActionCrud.list } as RouteDataPermission,
+      },
     ]
   },
 ];

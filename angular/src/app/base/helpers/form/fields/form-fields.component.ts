@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FieldModel } from './field-model';
 
@@ -24,12 +24,8 @@ import { FieldModel } from './field-model';
   </div>
 </ng-container>`,
 })
-export class FormFieldsComponent implements OnInit {
+export class FormFieldsComponent {
   @Input() field!: FieldModel<string>;
   @Input() form!: FormGroup;
 
-  constructor() {}
-
-  ngOnInit() {
-  }
 }

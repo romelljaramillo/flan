@@ -38,6 +38,7 @@ export class BaseComponent<
   protected formPostSubscription?: Subscription;
   public permission: PermissionData = { hasPermission: false };
   public typeForm: TypeForm = TypeForm.modal;
+  public isFormActive: boolean = false;
   public isLoading: boolean = false;
 
   public total: number = 0;
@@ -67,7 +68,6 @@ export class BaseComponent<
   public fieldsForm!: FieldModel<string>[];
   public editable: boolean = false;
   public deletable: boolean = false;
-  public isFormActive: boolean = false;
 
   constructor(
     private baseService: BaseService<T>,
@@ -158,14 +158,6 @@ export class BaseComponent<
 
   onDelete(item: D) {
     if (!item.id) return;
-
-    if (
-      !this.notificationService?.confirm('Está seguro de eliminar?', {
-        text: '¡No podrás revertir esto!',
-      })
-    )
-      return;
-
     this.baseService.delete(item.id).subscribe((response) => {
       if (response) {
         this.notificationService?.success('Se ha eliminado con éxito.');

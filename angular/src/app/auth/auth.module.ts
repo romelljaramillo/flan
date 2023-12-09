@@ -9,6 +9,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { HasRoleDirective } from '../role/directives/hasrole.directive';
 import { AuthRoutingModule } from './auth.routing.module';
+import { FormExtensionsModule } from '../base/helpers/form/form-extensions/form-extensions.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { AuthRoutingModule } from './auth.routing.module';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    FormExtensionsModule
   ]
 })
 export class AuthModule { }

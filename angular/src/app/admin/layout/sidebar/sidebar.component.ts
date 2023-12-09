@@ -24,6 +24,9 @@ export class SidebarComponent implements OnInit {
     { tab: 'International', icon: 'globe', submenu: [
       {title: 'Langs', url: '/dashboard/langs', icon: 'circle'}
     ]},
+    { tab: 'Parámetros del site', icon: 'cog', submenu: [
+      {title: 'Configuración', url: '/dashboard/configurations', icon: 'circle'}
+    ]},
     { tab: 'Parámetros Avanzados', icon: 'cog', submenu: [
       {title: 'Sites', url: '/dashboard/sites', icon: 'circle'}
     ]},

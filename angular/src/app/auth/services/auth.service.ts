@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -21,7 +21,7 @@ import { RouteDataPermission } from 'src/app/permission/interfaces/permission.in
 })
 export class AuthService {
   public USER_LOCAL_STORAGE_KEY = 'token';
-  public baseUrl = environment.baseUrl;
+  public baseUrl = environment.API_BASE_URL;
   public user: UserAttribute | any;
   public _entity: string = '';
 
@@ -40,14 +40,6 @@ export class AuthService {
     this._entity = entity;
   }
 
-  get headers() {
-    return new HttpHeaders()
-      .set('Accept-Language', 'application/json')
-      .set('Accept', 'application/json')
-      .set('Authorization', 'Bearer ' + this.token);
-    // .set("Content-Type", "multipart/form-data")
-  }
-
   get token(): string {
     return localStorage.getItem(this.USER_LOCAL_STORAGE_KEY) || '';
   }
@@ -61,15 +53,13 @@ export class AuthService {
   }
 
   logout(): void {
-    this.http
-      .get(`${this.baseUrl}/logout`, { headers: this.headers })
-      .subscribe(() => {
-        this.clearToken();
-        this.redirectToLogin();
-      });
+    this.http.get(`${this.baseUrl}/logout`).subscribe(() => {
+      this.clearToken();
+      this.redirectToLogin();
+    });
   }
 
-  loginUser(formData: AuthDataRequest) {
+  login(formData: AuthDataRequest): Observable<boolean | any> {
     return this.http.post<AuthResponse>(`${this.baseUrl}/login`, formData).pipe(
       tap((response) => {
         if (!response.data.token) {
@@ -77,14 +67,11 @@ export class AuthService {
             text: 'Vuelve a intentarlo',
             icon: 'error',
           });
-
-          this.redirectToLogin();
         }
-
         this.token = response.data.token;
       }),
       tap(() => this.redirectToDashboard()),
-      catchError( error => this.errorHandlerService.handleError(error))
+      catchError((error) => this.errorHandlerService.handleError(error))
     );
   }
 
@@ -98,39 +85,35 @@ export class AuthService {
       return of(false);
     }
 
-    return this.http
-      .get<AuthCheckResponse>(`${this.baseUrl}/check-token`, {
-        headers: this.headers,
-      })
-      .pipe(
-        map((response: AuthCheckResponse) => {
-          if (!response.data.checkToken) {
-            this.clearToken();
-            return false;
-          }
-          this.user = new UserModel(response.data.user.attribute);
-          return true;
-        }),
-        catchError(() => {
+    return this.http.get<AuthCheckResponse>(`${this.baseUrl}/check-token`).pipe(
+      map((response: AuthCheckResponse) => {
+        if (!response.data.checkToken) {
           this.clearToken();
-          return of(false);
-        })
-      );
+          return false;
+        }
+        this.user = new UserModel(response.data.user.attribute);
+        return true;
+      }),
+      catchError(() => {
+        this.clearToken();
+        return of(false);
+      })
+    );
   }
 
   checkPermission(dataPermission: RouteDataPermission): Observable<boolean> {
     let permission = '';
-    if(this.entity === '') {
+    if (this.entity === '') {
       permission = dataPermission.entity + '.' + dataPermission.action;
     } else {
       permission = this.entity + '.' + dataPermission.action;
     }
     return this.http
-    .post(`${this.baseUrl}/check-permissions`, {permission}, {headers: this.headers})
-    .pipe(
-      map((response: any) => response.can),
-      catchError(() => of(false))
-    );
+      .post(`${this.baseUrl}/check-permissions`, { permission })
+      .pipe(
+        map((response: any) => response.can),
+        catchError(() => of(false))
+      );
   }
 
   redirectToDashboard(): void {
