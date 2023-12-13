@@ -38,27 +38,58 @@
     <!-- Sidebar Menu -->
     <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-        <li *ngFor="let menu of menuRoutes" class="nav-item">
-          <a href="javascript:void(0)" class="nav-link">
-            
-            <i *ngIf="menu.icon" class="nav-icon fas fa-{{menu.icon}}"></i>
-            <p>
-              {{menu.tab | slice:0:17}}
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview" *ngFor="let submenu of menu.submenu">
-            <li class="nav-item">
-              <a routerLink="{{submenu.url}}"  routerLinkActive="active-link" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <i *ngIf="submenu.icon" class="nav-icon fas fa-{{submenu.icon}}"></i>
-                <p>{{submenu.title}}</p>
+        @for (menu of menuRoutes; track $index) {
+          <li class="nav-item">
+            @if(menu.url){
+              <a routerLink="{{menu.url}}" class="nav-link">
+                @if (menu.icon) {
+                  <i class="nav-icon fas fa-{{menu.icon}}"></i>
+                } @else {
+                  <i class="nav-icon fas fa-circle-notch"></i>
+                }
+                <p>
+                  {{menu.tab | slice:0:17}}
+                  @if(menu.submenu) {
+                    <i class="right fas fa-angle-left"></i>
+                  }
+                </p>
               </a>
-            </li>
-          </ul>
-        </li>
+            } @else {
+              <a href="javascript:void(0)" routerLinkActive="active" class="nav-link">
+                @if (menu.icon) {
+                  <i class="nav-icon fas fa-{{menu.icon}}"></i>
+                } @else {
+                  <i class="nav-icon fas fa-circle-notch"></i>
+                }
+    
+                <p>
+                  {{menu.tab | slice:0:17}}
+                  @if(menu.submenu) {
+                    <i class="right fas fa-angle-left"></i>
+                  }
+                  </p>
+              </a>
+            }
+            
+            @if (menu.submenu) {
+              <ul class="nav nav-treeview">
+                @for (submenu of menu.submenu; track $index) {
+                  <li class="nav-item">
+                    <a routerLink="{{submenu.url}}"  routerLinkActive="active" class="nav-link">
+                      @if (submenu.icon) {
+                        <i class="nav-icon fas fa-{{submenu.icon}}"></i>
+                      } @else {
+                        <i class="nav-icon fas fa-circle-notch"></i>
+                      }
+                      <p>{{submenu.title}}</p>
+                    </a>
+                  </li>
+                }
+              </ul>
+            }
+          </li>
+        }
+
 
       </ul>
     </nav>

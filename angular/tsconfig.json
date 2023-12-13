@@ -1,6 +1,11 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+      "@adminModule/*": ["./src/app/admin/modules/*"],
+      "@adminPage/*": ["./src/app/admin/page/*"],
+      "@adminShared/*": ["./src/app/admin/shared/*"],
+    },
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

@@ -1,11 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/auth/services/auth.service';
-import { UserAttribute } from 'src/app/user/interfaces/user.interface';
+import { SlicePipe } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { UserAttribute } from '@adminModule/user/interfaces/user.interface';
+import { AuthService } from '@adminModule/auth/services/auth.service';
+
 
 declare var $: any;
 
 @Component({
   selector: 'app-sidebar',
+  standalone: true,
+  imports: [
+    RouterModule,
+    SlicePipe
+  ],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
@@ -13,9 +21,7 @@ export class SidebarComponent implements OnInit {
   public user: UserAttribute;
 
   public menuRoutes = [
-    { tab: 'Dashboard', icon: 'tachometer-alt', submenu: [
-      {title: 'Home', url: '/dashboard', icon: 'circle'}
-    ]},
+    { tab: 'Dashboard', icon: 'tachometer-alt', url: '/dashboard'},
     { tab: 'Usuarios', icon: 'users', submenu: [
       {title: 'Usuarios', url: '/dashboard/users', icon: 'circle'},
       {title: 'Roles', url: '/dashboard/roles', icon: 'circle'},
@@ -35,7 +41,7 @@ export class SidebarComponent implements OnInit {
   constructor(
     private authService: AuthService
   ) {
-    this.user = authService.userSession;
+    this.user = this.authService.userSession;
   }
 
   ngOnInit(): void {

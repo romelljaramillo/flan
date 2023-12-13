@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-footer',
+  standalone: true,
   styles: [''],
   template: ` <footer class="main-footer">
     <strong>Copyright &copy; 2014-2021 <a href="#">Admin Sync</a>.</strong>

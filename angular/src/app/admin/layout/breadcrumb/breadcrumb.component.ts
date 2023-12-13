@@ -5,6 +5,10 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-breadcrumb',
+  standalone: true,
+  imports: [
+    BreadcrumbComponent
+  ],
   styles: [''],
   template: `
     <div class="content-header">
