@@ -17,7 +17,7 @@
             "request": "launch",
             "port": 9000,
             "pathMappings": {
-               "/shared/httpd/flan/laravel": "${workspaceFolder}"
+               "/shared/httpd/flan/laravel": "${workspaceFolder}/laravel"
             },
             "log": true,
             "xdebugSettings": {

@@ -23,7 +23,6 @@ import { AbstractControl } from '@angular/forms';
   ],
 })
 export class FormErrorContainerComponent {
-  // tslint:disable-next-line: no-input-rename
   @Input('forControl') control!: AbstractControl | null;
   constructor() {}
 }

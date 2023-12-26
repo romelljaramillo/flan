@@ -11,48 +11,50 @@ import { FormFieldsComponent } from './fields/form-fields.component';
 @Component({
   selector: 'app-form-default',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormFieldsComponent
-  ],
+  imports: [CommonModule, ReactiveFormsModule, FormFieldsComponent],
   styles: [''],
-  template: `<div *ngIf="isActiveForm" class="card card-primary mt-2">
-    <div class="card-header">
-      <h3 class="card-title">Formulario</h3>
-      <button
-            #Modal
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true" (click)="closeForm()">×</span>
-      </button>
-    </div>
-    <div class="card-body">
-      <form (ngSubmit)="onSubmit()" [formGroup]="form" autocomplete="off">
-        <div *ngFor="let field of fields" class="form-row row">
-          <app-form-fields [field]="field" [form]="form">></app-form-fields>
-        </div>
-        <div class="row mt-3">
-          <div class="col-sm-6 text-left">
-            <button
-              type="button"
-              class="btn btn-default"
-              data-dismiss="modal"
-              (click)="closeForm()"
-            >
-              cancel
-            </button>
+  template: `
+    @if (isActiveForm) {
+    <div class="card card-primary mt-2">
+      <div class="card-header">
+        <h3 class="card-title">Formulario</h3>
+        <button
+          #Modal
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true" (click)="closeForm()">×</span>
+        </button>
+      </div>
+      <div class="card-body">
+        <form (ngSubmit)="onSubmit()" [formGroup]="form" autocomplete="off">
+          @for (field of fields; track field.key) {
+          <div class="form-group">
+            <app-form-fields [field]="field" [form]="form">></app-form-fields>
           </div>
-          <div class="col-sm-6 text-right">
-            <button type="submit" class="btn btn-primary">Guardar</button>
+          }
+          <div class="row mt-3">
+            <div class="col-sm-6 text-left">
+              <button
+                type="button"
+                class="btn btn-default"
+                data-dismiss="modal"
+                (click)="closeForm()"
+              >
+                cancel
+              </button>
+            </div>
+            <div class="col-sm-6 text-right">
+              <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
-  </div>`,
+    }
+  `,
 })
 export class FormDefaultComponent implements OnInit {
   public fields!: FieldModel<string>[];

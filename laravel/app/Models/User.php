@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
@@ -37,7 +38,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'profile_photo_path',
+        'profile_avatar',
         'active',
     ];
 
@@ -72,6 +73,13 @@ class User extends Authenticatable
     ];
 
     /**
+     * Disk avatars storage
+     *
+     * @var string
+     */
+    protected $diskAvatar = 'avatar';
+
+    /**
      * Check if the user is an admin.
      *
      * @return bool
@@ -81,16 +89,32 @@ class User extends Authenticatable
         return $this->hasRole('superadmin');
     }
 
+    /**
+     * Check if the user is an admin.
+     *
+     * @return bool
+     */
     public function resolveRouteBinding($value, $field = null)
     {
         return $this->where($field ?? 'id', $value)->withTrashed()->firstOrFail();
     }
 
+    /**
+     * Devuelve el nombre completo del usuario
+     *
+     * @return string
+     */
     public function getFullNameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name;
     }
 
+    /**
+     * Setea el password del usuario
+     *
+     * @param string $password
+     * @return void
+     */
     public function setPasswordAttribute($password)
     {
         if ($password) {
@@ -98,6 +122,25 @@ class User extends Authenticatable
         }
     }
 
+    /**
+     * Obtiene la url del avatar del usuario
+     *
+     * @return string
+     */
+    public function getAvatarAttribute(): string
+    {
+        if (!Storage::disk($this->diskAvatar)->exists($this->profile_avatar)) {
+            return Storage::disk('images')->url('avatar.png');
+        } 
+
+        return Storage::disk($this->diskAvatar)->url($this->profile_avatar);
+    }
+
+    /**
+     * Devuelve si el usuario es demo
+     *
+     * @return boolean
+     */
     public function isDemoUser()
     {
         return $this->email === 'admin2@example.com';

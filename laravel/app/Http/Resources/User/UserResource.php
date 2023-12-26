@@ -5,6 +5,7 @@ namespace App\Http\Resources\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Storage;
 
 class UserResource extends JsonResource
 {
@@ -28,6 +29,7 @@ class UserResource extends JsonResource
             });
         }
 
+
         return [
             'type' => 'users',
             'id' => (string) $this->resource->id,
@@ -41,9 +43,7 @@ class UserResource extends JsonResource
                 'email_verified' => $this->resource->email_verified_at,
                 'two_factor_confirmed' => $this->resource->two_factor_confirmed_at,
                 'current_team_id' => $this->resource->current_team_id,
-                'photo' => $this->resource->profile_photo_path ?
-                URL::route('admin.image', ['path' => 'images/users/' .
-                    $this->resource->profile_photo_path, 'w' => 100, 'h' => 100, 'fit' => 'crop']) : null,
+                'avatar' => $this->resource->avatar,
                 'active' => $this->resource->active,
                 'roles' => $roles,
                 'created_at' => $this->resource->created_at,

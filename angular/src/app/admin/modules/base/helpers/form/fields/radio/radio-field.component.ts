@@ -14,8 +14,8 @@ import { CommonModule } from '@angular/common';
   template: `
     <div class="form-group" [formGroup]="form">
       <label>{{ field.label }}</label>
-
-      <div *ngFor="let option of field.options" class="form-check">
+      @for (option of field.options; track $index) {
+      <div class="form-check">
         <input
           class="form-check-input"
           type="radio"
@@ -24,14 +24,14 @@ import { CommonModule } from '@angular/common';
           [value]="option.id"
           [class]="!isValid ? 'is-invalid' : ''"
         />
-        <label [for]="field.key + option.id" class="form-check-label">{{
-          option.name
-        }}</label>
+        <label [for]="field.key + option.id" class="form-check-label">
+        {{option.name}}
+        </label>
       </div>
-
-      <div class="text-danger" *ngIf="!isValid">
-        {{ field.label }}, no es válido
-      </div>
+      }
+      @if (!isValid) {
+        <div class="text-danger">{{field.label}}, no es valido</div>
+      }
     </div>
   `,
 })

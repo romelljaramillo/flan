@@ -11,12 +11,10 @@ use App\Helpers\Form\Type\NumberType;
 use App\Helpers\Form\Type\PasswordType;
 use App\Helpers\Form\Type\TextType;
 use App\Helpers\Form\Type\SelectType;
-use App\Helpers\List\ListFields;
-use App\Helpers\List\Type\BooleanColumn;
-use App\Helpers\List\Type\DateTimeColumn;
-use App\Helpers\List\Type\ImageColumn;
-use App\Helpers\List\Type\NumberColumn;
-use App\Helpers\List\Type\TextColumn;
+
+use App\Helpers\List\HelperList;
+use App\Facades\ColumnList;
+
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
@@ -26,9 +24,13 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Helpers\ApiResponse;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
+
 
 class UserController extends AdminController
 {
+    protected $diskAvatar = 'avatar';
 
     /**
      * Display a listing of the resource.
@@ -56,10 +58,10 @@ class UserController extends AdminController
     {
         $validatedData = $request->validated();
 
-        if ($request->hasFile('photo')) {
-            $image = $request->file('photo');
-            $filename = $this->saveImage($image);
-            $validatedData['profile_photo_path'] = $filename;
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+            $filename = $this->saveAvatar($avatar);
+            $validatedData['profile_avatar'] = $filename;
         }
 
         $user = User::create($validatedData);
@@ -95,10 +97,16 @@ class UserController extends AdminController
 
         $validatedData = $request->validated();
 
-        if ($request->hasFile('photo')) {
-            $image = $request->file('photo');
-            $filename = $this->saveImage($image);
-            $validatedData['profile_photo_path'] = $filename;
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+
+            $filename = $this->saveAvatar($avatar);
+
+            if ($user->profile_avatar) {
+                $this->deleteAvatar($user->profile_avatar);
+            }
+            
+            $validatedData['profile_avatar'] = $filename;
         }
 
         $user->update($validatedData);
@@ -161,7 +169,7 @@ class UserController extends AdminController
             ]);
         }
         
-        $this->fields->add('photo', ImageType::class, ['label' => 'Imagen Avatar']);
+        $this->fields->add('avatar', ImageType::class, ['label' => 'Imagen Avatar']);
 
         return parent::getFieldsForm();
     }
@@ -173,16 +181,71 @@ class UserController extends AdminController
      */
     public function getFieldsList()
     {
-        $this->fields = new ListFields();
-        $this->fields->add('id', NumberColumn::class);
-        $this->fields->add('photo', ImageColumn::class, ['label' => 'Avatar']);
-        $this->fields->add('name', TextColumn::class, ['label' => 'Usuario']);
-        $this->fields->add('first_name', TextColumn::class, ['label' => 'Nombre']);
-        $this->fields->add('last_name', TextColumn::class, ['label' => 'Apellidos']);
-        $this->fields->add('email', TextColumn::class, ['label' => 'Email']);
-        $this->fields->add('active', BooleanColumn::class, ['label' => 'Activo']);
-        $this->fields->add('created_at', DateTimeColumn::class, ['label' => 'Create']);
+        $this->fields = new HelperList();
+        $this->fields->add('id', ColumnList::NumberColumn());
+        $this->fields->add('avatar', ColumnList::ImageColumn(), ['label' => 'Avatar']);
+        $this->fields->add('name', ColumnList::TextColumn(), ['label' => 'Usuario']);
+        $this->fields->add('first_name', ColumnList::TextColumn(), ['label' => 'Nombre']);
+        $this->fields->add('last_name', ColumnList::TextColumn(), ['label' => 'Apellidos']);
+        $this->fields->add('email', ColumnList::TextColumn(), ['label' => 'Email']);
+        $this->fields->add('active',ColumnList::BooleanColumn(), ['label' => 'Activo']);
+        $this->fields->add('created_at', ColumnList::DateTimeColumn(), ['label' => 'Create']);
 
         return parent::getFieldsList();
+    }
+
+    /**
+     * Guarda la imagen del avatar
+     * 
+     * @param string $avatar
+     * @return string $path
+     */
+    public function saveAvatar($avatar, $width = 200, $height = 200)
+    {
+        
+        if (!$avatar || $avatar->extension() === null) {
+            return false;
+        }
+
+        $image = Image::make($avatar);
+
+        $image->resize($width, $height, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+
+        $resizedContent = $image->stream()->detach();
+
+        $filename = time() . '.' . $avatar->extension();
+
+        Storage::disk($this->diskAvatar)->put($filename, $resizedContent);
+        
+        return $filename;
+
+    }
+
+    /**
+     * Devuelve la url de imagen del avatar
+     * 
+     * @param string $filename
+     * @return string $path
+     */
+    public function getAvatar(string $filename): string
+    {
+        if (!Storage::disk($this->diskAvatar)->exists($filename)) {
+            return Storage::disk('images')->url('avatar.png');
+        } 
+            
+        return Storage::disk($this->diskAvatar)->url($filename);
+    }
+
+    /**
+     * Elimina la imagen del avatar
+     * 
+     * @param string $filename
+     * @return bool
+     */
+    public function deleteAvatar($filename): bool
+    {
+        return Storage::disk($this->diskAvatar)->delete($filename);
     }
 }

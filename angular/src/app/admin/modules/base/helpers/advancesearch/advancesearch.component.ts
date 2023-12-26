@@ -82,11 +82,11 @@ export class AdvancesearchComponent implements OnInit {
       });
   }
 
-  filterAdd() {
+  filterAdd(): void {
     this.formFilterArray.push(this.filterAddNew());
   }
 
-  filterAddNew() {
+  filterAddNew(): FormGroup {
     return this.fb.group({
       field: [''],
       option: [''],

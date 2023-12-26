@@ -20,7 +20,7 @@ export interface UserAttribute {
   email_verified:       string;
   two_factor_confirmed: null | string;
   current_team_id:      null | string;
-  photo:                string;
+  avatar:                string;
   active:               boolean;
   created:              string;
   updated:              string;

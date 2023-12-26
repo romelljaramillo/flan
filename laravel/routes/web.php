@@ -3,6 +3,8 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\Admin\ImagesController;
+use App\Http\Controllers\Admin\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +24,11 @@ use Inertia\Inertia;
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+}); */
 
-Route::middleware([
+// Route::get('/img/{path}', [ImagesController::class, 'show'])->where('path', '.*')->name('image');
+
+/* Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',

@@ -17,7 +17,9 @@ import { CommonModule } from '@angular/common';
       <input type="checkbox" [id]="field.key" [formControlName]="field.key"
         class="custom-control-input" (change)="onChange($event)" [checked]="checked">
       <label [for]="field.key" class="custom-control-label">{{label}}</label>
-      <div class="text-danger" *ngIf="!isValid">{{field.label}} is invalid</div>
+      @if (!isValid) {
+        <div class="text-danger">{{field.label}}, no es valido</div>
+      }
     </div>
     `
 })

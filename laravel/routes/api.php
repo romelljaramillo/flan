@@ -26,17 +26,12 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::get('/', function () {
-
     return response()->json(['message' => 'API v1.0'], 200);
 });
 
 Route::name(env('PREF_PERMISSION_ADMIN'))->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login');
-
-    Route::get('/img/{path}', [ImagesController::class, 'show'])
-    ->where('path', '.*')
-    ->name('image');
-
+    Route::get('/img/{path}', [ImagesController::class, 'show'])->where('path', '.*')->name('image');
     Route::middleware('auth:sanctum')->group(function () {
         // Auth
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

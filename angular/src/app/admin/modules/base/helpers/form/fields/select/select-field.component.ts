@@ -20,13 +20,13 @@ import { CommonModule } from '@angular/common';
         class="form-control"
         [class]="!isValid ? 'is-invalid' : ''" 
         [multiple]="field.multiple">
-        <option *ngFor="let opt of field.options; let i=index" [value]="opt.id">
-          {{ opt.name }}
-        </option>
+        @for(opt of field.options; track $index){
+          <option [value]="opt.id">{{ opt.name }}</option>
+        }
       </select>
-      <div class="text-danger" *ngIf="!isValid">
-        {{ field.label }}, no es valido
-      </div>
+      @if (!isValid) {
+        <div class="text-danger">{{ field.label }}, no es valido</div>
+      }
     </ng-container>
   `,
 })

@@ -33,27 +33,26 @@ export enum TypeForm {
   styles: [''],
   template: `<div class="text-right">
       @if (btnNew && typeForm == 'modal') {
-      <button
-        type="button"
-        class="btn btn-primary btn-sm mb-2 "
-        title="crear nuevo"
-        data-toggle="modal"
-        data-target="#form"
-        (click)="onActiveForm()"
-      >
-        Nuevo
-        <i class="fas fa-plus"></i>
-      </button>
-      } @else {
-      <button
-        type="button"
-        class="btn btn-primary btn-sm mb-2 "
-        title="crear nuevo"
-        (click)="onActiveForm()"
-      >
-        Nuevo
-        <i class="fas fa-plus"></i>
-      </button>
+        <button
+          type="button"
+          class="btn btn-primary btn-sm mb-2 "
+          title="crear nuevo"
+          data-toggle="modal"
+          data-target="#form"
+          (click)="onActiveForm()"
+        >
+          Nuevo
+          <i class="fas fa-plus"></i>
+        </button>
+      } @else if(btnNew) {
+        <button
+          type="button"
+          class="btn btn-primary btn-sm mb-2 "
+          title="crear nuevo"
+          (click)="onActiveForm()">
+          Nuevo
+          <i class="fas fa-plus"></i>
+        </button>
       }
     </div>
     <ng-template appInsertForm></ng-template>`,
@@ -104,14 +103,13 @@ export class FormComponent<T extends BaseResponseData>
   }
 
   loadForm() {
-    // const viewContainerRef = this.viewContainerRef;
     this.viewContainerRef.clear();
     switch (this.typeForm) {
       case TypeForm.modal:
         this.viewContainerRef.createComponent(FormModalsComponent);
         break;
       case TypeForm.static:
-        this.btnNew = false;
+        // this.btnNew = false;
         this.viewContainerRef.createComponent(FormStaticComponent);
         break;
       default:

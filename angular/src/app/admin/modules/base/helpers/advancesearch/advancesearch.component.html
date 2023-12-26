@@ -29,40 +29,41 @@
 
           <div class="row">
             <div class="col-12">
-              <div class="row" formArrayName="filter" *ngFor="let itemForm of formFilterArray.controls; let i = index;">
-                <div class="col-12">
-                  <div class="row" [formGroupName]="i">
-                    <div class="col-4 form-group">
-                      <select class="form-control" formControlName="field" (ngModelChange)="getOptions($event)">
-                        <option value="">Seleccione una opción</option>
-                        <ng-container *ngFor="let field of fields">
-                          <option *ngIf="field['searchAdvance']" value="{{ field['key'] }}">
-                            {{ field['key']  }}
-                          </option>
-                        </ng-container>
-                      </select>
+              @for (itemForm of formFilterArray.controls; track $index) {
+                <div class="row" formArrayName="filter">
+                  <div class="col-12">
+                    <div class="row" [formGroupName]="$index">
+                      <div class="col-4 form-group">
+                        <select class="form-control" formControlName="field" (ngModelChange)="getOptions($event)">
+                          <option value="">Seleccione una opción</option>
+                          @for (field of fields; track $index) {
+                            @if (field['searchAdvance']) {
+                              <option value="{{ field['key'] }}">
+                                {{ field['key']  }}
+                              </option>
+                            }
+                          }
+                        </select>
+                      </div>
+                      <div class="col-3 form-group">
+                        <select class="form-control" formControlName="option">
+                          @for (opt of filterOptions; track $index) {
+                            <option value="{{ opt.option }}">{{opt.description}}</option>
+                          }
+                        </select>
+                      </div>
+                      <div class="col-4 form-group">
+                        <input type="text" class="form-control" formControlName="value" placeholder="buscar...">
+                      </div>
+                      <div class="col-1 form-group">
+                        <button (click)="filterRemove($index)" class="btn btn-sm btn-danger" type="button">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                      </div>
                     </div>
-                    <div class="col-3 form-group">
-                      <select class="form-control" formControlName="option">
-
-                        <ng-container *ngFor="let opt of filterOptions">
-                          <option value="{{ opt.option }}">{{opt.description}}</option>
-                        </ng-container>
-
-                      </select>
-                    </div>
-                    <div class="col-4 form-group">
-                      <input type="text" class="form-control" formControlName="value" placeholder="buscar...">
-                    </div>
-                    <div class="col-1 form-group">
-                      <button (click)="filterRemove(i)" class="btn btn-sm btn-danger" type="button">
-                        <i class="fas fa-minus"></i>
-                      </button>
-                    </div>
-
                   </div>
                 </div>
-              </div>
+              }
 
             </div>
           </div>

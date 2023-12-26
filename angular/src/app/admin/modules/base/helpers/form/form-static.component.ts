@@ -11,11 +11,7 @@ import { FormFieldsComponent } from './fields/form-fields.component';
 @Component({
   selector: 'app-form-default',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormFieldsComponent
-  ],
+  imports: [CommonModule, ReactiveFormsModule, FormFieldsComponent],
   styles: [''],
   template: `<div class="card card-primary mt-2">
     <div class="card-header">
@@ -23,12 +19,13 @@ import { FormFieldsComponent } from './fields/form-fields.component';
     </div>
     <div class="card-body">
       <form (ngSubmit)="onSubmit()" [formGroup]="form" autocomplete="off">
-        <div *ngFor="let field of fields" class="form-row row">
+        @for (field of fields; track field.key) {
+        <div class="form-group">
           <app-form-fields [field]="field" [form]="form">></app-form-fields>
         </div>
+        }
         <div class="row mt-3">
-          <div class="col-sm-6 text-left">
-          </div>
+          <div class="col-sm-6 text-left"></div>
           <div class="col-sm-6 text-right">
             <button type="submit" class="btn btn-primary">Guardar</button>
           </div>

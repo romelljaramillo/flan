@@ -2,7 +2,7 @@
 
 namespace App\Helpers\List\Type;
 
-use App\Helpers\List\Type\ColumnType;
+use App\Helpers\List\ColumnType;
 use App\Http\Controllers\Admin\SearchController;
 
 class TextColumn implements ColumnType

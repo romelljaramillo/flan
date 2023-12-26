@@ -9,11 +9,10 @@ use App\Helpers\Form\Type\NumberType;
 use App\Helpers\Form\Type\SelectType;
 use App\Helpers\Form\Type\TextType;
 use App\Helpers\Form\Type\CheckboxType;
-use App\Helpers\List\ListFields;
-use App\Helpers\List\Type\DateTimeColumn;
-use App\Helpers\List\Type\NumberColumn;
-use App\Helpers\List\Type\TextColumn;
-use App\Helpers\List\Type\BooleanColumn;
+
+use App\Helpers\List\HelperList;
+use App\Facades\ColumnList;
+
 use App\Http\Requests\Site\SiteStoreRequest;
 use App\Http\Requests\Site\SiteUpdateRequest;
 use App\Http\Resources\Site\SiteCollection;
@@ -131,13 +130,13 @@ class SiteController extends AdminController
      */
     public function getFieldsList()
     {
-        $this->fields = new ListFields();
-        $this->fields->add('id', NumberColumn::class);
-        $this->fields->add('name', TextColumn::class, ['label' => 'Nombre']);
-        $this->fields->add('site_group_id', TextColumn::class, ['label' => 'Formato de fecha (completo)']);
-        $this->fields->add('active', BooleanColumn::class, ['label' => 'Estado']);
-        $this->fields->add('created_at', DateTimeColumn::class, ['label' => 'Creado']);
-        $this->fields->add('updated_at', DateTimeColumn::class, ['label' => 'Actualizado']);
+        $this->fields = new HelperList();
+        $this->fields->add('id', ColumnList::NumberColumn());
+        $this->fields->add('name', ColumnList::TextColumn(), ['label' => 'Nombre']);
+        $this->fields->add('site_group_id', ColumnList::TextColumn(), ['label' => 'Formato de fecha (completo)']);
+        $this->fields->add('active', ColumnList::BooleanColumn(), ['label' => 'Estado']);
+        $this->fields->add('created_at', ColumnList::DateTimeColumn(), ['label' => 'Creado']);
+        $this->fields->add('updated_at', ColumnList::DateTimeColumn(), ['label' => 'Actualizado']);
 
         return parent::getFieldsList();
     }

@@ -2,9 +2,10 @@
 
 namespace App\Helpers\List;
 
-use App\Helpers\List\Type\ColumnType;
+use App\Helpers\List\ColumnType;
 
-class ListFields
+
+class HelperList
 {
     protected $fields;
     protected $inputType;

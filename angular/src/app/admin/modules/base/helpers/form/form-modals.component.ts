@@ -10,11 +10,7 @@ import { FormFieldsComponent } from './fields/form-fields.component';
 @Component({
   selector: 'app-form-modals',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormFieldsComponent
-  ],
+  imports: [CommonModule, ReactiveFormsModule, FormFieldsComponent],
   styles: [''],
   template: `<div
     class="modal fade"
@@ -25,6 +21,7 @@ import { FormFieldsComponent } from './fields/form-fields.component';
   >
     <div class="modal-dialog  modal-lg">
       <div class="modal-content">
+      <form (ngSubmit)="onSubmit()" [formGroup]="form" autocomplete="off">
         <div class="modal-header">
           <h4 class="modal-title">formulario</h4>
           <button
@@ -38,10 +35,13 @@ import { FormFieldsComponent } from './fields/form-fields.component';
           </button>
         </div>
         <div class="modal-body">
-          <form (ngSubmit)="onSubmit()" [formGroup]="form" autocomplete="off">
-            <div *ngFor="let field of fields" class="form-row row">
+            @for (field of fields; track field.key) {
+            <div class="form-group">
               <app-form-fields [field]="field" [form]="form">></app-form-fields>
             </div>
+            }
+          </div>
+          <div class="modal-footer">
             <div class="row mt-3">
               <div class="col-sm-6 text-left">
                 <button
@@ -57,9 +57,9 @@ import { FormFieldsComponent } from './fields/form-fields.component';
                 <button type="submit" class="btn btn-primary">Guardar</button>
               </div>
             </div>
-          </form>
+          </div>
+        </form>
         </div>
-      </div>
     </div>
   </div>`,
 })

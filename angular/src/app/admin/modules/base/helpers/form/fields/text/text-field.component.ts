@@ -16,7 +16,9 @@ import { CommonModule } from '@angular/common';
     <label [for]="field.key">{{field.label}}</label>
       <input [type]="field.type" [id]="field.key" [formControlName]="field.key" 
       class="form-control" [class]="!isValid ? 'is-invalid': ''">
-      <div class="text-danger" *ngIf="!isValid">{{field.label}}, no es valido</div>
+      @if (!isValid) {
+        <div class="text-danger">{{field.label}}, no es valido</div>
+      }
     </ng-container> 
     `
 })

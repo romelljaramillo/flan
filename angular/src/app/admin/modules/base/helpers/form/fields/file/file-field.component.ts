@@ -15,21 +15,30 @@ import { CommonModule } from '@angular/common';
     <ng-container [formGroup]="form">
       <label [for]="field.key">{{field.label}}</label>
       <div class="custom-file">
-        <input *ngIf="field.controlType == 'file'" [id]="field.key" [type]="field.type"
-          class="custom-file-input" (change)="onFileChange($event)">
-  
-        <input *ngIf="field.controlType == 'image'" [id]="field.key" [type]="field.type"
-          class="custom-file-input" (change)="onImageChange($event)" accept="image/*">
-  
+        @switch (field.controlType) {
+          @case('file') {
+            <input *ngIf="field.controlType == 'file'" [id]="field.key" [type]="field.type"
+            class="custom-file-input" (change)="onFileChange($event)"/>
+          }
+          @case('image') {
+            <input *ngIf="field.controlType == 'image'" [id]="field.key" [type]="field.type"
+            class="custom-file-input" (change)="onImageChange($event)" accept="image/*">
+            
+          }
+        }
         <label [attr.for]="field.key" class="custom-file-label">Seleccione archivo</label>
       </div>
-  
-      <div *ngIf="field.controlType == 'image'" class="text-center">
-        <img *ngIf="!previewImage" [src]="field.value" class="img-fluid mt-3">
-        <img *ngIf="previewImage" [src]="previewImage" class="img-fluid mt-3">
-      </div>
+      @if(!isValid) {
+        <div class="text-danger">{{field.label}}, no es valido</div>
+      }
 
-      <div class="text-danger" *ngIf="!isValid">{{field.label}}, no es valido</div>
+      @if (field.controlType == 'image') {
+        @if(!previewImage) {
+          <img [src]="field.value" class="img-fluid mt-3">
+        } @else if (previewImage) {
+          <img [src]="previewImage" class="img-fluid mt-3">
+        }
+      }
     </ng-container> 
     `
 })

@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:angular": "node dist/angular/server/server.mjs"
+    "serve:ssr:angular-vite": "node dist/angular-vite/server/server.mjs"
   },
   "private": true,
   "dependencies": {
@@ -24,9 +24,6 @@
     "@ng-bootstrap/ng-bootstrap": "^16.0.0",
     "bootstrap": "^5.2.3",
     "@popperjs/core": "^2.11.6",
-    
-
-
     "admin-lte": "^3.2.0",
     "chart.js": "^4.1.1",
     "chartjs-plugin-annotation": "^2.1.0",

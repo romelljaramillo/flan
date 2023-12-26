@@ -1,4 +1,4 @@
-import { Component, OnInit, Optional, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 
@@ -84,6 +84,9 @@ export class BaseComponent<
     if (this.baseService.url) {
       this.getAll();
       this.getFieldsForm();
+      if(this.typeForm === TypeForm.static) {
+        this.isFormActive = true;
+      }
     }
   }
 
@@ -91,8 +94,12 @@ export class BaseComponent<
     this.isLoading = true;
     this.baseService.getAll(this.filters).subscribe((response) => {
       this.isLoading = false;
+      console.log(response.data);
+
       if (response.data && response.data instanceof Array) {
         this.items = response.data as unknown as D[];
+        console.log(this.items);
+        
         if (response.meta) {
           this.meta = response.meta as unknown as M;
         }
@@ -112,6 +119,12 @@ export class BaseComponent<
       this.fieldsList = response.data.fields;
       this.editable = response.data.editable;
       this.deletable = response.data.deletable;
+    });
+  }
+
+  getFieldsForm() {
+    this.baseService.getFieldsForm().subscribe((response) => {
+      this.fieldsForm = response;
     });
   }
 
@@ -151,12 +164,6 @@ export class BaseComponent<
         this.item = response.data as unknown as D;
         this.isFormActive = true;
       }
-    });
-  }
-
-  getFieldsForm() {
-    this.baseService.getFieldsForm().subscribe((response) => {
-      this.fieldsForm = response;
     });
   }
 

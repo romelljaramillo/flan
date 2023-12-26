@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers\List\Type;
+namespace App\Helpers\List;
 
 interface ColumnType
 {

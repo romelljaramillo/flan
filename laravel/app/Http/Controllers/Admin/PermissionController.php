@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 use App\Helpers\Form\FormFields;
 use App\Helpers\Form\Type\NumberType;
 use App\Helpers\Form\Type\TextType;
-use App\Helpers\List\ListFields;
-use App\Helpers\List\Type\DateTimeColumn;
-use App\Helpers\List\Type\NumberColumn;
-use App\Helpers\List\Type\TextColumn;
+
+use App\Helpers\List\HelperList;
+use App\Facades\ColumnList;
+
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Requests\Permission\PermissionStoreRequest;
 use App\Http\Requests\Permission\PermissionUpdateRequest;
@@ -128,13 +128,13 @@ class PermissionController extends AdminController
      */
     public function getFieldsList()
     {
-        $this->fields = new ListFields();
-        $this->fields->add('id', NumberColumn::class);
-        $this->fields->add('name', TextColumn::class, ['label' => 'Nombre']);
-        $this->fields->add('description', TextColumn::class, ['label' => 'Description']);
-        $this->fields->add('guard_name', TextColumn::class, ['label' => 'Guard']);
-        $this->fields->add('created_at', DateTimeColumn::class, ['label' => 'Creado']);
-        $this->fields->add('updated_at', DateTimeColumn::class, ['label' => 'Actualizado']);
+        $this->fields = new HelperList();
+        $this->fields->add('id', ColumnList::NumberColumn());
+        $this->fields->add('name', ColumnList::TextColumn(), ['label' => 'Nombre']);
+        $this->fields->add('description', ColumnList::TextColumn(), ['label' => 'Description']);
+        $this->fields->add('guard_name', ColumnList::TextColumn(), ['label' => 'Guard']);
+        $this->fields->add('created_at', ColumnList::DateTimeColumn(), ['label' => 'Creado']);
+        $this->fields->add('updated_at', ColumnList::DateTimeColumn(), ['label' => 'Actualizado']);
 
         return parent::getFieldsList();
     }

@@ -31,7 +31,6 @@ import { TextareaFieldComponent } from './textarea/textarea-field.component';
   @if (field.type == 'hidden') {
     <input [formControlName]="field.key" [id]="field.key" [type]="field.type">
   } @else { 
-    <div [ngSwitch]="field.controlType" class="col-sm-12">
     @switch (field.controlType) {
       @case ('hidden') {       
         <input-switch [form]="form" [field]="field"></input-switch>
@@ -73,7 +72,6 @@ import { TextareaFieldComponent } from './textarea/textarea-field.component';
         <input-select [form]="form" [field]="field"></input-select>
       }
     }
-    </div>
   }
 </ng-container>`,
 })

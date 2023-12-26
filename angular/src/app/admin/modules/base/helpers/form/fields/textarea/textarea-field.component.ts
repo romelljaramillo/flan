@@ -15,7 +15,7 @@ declare var $: any;
   styles: [''],
   template: `
     <ng-container [formGroup]="form">
-    <label [for]="field.key">{{field.label}}</label>
+      <label [for]="field.key">{{field.label}}</label>
       <textarea [formControlName]="field.key" [id]="field.key" class="form-control " 
       [rows]="rows" [ngClass]="{'is-invalid':!isValid, 'summernote': displayEditor}"></textarea>
 
