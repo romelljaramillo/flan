@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Site;
-use Illuminate\Http\Request;
-use App\Helpers\Form\HelperForm;
-use App\Facades\FieldForm;
-
-use App\Helpers\List\HelperList;
 use App\Facades\ColumnList;
-
+use App\Facades\FieldForm;
+use App\Helpers\ApiResponse;
+use App\Helpers\Form\HelperForm;
+use App\Helpers\List\HelperList;
 use App\Http\Requests\Site\SiteStoreRequest;
 use App\Http\Requests\Site\SiteUpdateRequest;
 use App\Http\Resources\Site\SiteCollection;
 use App\Http\Resources\Site\SiteResource;
-use App\Helpers\ApiResponse;
+use App\Models\Site;
 use App\Models\SiteGroup;
+use Illuminate\Http\Request;
 
 class SiteController extends AdminController
 {
@@ -112,7 +110,7 @@ class SiteController extends AdminController
         $this->fields->add('name', FieldForm::text(), ['label' => 'Nombre', 'required' => true]);
         $this->fields->add('color', FieldForm::text(), ['label' => 'color']);
         $this->fields->add('site_group_id', FieldForm::select(), ['label' => 'Site Group',
-        'options' => $optionsSiteGroup]);
+            'options' => $optionsSiteGroup]);
         $this->fields->add('active', FieldForm::checkbox(), ['label' => 'Estado']);
 
         return parent::getFieldsForm();
