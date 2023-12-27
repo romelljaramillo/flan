@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\Form\FormFields;
-use App\Helpers\Form\Type\CheckboxType;
-use App\Helpers\Form\Type\NumberType;
-use App\Helpers\Form\Type\TextType;
+use App\Helpers\Form\HelperForm;
+use App\Facades\FieldForm;
 
 use App\Helpers\List\HelperList;
 use App\Facades\ColumnList;
@@ -17,6 +15,7 @@ use App\Http\Resources\Lang\LangResource;
 use App\Models\Lang;
 use Illuminate\Http\Request;
 use App\Helpers\ApiResponse;
+
 
 class LangController extends AdminController
 {
@@ -114,17 +113,16 @@ class LangController extends AdminController
      */
     public function getFieldsForm()
     {
-        $this->fields = new FormFields();
-        $this->fields->add('id', NumberType::class, ['primarykey' => true]);
-        $this->fields->add('name', TextType::class, ['label' => 'Nombre', 'required' => true]);
-        $this->fields->add('iso_code', TextType::class, ['label' => 'Código ISO', 'required' => true]);
-        $this->fields->add('language_code', TextType::class, ['label' => 'Código del idioma', 'required' => true]);
-        $this->fields->add('date_format_lite', TextType::class, ['label' => 'Formato de fecha', 'required' => true]);
-        $this->fields->add('date_format_full', TextType::class, ['label' => 'Formato de fecha (completo)', 'required' => true]);
-        $this->fields->add('locale', TextType::class, ['label' => 'locale', 'required' => true]);
-        $this->fields->add('is_rtl', CheckboxType::class, ['label' => 'Idioma RTL']);
-        $this->fields->add('active', CheckboxType::class, ['label' => 'Estado']);
-        $fields = $this->fields->getFields();
+        $this->fields = new HelperForm();
+        $this->fields->add('id', FieldForm::number(), ['primarykey' => true]);
+        $this->fields->add('name', FieldForm::text(), ['label' => 'Nombre', 'required' => true]);
+        $this->fields->add('iso_code', FieldForm::text(), ['label' => 'Código ISO', 'required' => true]);
+        $this->fields->add('language_code', FieldForm::text(), ['label' => 'Código del idioma', 'required' => true]);
+        $this->fields->add('date_format_lite', FieldForm::text(), ['label' => 'Formato de fecha', 'required' => true]);
+        $this->fields->add('date_format_full', FieldForm::text(), ['label' => 'Formato de fecha (completo)', 'required' => true]);
+        $this->fields->add('locale', FieldForm::text(), ['label' => 'locale', 'required' => true]);
+        $this->fields->add('is_rtl', FieldForm::checkbox(), ['label' => 'Idioma RTL']);
+        $this->fields->add('active', FieldForm::checkbox(), ['label' => 'Estado']);
 
         return parent::getFieldsForm();
     }
@@ -137,15 +135,15 @@ class LangController extends AdminController
     public function getFieldsList()
     {
         $this->fields = new HelperList();
-        $this->fields->add('id', ColumnList::NumberColumn());
-        $this->fields->add('name', ColumnList::TextColumn(), ['label' => 'Nombre']);
-        $this->fields->add('iso_code', ColumnList::TextColumn(), ['label' => 'Código ISO']);
-        $this->fields->add('language_code', ColumnList::TextColumn(), ['label' => 'Código del idioma']);
-        $this->fields->add('date_format_lite', ColumnList::TextColumn(), ['label' => 'Formato de fecha']);
-        $this->fields->add('date_format_full', ColumnList::TextColumn(), ['label' => 'Formato de fecha (completo)']);
-        $this->fields->add('active', ColumnList::BooleanColumn(), ['label' => 'Estado']);
-        $this->fields->add('created_at', ColumnList::DateTimeColumn(), ['label' => 'Creado']);
-        $this->fields->add('updated_at', ColumnList::DateTimeColumn(), ['label' => 'Actualizado']);
+        $this->fields->add('id', ColumnList::number());
+        $this->fields->add('name', ColumnList::text(), ['label' => 'Nombre']);
+        $this->fields->add('iso_code', ColumnList::text(), ['label' => 'Código ISO']);
+        $this->fields->add('language_code', ColumnList::text(), ['label' => 'Código del idioma']);
+        $this->fields->add('date_format_lite', ColumnList::text(), ['label' => 'Formato de fecha']);
+        $this->fields->add('date_format_full', ColumnList::text(), ['label' => 'Formato de fecha (completo)']);
+        $this->fields->add('active', ColumnList::boolean(), ['label' => 'Estado']);
+        $this->fields->add('created_at', ColumnList::datetime(), ['label' => 'Creado']);
+        $this->fields->add('updated_at', ColumnList::datetime(), ['label' => 'Actualizado']);
 
         return parent::getFieldsList();
     }

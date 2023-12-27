@@ -10,27 +10,27 @@ use App\Helpers\List\Type\TextColumn;
 
 class ColumnManager
 {
-    public function booleanColumn()
+    public function boolean()
     {
         return new BooleanColumn();
     }
 
-    public function textColumn()
+    public function text()
     {
         return new TextColumn();
     }
 
-    public function numberColumn()
+    public function number()
     {
         return new NumberColumn();
     }
 
-    public function imageColumn()
+    public function image()
     {
         return new ImageColumn();
     }
 
-    public function dateTimeColumn()
+    public function dateTime()
     {
         return new DateTimeColumn();
     }

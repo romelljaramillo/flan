@@ -4,11 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Site;
 use Illuminate\Http\Request;
-use App\Helpers\Form\FormFields;
-use App\Helpers\Form\Type\NumberType;
-use App\Helpers\Form\Type\SelectType;
-use App\Helpers\Form\Type\TextType;
-use App\Helpers\Form\Type\CheckboxType;
+use App\Helpers\Form\HelperForm;
+use App\Facades\FieldForm;
 
 use App\Helpers\List\HelperList;
 use App\Facades\ColumnList;
@@ -18,7 +15,6 @@ use App\Http\Requests\Site\SiteUpdateRequest;
 use App\Http\Resources\Site\SiteCollection;
 use App\Http\Resources\Site\SiteResource;
 use App\Helpers\ApiResponse;
-
 use App\Models\SiteGroup;
 
 class SiteController extends AdminController
@@ -111,14 +107,13 @@ class SiteController extends AdminController
             $optionsSiteGroup[] = ['id' => $value->id, 'value' => $value->name];
         }
 
-        $this->fields = new FormFields();
-        $this->fields->add('id', NumberType::class, ['primarykey' => true]);
-        $this->fields->add('name', TextType::class, ['label' => 'Nombre', 'required' => true]);
-        $this->fields->add('color', TextType::class, ['label' => 'color']);
-        $this->fields->add('site_group_id', SelectType::class, ['label' => 'Site Group',
+        $this->fields = new HelperForm();
+        $this->fields->add('id', FieldForm::number(), ['primarykey' => true]);
+        $this->fields->add('name', FieldForm::text(), ['label' => 'Nombre', 'required' => true]);
+        $this->fields->add('color', FieldForm::text(), ['label' => 'color']);
+        $this->fields->add('site_group_id', FieldForm::select(), ['label' => 'Site Group',
         'options' => $optionsSiteGroup]);
-        $this->fields->add('active', CheckboxType::class, ['label' => 'Estado']);
-        $fields = $this->fields->getFields();
+        $this->fields->add('active', FieldForm::checkbox(), ['label' => 'Estado']);
 
         return parent::getFieldsForm();
     }
@@ -131,12 +126,12 @@ class SiteController extends AdminController
     public function getFieldsList()
     {
         $this->fields = new HelperList();
-        $this->fields->add('id', ColumnList::NumberColumn());
-        $this->fields->add('name', ColumnList::TextColumn(), ['label' => 'Nombre']);
-        $this->fields->add('site_group_id', ColumnList::TextColumn(), ['label' => 'Formato de fecha (completo)']);
-        $this->fields->add('active', ColumnList::BooleanColumn(), ['label' => 'Estado']);
-        $this->fields->add('created_at', ColumnList::DateTimeColumn(), ['label' => 'Creado']);
-        $this->fields->add('updated_at', ColumnList::DateTimeColumn(), ['label' => 'Actualizado']);
+        $this->fields->add('id', ColumnList::number());
+        $this->fields->add('name', ColumnList::text(), ['label' => 'Nombre']);
+        $this->fields->add('site_group_id', ColumnList::text(), ['label' => 'Formato de fecha (completo)']);
+        $this->fields->add('active', ColumnList::boolean(), ['label' => 'Estado']);
+        $this->fields->add('created_at', ColumnList::datetime(), ['label' => 'Creado']);
+        $this->fields->add('updated_at', ColumnList::datetime(), ['label' => 'Actualizado']);
 
         return parent::getFieldsList();
     }

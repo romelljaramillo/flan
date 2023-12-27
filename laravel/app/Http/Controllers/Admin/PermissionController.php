@@ -2,21 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Permission;
-use Illuminate\Http\Request;
-use App\Helpers\Form\FormFields;
-use App\Helpers\Form\Type\NumberType;
-use App\Helpers\Form\Type\TextType;
-
-use App\Helpers\List\HelperList;
 use App\Facades\ColumnList;
-
+use App\Facades\FieldForm;
+use App\Helpers\ApiResponse;
+use App\Helpers\Form\HelperForm;
+use App\Helpers\List\HelperList;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Requests\Permission\PermissionStoreRequest;
 use App\Http\Requests\Permission\PermissionUpdateRequest;
 use App\Http\Resources\Permission\PermissionCollection;
 use App\Http\Resources\Permission\PermissionResource;
-use App\Helpers\ApiResponse;
+use App\Models\Permission;
+use Illuminate\Http\Request;
 
 class PermissionController extends AdminController
 {
@@ -30,8 +27,8 @@ class PermissionController extends AdminController
         $this->setFilter($request);
 
         $permissions = ($this->filterFields) ?
-            Permission::filterAdvance($this->filterFields)->orderBy($this->column, $this->orderBy)->paginate($this->perPage) :
-            Permission::filter($this->filter)->orderBy($this->column, $this->orderBy)->paginate($this->perPage);
+        Permission::filterAdvance($this->filterFields)->orderBy($this->column, $this->orderBy)->paginate($this->perPage) :
+        Permission::filter($this->filter)->orderBy($this->column, $this->orderBy)->paginate($this->perPage);
 
         return PermissionCollection::make($permissions);
     }
@@ -83,7 +80,7 @@ class PermissionController extends AdminController
         $permissions = explode(',', $request->permissions);
         $permissions = Permission::whereIn('id', $permissions)->pluck('id', 'id');
         $permission->syncPermissions($permissions);
-        
+
         return PermissionResource::make($permission);
     }
 
@@ -113,10 +110,10 @@ class PermissionController extends AdminController
             $optionsPermissions[] = ['id' => $value->id, 'name' => $value->description];
         }
 
-        $this->fields = new FormFields();
-        $this->fields->add('id', NumberType::class, ['primarykey' => true]);
-        $this->fields->add('name', TextType::class, ['label' => 'Name', 'required' => true]);
-        $this->fields->add('description', TextType::class, ['label' => 'Description', 'required' => true]);
+        $this->fields = new HelperForm();
+        $this->fields->add('id', FieldForm::number(), ['primarykey' => true]);
+        $this->fields->add('name', FieldForm::text(), ['label' => 'Name', 'required' => true]);
+        $this->fields->add('description', FieldForm::text(), ['label' => 'Description', 'required' => true]);
 
         return parent::getFieldsForm();
     }
@@ -129,12 +126,12 @@ class PermissionController extends AdminController
     public function getFieldsList()
     {
         $this->fields = new HelperList();
-        $this->fields->add('id', ColumnList::NumberColumn());
-        $this->fields->add('name', ColumnList::TextColumn(), ['label' => 'Nombre']);
-        $this->fields->add('description', ColumnList::TextColumn(), ['label' => 'Description']);
-        $this->fields->add('guard_name', ColumnList::TextColumn(), ['label' => 'Guard']);
-        $this->fields->add('created_at', ColumnList::DateTimeColumn(), ['label' => 'Creado']);
-        $this->fields->add('updated_at', ColumnList::DateTimeColumn(), ['label' => 'Actualizado']);
+        $this->fields->add('id', ColumnList::number());
+        $this->fields->add('name', ColumnList::text(), ['label' => 'Nombre']);
+        $this->fields->add('description', ColumnList::text(), ['label' => 'Description']);
+        $this->fields->add('guard_name', ColumnList::text(), ['label' => 'Guard']);
+        $this->fields->add('created_at', ColumnList::datetime(), ['label' => 'Creado']);
+        $this->fields->add('updated_at', ColumnList::datetime(), ['label' => 'Actualizado']);
 
         return parent::getFieldsList();
     }

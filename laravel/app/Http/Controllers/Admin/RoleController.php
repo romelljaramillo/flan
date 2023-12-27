@@ -2,23 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Role;
-use App\Models\Permission;
-use Illuminate\Http\Request;
-use App\Helpers\Form\FormFields;
-use App\Helpers\Form\Type\NumberType;
-use App\Helpers\Form\Type\CheckboxType;
-use App\Helpers\Form\Type\TextType;
-
-use App\Helpers\List\HelperList;
 use App\Facades\ColumnList;
-
+use App\Facades\FieldForm;
+use App\Helpers\ApiResponse;
+use App\Helpers\Form\HelperForm;
+use App\Helpers\List\HelperList;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Requests\Role\RoleStoreRequest;
 use App\Http\Requests\Role\RoleUpdateRequest;
 use App\Http\Resources\Role\RoleCollection;
 use App\Http\Resources\Role\RoleResource;
-use App\Helpers\ApiResponse;
+use App\Models\Permission;
+use App\Models\Role;
+use Illuminate\Http\Request;
 
 class RoleController extends AdminController
 {
@@ -32,8 +28,8 @@ class RoleController extends AdminController
         $this->setFilter($request);
 
         $roles = ($this->filterFields) ?
-            Role::filterAdvance($this->filterFields)->orderBy($this->column, $this->orderBy)->paginate($this->perPage) :
-            Role::filter($this->filter)->orderBy($this->column, $this->orderBy)->paginate($this->perPage);
+        Role::filterAdvance($this->filterFields)->orderBy($this->column, $this->orderBy)->paginate($this->perPage) :
+        Role::filter($this->filter)->orderBy($this->column, $this->orderBy)->paginate($this->perPage);
 
         return RoleCollection::make($roles);
     }
@@ -84,7 +80,7 @@ class RoleController extends AdminController
         $permissions = explode(',', $request->permissions);
         $permissions = Permission::whereIn('id', $permissions)->pluck('id', 'id');
         $role->syncPermissions($permissions);
-        
+
         return RoleResource::make($role);
     }
 
@@ -114,12 +110,12 @@ class RoleController extends AdminController
             $optionsPermissions[] = ['id' => $value->id, 'name' => $value->description];
         }
 
-        $this->fields = new FormFields();
-        $this->fields->add('id', NumberType::class, ['primarykey' => true]);
-        $this->fields->add('name', TextType::class, ['label' => 'Nombre', 'required' => true]);
-        $this->fields->add('permissions', CheckboxType::class, ['label' => 'Permissions',
+        $this->fields = new HelperForm();
+        $this->fields->add('id', FieldForm::number(), ['primarykey' => true]);
+        $this->fields->add('name', FieldForm::text(), ['label' => 'Nombre', 'required' => true]);
+        $this->fields->add('permissions', FieldForm::checkbox(), ['label' => 'Permissions',
             'options' => $optionsPermissions, 'multiple' => true]);
-        
+
         return parent::getFieldsForm();
     }
 
@@ -131,11 +127,11 @@ class RoleController extends AdminController
     public function getFieldsList()
     {
         $this->fields = new HelperList();
-        $this->fields->add('id', ColumnList::NumberColumn());
-        $this->fields->add('name', ColumnList::TextColumn(), ['label' => 'Nombre']);
-        $this->fields->add('guard_name', ColumnList::TextColumn(), ['label' => 'Guard']);
-        $this->fields->add('created_at', ColumnList::DateTimeColumn(), ['label' => 'Creado']);
-        $this->fields->add('updated_at', ColumnList::DateTimeColumn(), ['label' => 'Actualizado']);
+        $this->fields->add('id', ColumnList::number());
+        $this->fields->add('name', ColumnList::text(), ['label' => 'Nombre']);
+        $this->fields->add('guard_name', ColumnList::text(), ['label' => 'Guard']);
+        $this->fields->add('created_at', ColumnList::datetime(), ['label' => 'Creado']);
+        $this->fields->add('updated_at', ColumnList::datetime(), ['label' => 'Actualizado']);
 
         return parent::getFieldsList();
     }

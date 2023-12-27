@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers\Form\Type;
+namespace App\Helpers\Form;
 
 interface InputType
 {

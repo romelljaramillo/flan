@@ -2,19 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Support\Facades\Auth;
-use App\Helpers\Form\FormFields;
-use App\Helpers\Form\Type\CheckboxType;
-use App\Helpers\Form\Type\EmailType;
-use App\Helpers\Form\Type\ImageType;
-use App\Helpers\Form\Type\NumberType;
-use App\Helpers\Form\Type\PasswordType;
-use App\Helpers\Form\Type\TextType;
-use App\Helpers\Form\Type\SelectType;
-
-use App\Helpers\List\HelperList;
 use App\Facades\ColumnList;
-
+use App\Facades\FieldForm;
+use App\Helpers\ApiResponse;
+use App\Helpers\Form\HelperForm;
+use App\Helpers\List\HelperList;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
@@ -23,10 +15,9 @@ use App\Http\Resources\User\UserResource;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Helpers\ApiResponse;
-use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-
+use Intervention\Image\Facades\Image;
 
 class UserController extends AdminController
 {
@@ -42,8 +33,8 @@ class UserController extends AdminController
         $this->setFilter($request);
 
         $users = ($this->filterFields) ?
-            User::filterAdvance($this->filterFields)->orderBy($this->column, $this->orderBy)->paginate($this->perPage) :
-            User::filter($this->filter)->orderBy($this->column, $this->orderBy)->paginate($this->perPage);
+        User::filterAdvance($this->filterFields)->orderBy($this->column, $this->orderBy)->paginate($this->perPage) :
+        User::filter($this->filter)->orderBy($this->column, $this->orderBy)->paginate($this->perPage);
 
         return UserCollection::make($users);
     }
@@ -69,7 +60,7 @@ class UserController extends AdminController
         $roles = explode(',', $request->roles);
         $roles = Role::whereIn('id', $roles)->pluck('id', 'id');
         $user->syncRoles($roles);
-        
+
         return UserResource::make($user);
     }
 
@@ -93,7 +84,7 @@ class UserController extends AdminController
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $request->active = $request->active === 'true'? 1: 0;
+        $request->active = $request->active === 'true' ? 1 : 0;
 
         $validatedData = $request->validated();
 
@@ -105,7 +96,7 @@ class UserController extends AdminController
             if ($user->profile_avatar) {
                 $this->deleteAvatar($user->profile_avatar);
             }
-            
+
             $validatedData['profile_avatar'] = $filename;
         }
 
@@ -149,27 +140,27 @@ class UserController extends AdminController
             $optionsRoles[] = ['id' => $value->id, 'name' => $value->name];
         }
 
-        $this->fields = new FormFields();
-        $this->fields->add('id', NumberType::class, ['primarykey' => true]);
-        $this->fields->add('name', TextType::class, ['label' => 'Nombre usuario', 'required' => true]);
-        $this->fields->add('first_name', TextType::class, ['label' => 'Nombre', 'required' => true]);
-        $this->fields->add('last_name', TextType::class, ['label' => 'Apellidos', 'required' => true]);
-        $this->fields->add('email', EmailType::class, ['label' => 'Email', 'required' => true]);
-        $this->fields->add('password', PasswordType::class, ['label' => 'Contraseña']);
-        $this->fields->add('active', CheckboxType::class, ['label' => 'Activar']);
+        $this->fields = new HelperForm();
+        $this->fields->add('id', FieldForm::number(), ['primarykey' => true]);
+        $this->fields->add('name', FieldForm::text(), ['label' => 'Nombre usuario', 'required' => true]);
+        $this->fields->add('first_name', FieldForm::text(), ['label' => 'Nombre', 'required' => true]);
+        $this->fields->add('last_name', FieldForm::text(), ['label' => 'Apellidos', 'required' => true]);
+        $this->fields->add('email', FieldForm::email(), ['label' => 'Email', 'required' => true]);
+        $this->fields->add('password', FieldForm::password(), ['label' => 'Contraseña']);
+        $this->fields->add('active', FieldForm::checkbox(), ['label' => 'Activar']);
 
         /** @var User $user */
         $user = Auth::user();
 
         if ($user->hasRole(['superadmin'])) {
-            $this->fields->add('roles', SelectType::class, [
+            $this->fields->add('roles', FieldForm::select(), [
                 'label' => 'Roles',
-                'multiple' => true, 
-                'options' => $optionsRoles
+                'multiple' => true,
+                'options' => $optionsRoles,
             ]);
         }
-        
-        $this->fields->add('avatar', ImageType::class, ['label' => 'Imagen Avatar']);
+
+        $this->fields->add('avatar', FieldForm::image(), ['label' => 'Imagen Avatar']);
 
         return parent::getFieldsForm();
     }
@@ -182,27 +173,27 @@ class UserController extends AdminController
     public function getFieldsList()
     {
         $this->fields = new HelperList();
-        $this->fields->add('id', ColumnList::NumberColumn());
-        $this->fields->add('avatar', ColumnList::ImageColumn(), ['label' => 'Avatar']);
-        $this->fields->add('name', ColumnList::TextColumn(), ['label' => 'Usuario']);
-        $this->fields->add('first_name', ColumnList::TextColumn(), ['label' => 'Nombre']);
-        $this->fields->add('last_name', ColumnList::TextColumn(), ['label' => 'Apellidos']);
-        $this->fields->add('email', ColumnList::TextColumn(), ['label' => 'Email']);
-        $this->fields->add('active',ColumnList::BooleanColumn(), ['label' => 'Activo']);
-        $this->fields->add('created_at', ColumnList::DateTimeColumn(), ['label' => 'Create']);
+        $this->fields->add('id', ColumnList::number());
+        $this->fields->add('avatar', ColumnList::image(), ['label' => 'Avatar']);
+        $this->fields->add('name', ColumnList::text(), ['label' => 'Usuario']);
+        $this->fields->add('first_name', ColumnList::text(), ['label' => 'Nombre']);
+        $this->fields->add('last_name', ColumnList::text(), ['label' => 'Apellidos']);
+        $this->fields->add('email', ColumnList::text(), ['label' => 'Email']);
+        $this->fields->add('active', ColumnList::boolean(), ['label' => 'Activo']);
+        $this->fields->add('created_at', ColumnList::dateTime(), ['label' => 'Create']);
 
         return parent::getFieldsList();
     }
 
     /**
      * Guarda la imagen del avatar
-     * 
+     *
      * @param string $avatar
      * @return string $path
      */
     public function saveAvatar($avatar, $width = 200, $height = 200)
     {
-        
+
         if (!$avatar || $avatar->extension() === null) {
             return false;
         }
@@ -218,14 +209,14 @@ class UserController extends AdminController
         $filename = time() . '.' . $avatar->extension();
 
         Storage::disk($this->diskAvatar)->put($filename, $resizedContent);
-        
+
         return $filename;
 
     }
 
     /**
      * Devuelve la url de imagen del avatar
-     * 
+     *
      * @param string $filename
      * @return string $path
      */
@@ -233,14 +224,14 @@ class UserController extends AdminController
     {
         if (!Storage::disk($this->diskAvatar)->exists($filename)) {
             return Storage::disk('images')->url('avatar.png');
-        } 
-            
+        }
+
         return Storage::disk($this->diskAvatar)->url($filename);
     }
 
     /**
      * Elimina la imagen del avatar
-     * 
+     *
      * @param string $filename
      * @return bool
      */

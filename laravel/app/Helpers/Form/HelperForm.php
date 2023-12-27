@@ -2,9 +2,9 @@
 
 namespace App\Helpers\Form;
 
-use App\Helpers\Form\Type\InputType;
+use App\Helpers\Form\InputType;
 
-class FormFields
+class HelperForm
 {
     protected $fields;
     protected $inputType;

@@ -2,7 +2,7 @@
 
 namespace App\Helpers\Form\Type;
 
-use App\Helpers\Form\Type\InputType;
+use App\Helpers\Form\InputType;
 
 class TextType implements InputType
 {

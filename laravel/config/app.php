@@ -199,6 +199,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         App\Providers\ListServiceProvider::class,
+        App\Providers\FormServiceProvider::class,
     ],
 
     /*
@@ -215,6 +216,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         'Image' => Intervention\Image\Facades\Image::class,
         'ColumnList' => App\Facades\ColumnList::class,
+        'FieldForm' => App\Facades\FieldForm::class,
     ])->toArray(),
 
 ];
