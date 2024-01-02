@@ -2,7 +2,6 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormService } from './services/form.service';
 import { FieldModel } from './fields/field-model';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import { FormControlService } from './services/form-control.service';
 import { CommonModule } from '@angular/common';
 import { FormFieldsComponent } from './fields/form-fields.component';
@@ -105,10 +104,7 @@ export class FormModalsComponent implements OnInit {
 
     const values = this.form.value;
     this.formControlService.processCheckboxFields(values);
-
     this.formService!.postForm.emit(values);
-    
-    // this.closeForm();
   }
 
   closeForm() {

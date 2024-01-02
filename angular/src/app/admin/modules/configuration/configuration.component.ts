@@ -33,5 +33,6 @@ export class ConfigurationComponent extends BaseComponent<
     super(configurationService);
     this.typeForm = TypeForm.default;
     this.isFormActive = true;
+    this.activeForm(true);
   }
 }

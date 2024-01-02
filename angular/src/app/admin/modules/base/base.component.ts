@@ -159,7 +159,7 @@ export class BaseComponent<
     this.baseService.getById(item.id).subscribe((response) => {
       if (response.data && !(response.data instanceof Array)) {
         this.item = response.data.attribute as unknown as D;
-        this.isFormActive = true;
+        this.activeForm(true);
       }
     });
   }
