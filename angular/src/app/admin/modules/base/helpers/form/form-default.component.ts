@@ -1,11 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-
+import { Component, Input, OnInit } from '@angular/core';
 import { FormService } from './services/form.service';
 import { FieldModel } from './fields/field-model';
-import { Subscription } from 'rxjs';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormControlService } from './services/form-control.service';
+import { CommonModule } from '@angular/common';
 import { FormFieldsComponent } from './fields/form-fields.component';
 
 @Component({
@@ -14,8 +12,8 @@ import { FormFieldsComponent } from './fields/form-fields.component';
   imports: [CommonModule, ReactiveFormsModule, FormFieldsComponent],
   styles: [''],
   template: `
-    @if (isActiveForm) {
     <div class="card card-primary mt-2">
+      <form (ngSubmit)="onSubmit()" [formGroup]="form" autocomplete="off">
       <div class="card-header">
         <h3 class="card-title">Formulario</h3>
         <button
@@ -29,13 +27,14 @@ import { FormFieldsComponent } from './fields/form-fields.component';
         </button>
       </div>
       <div class="card-body">
-        <form (ngSubmit)="onSubmit()" [formGroup]="form" autocomplete="off">
           @for (field of fields; track field.key) {
           <div class="form-group">
             <app-form-fields [field]="field" [form]="form">></app-form-fields>
           </div>
           }
-          <div class="row mt-3">
+          </div>
+          <div class="card-footer">          
+            <div class="row mt-3">
             <div class="col-sm-6 text-left">
               <button
                 type="button"
@@ -49,19 +48,14 @@ import { FormFieldsComponent } from './fields/form-fields.component';
             <div class="col-sm-6 text-right">
               <button type="submit" class="btn btn-primary">Guardar</button>
             </div>
+            </div>
           </div>
         </form>
-      </div>
-    </div>
-    }
-  `,
+    </div>`,
 })
 export class FormDefaultComponent implements OnInit {
-  public fields!: FieldModel<string>[];
+  @Input() fields!: FieldModel<string>[];
   public form!: FormGroup;
-  private subscActiveForm?: Subscription;
-  private subscFieldsForm?: Subscription;
-  public isActiveForm: boolean = false;
 
   constructor(
     private formService: FormService,
@@ -70,17 +64,7 @@ export class FormDefaultComponent implements OnInit {
 
   ngOnInit() {
     this.form = new FormGroup({});
-    this.subscActiveForm = this.formService!.activeForm.subscribe((active) => {
-      this.isActiveForm = active;
-      if (active) {
-        this.subscFieldsForm = this.formService.fields.subscribe(
-          (fields: FieldModel<string>[]) => {
-            this.fields = fields;
-            this.form = this.formControlService.toFormGroup(this.fields);
-          }
-        );
-      }
-    });
+    this.form = this.formControlService.toFormGroup(this.fields);
   }
 
   onSubmit() {
@@ -104,10 +88,5 @@ export class FormDefaultComponent implements OnInit {
 
   closeForm() {
     this.formService!.activeForm.emit(false);
-  }
-
-  ngOnDestroy() {
-    this.subscActiveForm?.unsubscribe();
-    this.subscFieldsForm?.unsubscribe();
   }
 }

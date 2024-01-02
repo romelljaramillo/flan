@@ -2,7 +2,6 @@ import { FieldForm, OptionInput } from "../interfaces/form.interface";
 
 export class FieldModel<T> {
   value: any | undefined;
-  // value: T | undefined;
   key: string;
   label: string;
   required: boolean;
@@ -15,10 +14,8 @@ export class FieldModel<T> {
   primarykey: boolean;
   defaultValue: any;
   multiple: boolean;
-
-  constructor(
-    options: FieldForm = {key: ""}
-  ){
+  
+  constructor(options: FieldForm<T> = {key: ""}){
     this.value = options.value;
     this.key = options.key || '';
     this.label = options.label || '';

@@ -49,8 +49,7 @@ export abstract class BaseService<T> {
 
   getById(id: string): Observable<T> {
     return this.http
-      .get<T>(`${this.baseUrl}/${this.url}/${id}`, {
-      })
+      .get<T>(`${this.baseUrl}/${this.url}/${id}`, {})
       .pipe(catchError((error) => this.errorHandlerService.handleError(error)));
   }
 

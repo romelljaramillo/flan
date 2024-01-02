@@ -24,16 +24,15 @@ import { PermissionData } from '@adminModule/permission/interfaces/permission.in
   providedIn: 'root',
 })
 export class FormService {
-  public fields!: Observable<FieldModel<any>[]>;
+  public fields!: Observable<FieldModel<string>[]>;
   public data: any = {};
-  public initForm = new EventEmitter<boolean>();
   public activeForm = new EventEmitter<boolean>();
   public postForm = new EventEmitter<any>();
 
   public files: Array<any> = [];
   public permission: PermissionData = {hasPermission: false};
 
-  getForm(fieldsForm: FieldModel<string>[], data: any) {
+  getForm(fieldsForm: FieldModel<string>[], data: any): Observable<FieldModel<string>[]> {
     const fields: FieldModel<string>[] = [];
 
     if (fieldsForm) {
@@ -41,7 +40,7 @@ export class FormService {
         if(data) {
           field.value = data[field.key];
         } else {
-          field.value = [];
+          field.value = '';
         }
 
         if (!field.primarykey) {
@@ -96,6 +95,6 @@ export class FormService {
       });
     }
     this.fields = of(fields.sort((a, b) => a.order - b.order));
-    this.activeForm.emit(true);
+    return this.fields;
   }
 }

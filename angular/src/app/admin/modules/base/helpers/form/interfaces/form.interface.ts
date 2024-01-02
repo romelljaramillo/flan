@@ -20,9 +20,9 @@ export interface FieldData {
   fields: FieldModel<string>[];
 }
 
-export interface FieldForm {
-  value?: any;
-  key:   string;
+export interface FieldForm<T = any>  {
+  value?: T;
+  key?:   string;
   label?:   string;
   type?:    string; // 'select', 'bool', 'date', 'datetime', 'decimal', 'float', 'percent', 'editable', 'price'
   controlType?:    string; // 'select', 'bool', 'date', 'datetime', 'decimal', 'float', 'percent', 'editable', 'price'

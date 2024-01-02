@@ -17,19 +17,15 @@ import { PermissionData } from '../permission/interfaces/permission.interface';
 import { FieldModel } from './helpers/form/fields';
 import { AuthService } from '@adminModule/auth/services/auth.service';
 import { NotificationService } from '@adminShared/notification/notification.service';
+import { FormService } from './helpers/form/services/form.service';
 
 @Component({
   selector: 'app-base',
   standalone: true,
-  imports: [
-    CommonModule,
-  ],
-  providers: [
-    AuthService,
-    NotificationService,
-  ],
+  imports: [CommonModule],
+  providers: [AuthService, NotificationService],
   styles: [''],
-  templateUrl: './base.component.html',  
+  templateUrl: './base.component.html',
 })
 export class BaseComponent<
   T extends BaseResponse,
@@ -74,19 +70,15 @@ export class BaseComponent<
 
   protected authService = inject(AuthService);
   protected notificationService = inject(NotificationService);
+  protected formService = inject(FormService);
 
-  constructor(
-    private baseService: BaseService<T>,
-  ) {}
-
+  constructor(private baseService: BaseService<T>) {}
+  
   ngOnInit(): void {
     this.authService.entity = this.baseService.entity;
     if (this.baseService.url) {
       this.getAll();
       this.getFieldsForm();
-      if(this.typeForm === TypeForm.static) {
-        this.isFormActive = true;
-      }
     }
   }
 
@@ -94,12 +86,10 @@ export class BaseComponent<
     this.isLoading = true;
     this.baseService.getAll(this.filters).subscribe((response) => {
       this.isLoading = false;
-      console.log(response.data);
 
       if (response.data && response.data instanceof Array) {
         this.items = response.data as unknown as D[];
-        console.log(this.items);
-        
+
         if (response.meta) {
           this.meta = response.meta as unknown as M;
         }
@@ -123,14 +113,15 @@ export class BaseComponent<
   }
 
   getFieldsForm() {
-    this.baseService.getFieldsForm().subscribe((response) => {
-      this.fieldsForm = response;
+    this.baseService.getFieldsForm().subscribe((fields) => {
+      this.fieldsForm = fields;
     });
   }
 
   add(data: D) {
     this.baseService.create(data).subscribe((response) => {
       this.notificationService?.success('Se ha creado con éxito.');
+      this.activeForm(false);
       this.getAll();
     });
   }
@@ -139,13 +130,19 @@ export class BaseComponent<
     if (!data.id) return;
     this.baseService.update(data.id, data).subscribe((response) => {
       this.notificationService?.success('Actualización exitosa.');
+      this.activeForm(false);
       this.getAll();
     });
   }
 
+  activeForm(isActive: boolean = false) {
+    this.isFormActive = isActive;
+    this.formService.activeForm.emit(isActive);
+  }
+
   onSubmitAction(data: D) {
     if (!data) return;
-    if (data.id) {
+    if (data.id && data.id.trim() !== '') {
       this.update(data);
     } else {
       this.add(data);
@@ -161,7 +158,7 @@ export class BaseComponent<
     if (!item.id) return;
     this.baseService.getById(item.id).subscribe((response) => {
       if (response.data && !(response.data instanceof Array)) {
-        this.item = response.data as unknown as D;
+        this.item = response.data.attribute as unknown as D;
         this.isFormActive = true;
       }
     });

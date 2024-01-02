@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormService } from './services/form.service';
 import { FieldModel } from './fields/field-model';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -14,11 +14,13 @@ import { FormFieldsComponent } from './fields/form-fields.component';
   styles: [''],
   template: `<div
     class="modal fade"
-    id="form"
-    tabindex="-1"
+    id="form-modal"
+    tabindex="1"
     aria-labelledby="formLabel"
     aria-hidden="true"
-  >
+    [class.show]="showModal"  
+    [style.display]="showModal ? 'block' : 'none'" 
+    >
     <div class="modal-dialog  modal-lg">
       <div class="modal-content">
       <form (ngSubmit)="onSubmit()" [formGroup]="form" autocomplete="off">
@@ -65,9 +67,10 @@ import { FormFieldsComponent } from './fields/form-fields.component';
 })
 export class FormModalsComponent implements OnInit {
   @ViewChild('Modal') Modal!: ElementRef;
-  public fields!: FieldModel<string>[];
+  @Input() fields!: FieldModel<string>[];
   public form!: FormGroup;
-  private subscActiveForm?: Subscription;
+  public isActiveForm: boolean = false;
+  public showModal: boolean = false;
 
   constructor(
     private formService: FormService,
@@ -76,17 +79,15 @@ export class FormModalsComponent implements OnInit {
 
   ngOnInit() {
     this.form = new FormGroup({});
-    console.log('ngOnInit - FormModalsComponent', this.fields);
-    this.subscActiveForm = this.formService!.activeForm.subscribe((active) => {
-      if (active) {
-        this.subscActiveForm = this.formService.fields.subscribe(
-          (fields: FieldModel<string>[]) => {
-            this.fields = fields;
-            this.form = this.formControlService.toFormGroup(this.fields);
-          }
-        );
-      }
-    });
+    this.form = this.formControlService.toFormGroup(this.fields);
+  }
+
+  openModal() {
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
   }
 
   onSubmit() {
@@ -104,17 +105,18 @@ export class FormModalsComponent implements OnInit {
 
     const values = this.form.value;
     this.formControlService.processCheckboxFields(values);
+
     this.formService!.postForm.emit(values);
-    this.closeForm();
+    
+    // this.closeForm();
   }
 
   closeForm() {
-    this.formService!.activeForm.emit(false);
     this.Modal.nativeElement.click();
+    this.formService!.activeForm.emit(false);
   }
 
   ngOnDestroy() {
-    this.subscActiveForm?.unsubscribe();
     this.Modal.nativeElement.click();
   }
 }
