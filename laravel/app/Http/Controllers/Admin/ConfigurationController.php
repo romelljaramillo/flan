@@ -20,9 +20,21 @@ class ConfigurationController extends AdminController
 
     public function store(Request $request)
     {
-        $name = $request->input('name');
-        $value = $request->input('value');
-        $configuration = Configuration::create($request->all());
+        $input = $request->all();
+        // $request->input('RJ_SSL_ENABLED');
+        // $request->input('RJ_DISPLAY_MANUFACTURERS');
+        // $request->input('RJ_BLOCK_BESTSELLERS_DISPLAY');
+
+        $validated = $request->validate([
+            'RJ_SSL_ENABLED' => 'max:255',
+            'RJ_DISPLAY_MANUFACTURERS' => 'max:255',
+            'RJ_BLOCK_BESTSELLERS_DISPLAY' => 'max:255',
+        ]);
+
+        $configuration = Configuration::UpdateValue('RJ_SSL_ENABLED', $request->input('RJ_SSL_ENABLED'));
+        $configuration = Configuration::UpdateValue('RJ_DISPLAY_MANUFACTURERS', $request->input('RJ_DISPLAY_MANUFACTURERS'));
+        $configuration = Configuration::UpdateValue('RJ_BLOCK_BESTSELLERS_DISPLAY', $request->input('RJ_BLOCK_BESTSELLERS_DISPLAY'));
+
         return response()->json($configuration, 201);
     }
 

@@ -13,137 +13,122 @@
           <button type="submit" title="Buscar" class="btn btn-default" (click)="onFilterEven( terminoSearch.value )">
             <i class="fas fa-search"></i>
           </button>
-          <app-advancesearch *ngIf="isAdvanceSearch" [fields]="fields"
-            (filterSearch)="onFilterAdvanceEven($event)">
-          </app-advancesearch>
+          @if(isAdvanceSearch){
+          <app-advancesearch [fields]="fields" (filterSearch)="onFilterAdvanceEven($event)"></app-advancesearch>
+          }
         </div>
       </div>
     </div>
   </div>
 
   <div class="card-body table-responsive p-10">
-    <ng-template [ngIf]="!total" [ngIfElse]="tableinfo">
-      <div class="alert alert-info">
-        <div class="text-center">
-          <h5>No hay usuarios para mostrar</h5>
-        </div>
+    @if(!total){
+    <div class="alert alert-info">
+      <div class="text-center">
+        <h5>No hay usuarios para mostrar</h5>
       </div>
-    </ng-template>
-    <ng-template #tableinfo>
-      <table aria-labelledby="table" class="table table-hover text-nowrap table-striped">
-        <thead>
-          <tr>
-            <th *ngFor="let field of fields">
-              <ng-template *ngIf="field.orderby; then ifSort else elseSort"></ng-template>
-
-              <ng-template #ifSort>
-                <span (click)="onSortColumn(field['key'])">
-                  {{field.label}}
-                  <i *ngIf="field.orderby" class="fas fa-sort"></i>
-                </span>
-              </ng-template>
-
-              <ng-template #elseSort>
-                <span>{{field.label}}</span>
-              </ng-template>
-
+    </div>
+    } @else {
+    <table aria-labelledby="table" class="table table-hover text-nowrap table-striped">
+      <thead>
+        <tr>
+          @for (field of fields; track $index) {
+            <th>
+              <span (click)="onSortColumn(field['key'])">
+                {{field.label}}
+                @if(field.orderby){
+                <i class="fas fa-sort"></i>
+                }
+              </span>
             </th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of items">
+          }
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(item of items; track $index){
+          <tr>
             <td *ngFor="let field of fields" class="text-{{field.align}}">
               <ng-template [ngIf]="field['type']" [ngIfElse]="defauld">
-
+  
                 <ng-container [ngSwitch]="field.type">
-
+  
                   <ng-container *ngSwitchCase="'image'">
                     <span class="user-block">
                       <img class="img-circle img-bordered-sm" [src]="item.attribute[field['key']] | noimage"
                         alt="{{item.id}}">
                     </span>
                   </ng-container>
-
+  
                   <ng-container *ngSwitchCase="'datetime'">
                     <span>
                       {{item.attribute[field['key']] | date:'dd/MM/YYYY HH:mm'}}
                     </span>
                   </ng-container>
-
+  
                   <ng-container *ngSwitchCase="'date'">
                     <span>
                       {{item.attribute[field['key']] | date:'dd/MM/YYYY'}}
                     </span>
                   </ng-container>
-
+  
                   <ng-container *ngSwitchCase="'boolean'">
                     <span *ngIf="item.attribute[field['key']]" class="text-success">
                       <i class="fas fa-check"></i>
                     </span>
-
+  
                     <span *ngIf="!item.attribute[field['key']]" class="text-danger">
                       <i class="fas fa-times"></i>
                     </span>
                   </ng-container>
-
+  
                   <ng-container *ngSwitchDefault>
                     <span>{{item.attribute[field['key']]}}</span>
                   </ng-container>
                 </ng-container>
-
+  
               </ng-template>
-
+  
               <ng-template #defauld>
                 <span>
                   {{item.attribute[field['key']]}}
                 </span>
               </ng-template>
-
+  
             </td>
             <td class="text-right py-0 align-middle">
               <div class="btn-group btn-group-sm">
-                <button *ngIf="editable" 
-                  type="button" 
-                  class="btn btn-default" 
-                  title="crear nuevo" 
-                  data-toggle="modal"
-                  data-target="#form" 
-                  (click)="editAction(item)">
+                <button *ngIf="editable" type="button" class="btn btn-default" title="crear nuevo" data-toggle="modal"
+                  data-target="#form" (click)="editAction(item)">
                   <i class="fas fa-edit"></i>
                 </button>
-
-                <button *ngIf="deletable" 
-                  type="button" 
-                  class="btn btn-default" 
-                  title="eliminar"
+  
+                <button *ngIf="deletable" type="button" class="btn btn-default" title="eliminar"
                   (click)="deleteAction(item)">
                   <i class="fas fa-trash"></i>
                 </button>
               </div>
             </td>
           </tr>
-        </tbody>
-      </table>
-    </ng-template>
+        }
+      </tbody>
+    </table>
+    }
   </div>
 
   <div class="card-footer clearfix row">
-    <div *ngIf="total > filters.perPage" class="col">
+    @if(total > filters.perPage){
+    <div class="col">
       <div class="input-group">
-        <ngb-pagination 
-          [collectionSize]="total" 
-          [(page)]="filters.page" 
-          [pageSize]="filters.perPage"
-          [maxSize]="filters.perPage" 
-          [rotate]="true" 
-          [ellipses]="true" 
-          [boundaryLinks]="true"
+        <ngb-pagination [collectionSize]="total" [(page)]="filters.page" [pageSize]="filters.perPage"
+          [maxSize]="filters.perPage" [rotate]="true" [ellipses]="true" [boundaryLinks]="true"
           (pageChange)="onPageChange($event)">
         </ngb-pagination>
       </div>
     </div>
-    <div *ngIf="total > filters.perPage" class="col text-right">
+    }
+    @if(total >= filters.perPage){
+    <div class="col text-right">
       <label for="select-per-page" class="m-1">ver</label>
       <select class="custom-select col-6 col-md-2" name="select-per-page" id="select-per-page"
         (ngModelChange)="onFilterPerPage($event)" [(ngModel)]="filters.perPage">
@@ -153,5 +138,6 @@
         <option value="{{total}}">all</option>
       </select>
     </div>
+    }
   </div>
 </div>

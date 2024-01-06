@@ -18,7 +18,7 @@ import { environment } from 'src/environments/environment';
 export abstract class BaseService<T> {
   public url: string = '';
   public entity: string = '';
-  private baseUrl = environment.API_BASE_URL;
+  public baseUrl = environment.API_BASE_URL;
 
   constructor(
     protected http: HttpClient,

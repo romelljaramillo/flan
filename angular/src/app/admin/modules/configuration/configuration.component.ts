@@ -32,7 +32,11 @@ export class ConfigurationComponent extends BaseComponent<
   ) {
     super(configurationService);
     this.typeForm = TypeForm.default;
-    this.isFormActive = true;
     this.activeForm(true);
+  }
+
+  override activeForm(isActive: boolean = false) {
+    this.isFormActive = true;
+    this.formService.activeForm.emit(true);
   }
 }

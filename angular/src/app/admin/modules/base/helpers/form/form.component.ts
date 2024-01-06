@@ -35,8 +35,6 @@ export enum TypeForm {
         type="button"
         class="btn btn-primary btn-sm mb-2 "
         title="crear nuevo"
-        data-toggle="modal"
-        data-target="#form-modal"
         (click)="activeForm(true)"
       >
         Nuevo
@@ -69,20 +67,13 @@ export class FormComponent<T extends BaseResponseData>
   componentRef!: ComponentRef<FormModalsComponent | FormDefaultComponent>;
 
   private subscActiveForm?: Subscription;
-  private subscPostForm?: Subscription;
 
   constructor(
     public formService: FormService,
     private viewContainerRef: ViewContainerRef
-  ) {}
+  ) { }
 
   ngOnInit() {
-    this.subscPostForm = this.formService.postForm.subscribe((dataForm) => {
-      if (dataForm) {
-        this.onSubmitAction(dataForm);
-      }
-    });
-
     this.subscActiveForm = this.formService.activeForm.subscribe((active) => {
       if (!active) {
         this.removerComponente();
@@ -120,29 +111,34 @@ export class FormComponent<T extends BaseResponseData>
     switch (this.typeForm) {
       case TypeForm.modal:
         this.componentRef =
-          this.viewContainerRef.createComponent(FormModalsComponent);
+        this.viewContainerRef.createComponent(FormModalsComponent);
         this.componentRef.instance.fields = this.fields;
-        (this.componentRef.instance as FormModalsComponent).openModal();
+        (this.componentRef.instance as FormModalsComponent).open();
         break;
       default:
         this.componentRef =
-          this.viewContainerRef.createComponent(FormDefaultComponent);
+        this.viewContainerRef.createComponent(FormDefaultComponent);
         this.componentRef.instance.fields = this.fields;
         break;
     }
+
+    this.componentRef.instance.formSubmit.subscribe((dataForm: T) => {
+      this.onSubmitAction(dataForm);
+    });
   }
 
   removerComponente() {
-    this.btnNew = true;
     if(this.componentRef) {
-      this.viewContainerRef.remove(
-        this.viewContainerRef.indexOf(this.componentRef.hostView)
-      );
+      this.componentRef.instance.animateForm = false;
+      
+      setTimeout(() => {
+        this.componentRef.destroy();
+        this.btnNew = true;
+      }, 300); 
     }
   }
 
   ngOnDestroy() {
     this.subscActiveForm?.unsubscribe();
-    this.subscPostForm?.unsubscribe();
   }
 }

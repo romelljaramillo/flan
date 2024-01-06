@@ -57,4 +57,36 @@ class Configuration extends Model
 
         return $default;
     }
+
+    public function scopeUpdateValue($query, string $name, $value, $html = false, $siteGroupId = null, $siteId = null)
+    {
+        // Configuration::updateValue($key, $values, $html, $idShopGroup, $idShop);
+
+        $query->where('name', $name);
+
+        if ($siteGroupId !== null) {
+            $query->where('site_group_id', $siteGroupId);
+        }
+
+        if ($siteId !== null) {
+            $query->where('site_id', $siteId);
+        }
+
+        $configuration = $query->first();
+
+        if ($configuration) {
+            $configuration->value = $value;
+            $configuration->save();
+        } else {
+            $configuration = new Configuration();
+            $configuration->name = $name;
+            $configuration->value = $value;
+            $configuration->site_group_id = $siteGroupId;
+            $configuration->site_id = $siteId;
+            $configuration->save();
+        }
+
+        return $configuration;
+    }
+
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
@@ -15,12 +15,13 @@ import {
 import { UserAttribute } from '../../user/interfaces/user.interface';
 import { UserModel } from '../../user/user.model';
 import { RouteDataPermission } from '@adminModule/permission/interfaces/permission.interface';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  public USER_LOCAL_STORAGE_KEY = 'token';
+  public USER_LOCAL_STORAGE_KEY = '';
   public baseUrl = environment.API_BASE_URL;
   public user: UserAttribute | any;
   public _entity: string = '';
@@ -29,7 +30,8 @@ export class AuthService {
     public http: HttpClient,
     public router: Router,
     public errorHandlerService: ErrorHandlerService,
-    public notification: NotificationService
+    public notification: NotificationService,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   get entity(): string {
@@ -41,7 +43,10 @@ export class AuthService {
   }
 
   get token(): string {
-    return localStorage.getItem(this.USER_LOCAL_STORAGE_KEY) || '';
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem(this.USER_LOCAL_STORAGE_KEY) || '';
+    }
+    return '';
   }
 
   set token(token: string) {

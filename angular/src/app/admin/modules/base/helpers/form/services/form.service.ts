@@ -27,7 +27,6 @@ export class FormService {
   public fields!: Observable<FieldModel<string>[]>;
   public data: any = {};
   public activeForm = new EventEmitter<boolean>();
-  public postForm = new EventEmitter<any>();
 
   public files: Array<any> = [];
   public permission: PermissionData = {hasPermission: false};

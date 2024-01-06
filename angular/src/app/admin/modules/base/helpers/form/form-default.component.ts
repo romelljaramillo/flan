@@ -1,4 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
+import {
+  trigger,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 import { FormService } from './services/form.service';
 import { FieldModel } from './fields/field-model';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -10,51 +16,63 @@ import { FormFieldsComponent } from './fields/form-fields.component';
   selector: 'app-form-default',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormFieldsComponent],
+  animations: [
+    trigger('formAnimation', [
+      transition(':enter', [
+        style({ transform: 'translateY(-10%)' }), // Comienza por encima de la posición final
+        animate('300ms ease-out', style({ transform: 'translateY(0)' })) // Desliza hacia la posición final
+      ]),
+      // Animación de salida: deslizar hacia arriba
+      transition(':leave', [
+        animate('300ms ease-in', style({ transform: 'translateY(-10%)' })) // Desliza hacia arriba
+      ])
+    ])
+  ],
   styles: [''],
-  template: `
-    <div class="card card-primary mt-2">
-      <form (ngSubmit)="onSubmit()" [formGroup]="form" autocomplete="off">
+  template: ` <div @formAnimation class="card card-primary mt-2">
+    <form (ngSubmit)="onSubmit()" [formGroup]="form" autocomplete="off">
       <div class="card-header">
         <h3 class="card-title">Formulario</h3>
         <button
           #Modal
           type="button"
           class="close"
-          data-dismiss="modal"
           aria-label="Close"
         >
-          <span aria-hidden="true" (click)="closeForm()">×</span>
+          <span aria-hidden="true" (click)="close()">×</span>
         </button>
       </div>
       <div class="card-body">
-          @for (field of fields; track field.key) {
-          <div class="form-group">
-            <app-form-fields [field]="field" [form]="form">></app-form-fields>
+        @for (field of fields; track field.key) {
+        <div class="form-group">
+          <app-form-fields [field]="field" [form]="form">></app-form-fields>
+        </div>
+        }
+      </div>
+      <div class="card-footer">
+        <div class="row mt-3">
+          <div class="col-sm-6 text-left">
+            <button
+              type="button"
+              class="btn btn-default"
+              (click)="close()"
+            >
+              cancel
+            </button>
           </div>
-          }
+          <div class="col-sm-6 text-right">
+            <button type="submit" class="btn btn-primary">Guardar</button>
           </div>
-          <div class="card-footer">          
-            <div class="row mt-3">
-            <div class="col-sm-6 text-left">
-              <button
-                type="button"
-                class="btn btn-default"
-                data-dismiss="modal"
-                (click)="closeForm()"
-              >
-                cancel
-              </button>
-            </div>
-            <div class="col-sm-6 text-right">
-              <button type="submit" class="btn btn-primary">Guardar</button>
-            </div>
-            </div>
-          </div>
-        </form>
-    </div>`,
+        </div>
+      </div>
+    </form>
+  </div>`,
 })
 export class FormDefaultComponent implements OnInit {
   @Input() fields!: FieldModel<string>[];
+  @Output() formSubmit = new EventEmitter<any[]>();
+  @HostBinding('@formAnimation') animateForm = true;
+
   public form!: FormGroup;
 
   constructor(
@@ -82,11 +100,10 @@ export class FormDefaultComponent implements OnInit {
 
     const values = this.form.value;
     this.formControlService.processCheckboxFields(values);
-    this.formService!.postForm.emit(values);
-    this.closeForm();
+    this.formSubmit.emit(values);
   }
 
-  closeForm() {
+  close() {
     this.formService!.activeForm.emit(false);
   }
 }

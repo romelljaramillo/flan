@@ -1,5 +1,6 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnInit,
@@ -26,7 +27,7 @@ import { CommonModule } from '@angular/common';
   styles: [''],
 })
 export class AdvancesearchComponent implements OnInit {
-  @ViewChild('closeModal') closeModal: any;
+  @ViewChild('closeModal') closeModal!: ElementRef;
 
   @Output() filterSearch = new EventEmitter<DataSearch[]>();
 
