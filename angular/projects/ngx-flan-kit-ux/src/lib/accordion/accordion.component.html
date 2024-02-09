@@ -1,0 +1,20 @@
+<div class="accordion" [id]="id">
+    @for (item of items; track $index) {
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="item-{{$index}}">
+            <button class="accordion-button" [ngClass]="{'collapsed': !showAll && showItem !== $index }" type="button"
+                data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse-' + $index" aria-expanded="true"
+                [attr.aria-controls]="'collapse-' + $index">
+                {{item.title}}
+            </button>
+        </h2>
+        <div id="collapse-{{$index}}" class="accordion-collapse collapse"
+            [ngClass]="{'show': showAll || showItem === $index}" aria-labelledby="headingOne"
+            [attr.data-bs-parent]="'#item-' + $index">
+            <div class="accordion-body">
+                {{item.content}}
+            </div>
+        </div>
+    </div>
+    }
+</div>

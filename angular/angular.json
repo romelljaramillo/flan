@@ -36,6 +36,7 @@
               "./node_modules/admin-lte/plugins/jquery/jquery.min.js",
               "./node_modules/admin-lte/plugins/jquery-ui/jquery-ui.min.js",
               "./node_modules/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
               "./node_modules/admin-lte/dist/js/adminlte.min.js",
               "./node_modules/admin-lte/plugins/summernote/summernote-bs5.min.js",
               "./node_modules/summernote/dist/summernote-bs5.min.js"
@@ -140,6 +141,38 @@
               "zone.js",
               "zone.js/testing"
             ]
+          }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "configDir": "projects/ngx-flan-kit-ux/.storybook",
+            "browserTarget": "ngx-flan-kit-ux:build",
+            "compodoc": true,
+            "styles": ["node_modules/bootstrap/dist/css/bootstrap.min.css"],
+            "compodocArgs": [
+              "-e",
+              "json",
+              "-d",
+              "projects/ngx-flan-kit-ux"
+            ],
+            "port": 6006
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            "configDir": "projects/ngx-flan-kit-ux/.storybook",
+            "browserTarget": "ngx-flan-kit-ux:build",
+            "compodoc": true,
+            "styles": ["node_modules/bootstrap/dist/css/bootstrap.min.css"],
+            "compodocArgs": [
+              "-e",
+              "json",
+              "-d",
+              "projects/ngx-flan-kit-ux"
+            ],
+            "outputDir": "dist/storybook/ngx-flan-kit-ux"
           }
         }
       }

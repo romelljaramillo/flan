@@ -1,0 +1,1600 @@
+{
+    "pipes": [],
+    "interfaces": [
+        {
+            "name": "Item",
+            "id": "interface-Item-381d8ebc25278bd76a623efc2d8b71e0b4e3c8c4cea5d6ce57a1a481c14512b277fbc461712ca438162fe9238e8e7f4f48ab5ad762ac75a0b4a8fade125164b4",
+            "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.component.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { Component, Input, OnInit } from '@angular/core';\n\nexport interface Item {\n  title?: string | undefined;\n  content: string;\n}\n\n@Component({\n  selector: 'rjb-accordion',\n  standalone: true,\n  imports: [CommonModule],\n  templateUrl: './accordion.component.html',\n  styleUrl: './accordion.component.css',\n})\nexport class AccordionComponent implements OnInit {\n  \n  /**\n   * items to display in the accordion\n   */\n  @Input() items: Item[] = [];\n\n  /**\n   * @description id for the accordion\n   */\n  @Input() id: string = 'rjaccordion';\n\n  /**\n   * Active item index expanded by default undefined value (starts at 0 to n-items)\n   */\n  @Input() showItem: number | null = null;\n\n  /**\n   * Show all items expanded by default false value\n   */\n  @Input() showAll: boolean = false;\n\n  ngOnInit(): void {\n    if (this.showAll) {\n      this.showItem = null;\n    }\n  }\n}\n",
+            "properties": [
+                {
+                    "name": "content",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 6
+                },
+                {
+                    "name": "title",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string | undefined",
+                    "optional": true,
+                    "description": "",
+                    "line": 5
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 171,
+            "methods": [],
+            "extends": []
+        }
+    ],
+    "injectables": [
+        {
+            "name": "NgxFlanKitUxService",
+            "id": "injectable-NgxFlanKitUxService-d6efd4a5c6715bea1220f66a58a8cc7de0a56aabf95c9d546fca0fab311c6117fd7e36da779ef4ee85970140828e34c76a0cfb02e4c05647b41d52dce0832f42",
+            "file": "projects/ngx-flan-kit-ux/src/lib/ngx-flan-kit-ux.service.ts",
+            "properties": [],
+            "methods": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "description": "",
+            "rawdescription": "\n",
+            "sourceCode": "import { Injectable } from '@angular/core';\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class NgxFlanKitUxService {\n\n  constructor() { }\n}\n",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [],
+                "line": 6
+            },
+            "extends": [],
+            "type": "injectable"
+        }
+    ],
+    "guards": [],
+    "interceptors": [],
+    "classes": [],
+    "directives": [],
+    "components": [
+        {
+            "name": "AccordionComponent",
+            "id": "component-AccordionComponent-381d8ebc25278bd76a623efc2d8b71e0b4e3c8c4cea5d6ce57a1a481c14512b277fbc461712ca438162fe9238e8e7f4f48ab5ad762ac75a0b4a8fade125164b4",
+            "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "rjb-accordion",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./accordion.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [
+                {
+                    "name": "id",
+                    "defaultValue": "'rjaccordion'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "pos": 510,
+                            "end": 547,
+                            "flags": 16842752,
+                            "modifierFlagsCache": 0,
+                            "transformFlags": 0,
+                            "kind": 334,
+                            "tagName": {
+                                "pos": 511,
+                                "end": 522,
+                                "flags": 16842752,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 80,
+                                "escapedText": "description"
+                            },
+                            "comment": "<p>id for the accordion</p>\n"
+                        }
+                    ],
+                    "line": 26,
+                    "type": "string",
+                    "decorators": []
+                },
+                {
+                    "name": "items",
+                    "defaultValue": "[]",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nitems to display in the accordion\n",
+                    "description": "<p>items to display in the accordion</p>\n",
+                    "line": 21,
+                    "type": "Item[]",
+                    "decorators": []
+                },
+                {
+                    "name": "showAll",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nShow all items expanded by default false value\n",
+                    "description": "<p>Show all items expanded by default false value</p>\n",
+                    "line": 36,
+                    "type": "boolean",
+                    "decorators": []
+                },
+                {
+                    "name": "showItem",
+                    "defaultValue": "null",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nActive item index expanded by default undefined value (starts at 0 to n-items)\n",
+                    "description": "<p>Active item index expanded by default undefined value (starts at 0 to n-items)</p>\n",
+                    "line": 31,
+                    "type": "number | null",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 38,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "CommonModule",
+                    "type": "module"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { Component, Input, OnInit } from '@angular/core';\n\nexport interface Item {\n  title?: string | undefined;\n  content: string;\n}\n\n@Component({\n  selector: 'rjb-accordion',\n  standalone: true,\n  imports: [CommonModule],\n  templateUrl: './accordion.component.html',\n  styleUrl: './accordion.component.css',\n})\nexport class AccordionComponent implements OnInit {\n  \n  /**\n   * items to display in the accordion\n   */\n  @Input() items: Item[] = [];\n\n  /**\n   * @description id for the accordion\n   */\n  @Input() id: string = 'rjaccordion';\n\n  /**\n   * Active item index expanded by default undefined value (starts at 0 to n-items)\n   */\n  @Input() showItem: number | null = null;\n\n  /**\n   * Show all items expanded by default false value\n   */\n  @Input() showAll: boolean = false;\n\n  ngOnInit(): void {\n    if (this.showAll) {\n      this.showItem = null;\n    }\n  }\n}\n",
+            "styleUrl": "./accordion.component.css",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": [],
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<div class=\"accordion\" [id]=\"id\">\n    @for (item of items; track $index) {\n    <div class=\"accordion-item\">\n        <h2 class=\"accordion-header\" id=\"item-{{$index}}\">\n            <button class=\"accordion-button\" [ngClass]=\"{'collapsed': !showAll && showItem !== $index }\" type=\"button\"\n                data-bs-toggle=\"collapse\" [attr.data-bs-target]=\"'#collapse-' + $index\" aria-expanded=\"true\"\n                [attr.aria-controls]=\"'collapse-' + $index\">\n                {{item.title}}\n            </button>\n        </h2>\n        <div id=\"collapse-{{$index}}\" class=\"accordion-collapse collapse\"\n            [ngClass]=\"{'show': showAll || showItem === $index}\" aria-labelledby=\"headingOne\"\n            [attr.data-bs-parent]=\"'#item-' + $index\">\n            <div class=\"accordion-body\">\n                {{item.content}}\n            </div>\n        </div>\n    </div>\n    }\n</div>"
+        },
+        {
+            "name": "BtnComponent",
+            "id": "component-BtnComponent-a152fdae9f855a58e926d5f0a7ffa9dda068cc50add4c85b5369f33a87012d32bbef4c01b77dcaec03f1be12bd818206172b8c123bd80b0ed11152fc96a4599a",
+            "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "rjb-btn",
+            "styleUrls": [],
+            "styles": [],
+            "template": "@if(expand === 'block') {\n<div class=\"d-grid gap-2\">\n  <button type=\"button\" (click)=\"onClick.emit($event)\" [ngClass]=\"classes\" [disabled]=\"disabled\" [attr.arial-disabled]=\"disabled ? 'true' : 'false'\">\n    <i [ngClass]=\"onIcon\"></i>\n    {{ label }}\n  </button>\n  </div>\n} @else {\n  <button type=\"button\" (click)=\"onClick.emit($event)\" [ngClass]=\"classes\" [disabled]=\"disabled\" [attr.arial-disabled]=\"disabled ? 'true' : 'false'\">\n    <i [ngClass]=\"onIcon\"></i>\n    {{ label }}\n  </button>\n}\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [
+                {
+                    "name": "disabled",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 45,
+                    "type": "boolean",
+                    "decorators": []
+                },
+                {
+                    "name": "expand",
+                    "defaultValue": "''",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 48,
+                    "type": "string",
+                    "decorators": []
+                },
+                {
+                    "name": "icon",
+                    "defaultValue": "'coffee'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 42,
+                    "type": "string",
+                    "decorators": []
+                },
+                {
+                    "name": "label",
+                    "defaultValue": "'Button'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 39,
+                    "type": "string",
+                    "decorators": []
+                },
+                {
+                    "name": "outline",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 33,
+                    "type": "boolean",
+                    "decorators": []
+                },
+                {
+                    "name": "size",
+                    "defaultValue": "'md'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 36,
+                    "type": "\"sm\" | \"md\" | \"lg\"",
+                    "decorators": []
+                },
+                {
+                    "name": "type",
+                    "defaultValue": "'primary'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 30,
+                    "type": "Color",
+                    "decorators": []
+                },
+                {
+                    "name": "css",
+                    "defaultValue": "''",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 16,
+                    "type": "string",
+                    "decorators": [],
+                    "inheritance": {
+                        "file": "CoreComponent"
+                    }
+                },
+                {
+                    "name": "id",
+                    "defaultValue": "''",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 17,
+                    "type": "string",
+                    "decorators": [],
+                    "inheritance": {
+                        "file": "CoreComponent"
+                    }
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "onClick",
+                    "defaultValue": "new EventEmitter<Event>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 50,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "CommonModule",
+                    "type": "module"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { Component, EventEmitter, Input, Output } from '@angular/core';\nimport { Color } from '../../interfaces/types.interface';\nimport { CoreComponent } from '../core/core.component';\n\n@Component({\n  selector: 'rjb-btn',\n  standalone: true,\n  imports: [CommonModule],\n  template: `\n    @if(expand === 'block') {\n    <div class=\"d-grid gap-2\">\n      <button type=\"button\" (click)=\"onClick.emit($event)\" [ngClass]=\"classes\" [disabled]=\"disabled\" [attr.arial-disabled]=\"disabled ? 'true' : 'false'\">\n        <i [ngClass]=\"onIcon\"></i>\n        {{ label }}\n      </button>\n      </div>\n    } @else {\n      <button type=\"button\" (click)=\"onClick.emit($event)\" [ngClass]=\"classes\" [disabled]=\"disabled\" [attr.arial-disabled]=\"disabled ? 'true' : 'false'\">\n        <i [ngClass]=\"onIcon\"></i>\n        {{ label }}\n      </button>\n    }\n  `,\n  styleUrl: './btn.component.css',\n})\nexport class BtnComponent extends CoreComponent {\n\n  @Input()\n  type: Color = 'primary';\n\n  @Input()\n  outline: boolean = false;\n\n  @Input()\n  size: 'sm' | 'md' | 'lg' = 'md';\n\n  @Input()\n  label = 'Button';\n\n  @Input()\n  icon = 'coffee';\n\n  @Input()\n  disabled = false;\n\n  @Input()\n  expand = '';\n\n  @Output() onClick = new EventEmitter<Event>();\n\n  public get classes(): string[] {\n    let btnType: string = `btn-${this.type}`;\n    let size = '';\n    let css = '';\n    let disabled = '';\n\n    if (this.outline) {\n      btnType = `btn-outline-${this.type}`;\n    }\n\n    if (this.size) {\n      size = `btn-${this.size}`;\n    }\n\n    if (this.css) {\n      css = `${this.css}`;\n    }\n\n    if (this.disabled) {\n      disabled = `disabled`;\n    }\n\n    return ['btn', btnType, size, css, disabled];\n\n  }\n\n  public get onIcon(): string {\n    return `fa fa-${this.icon}`;\n  }\n}\n",
+            "styleUrl": "./btn.component.css",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": [
+                "CoreComponent"
+            ],
+            "accessors": {
+                "classes": {
+                    "name": "classes",
+                    "getSignature": {
+                        "name": "classes",
+                        "type": "[]",
+                        "returnType": "string[]",
+                        "line": 52
+                    }
+                },
+                "onIcon": {
+                    "name": "onIcon",
+                    "getSignature": {
+                        "name": "onIcon",
+                        "type": "string",
+                        "returnType": "string",
+                        "line": 78
+                    }
+                }
+            }
+        },
+        {
+            "name": "BtnThemeModeComponent",
+            "id": "component-BtnThemeModeComponent-8ddd5def84e19e9076d8aa2d21cd990aeddcdc50a687a1eca351df251de1ea5158f416d37eee5a6479aeae35ee857bad16299f6fc86f0ad9c0142deef2cc9640",
+            "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "rjb-btn-theme-mode",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./btn-theme-mode.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [
+                {
+                    "name": "backgroundColor",
+                    "defaultValue": "'light'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nWhat background color to use\n",
+                    "description": "<p>What background color to use</p>\n",
+                    "line": 22,
+                    "type": "\"primary\" | \"secondary\" | \"success\" | \"info\" | \"warning\" | \"danger\" | \"light\" | \"dark\"",
+                    "decorators": []
+                },
+                {
+                    "name": "label",
+                    "defaultValue": "'Button'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "pos": 780,
+                            "end": 793,
+                            "flags": 16842752,
+                            "modifierFlagsCache": 0,
+                            "transformFlags": 0,
+                            "kind": 334,
+                            "tagName": {
+                                "pos": 781,
+                                "end": 789,
+                                "flags": 16842752,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 80,
+                                "escapedText": "required"
+                            },
+                            "comment": ""
+                        }
+                    ],
+                    "rawdescription": "\n\nButton contents\n\n",
+                    "description": "<p>Button contents</p>\n",
+                    "line": 36,
+                    "type": "string",
+                    "decorators": []
+                },
+                {
+                    "name": "primary",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nIs this the principal call to action on the page?\n",
+                    "description": "<p>Is this the principal call to action on the page?</p>\n",
+                    "line": 16,
+                    "type": "boolean",
+                    "decorators": []
+                },
+                {
+                    "name": "size",
+                    "defaultValue": "'medium'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nHow large should the button be?\n",
+                    "description": "<p>How large should the button be?</p>\n",
+                    "line": 28,
+                    "type": "\"small\" | \"medium\" | \"large\"",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "onClick",
+                    "defaultValue": "new EventEmitter<Event>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nOptional click handler\n",
+                    "description": "<p>Optional click handler</p>\n",
+                    "line": 42,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "isDarkMode",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 44
+                },
+                {
+                    "name": "themeClasses",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string | undefined",
+                    "optional": false,
+                    "description": "",
+                    "line": 45
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 69,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "toggleDarkMode",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 81,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "updateBodyClass",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 73,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "CommonModule",
+                    "type": "module"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, EventEmitter, Input, Output } from '@angular/core';\nimport { CommonModule } from '@angular/common';\n\n@Component({\n  selector: 'rjb-btn-theme-mode',\n  standalone: true,\n  imports: [CommonModule],\n  templateUrl: './btn-theme-mode.component.html',\n  styleUrl: './btn-theme-mode.component.css',\n})\nexport class BtnThemeModeComponent {\n  /**\n   * Is this the principal call to action on the page?\n   */\n  @Input()\n  primary = false;\n\n  /**\n   * What background color to use\n   */\n  @Input()\n  backgroundColor: 'primary' |  'secondary' |  'success' |  'info' |  'warning' |  'danger' |  'light' |  'dark' = 'light';\n  \n  /**\n   * How large should the button be?\n   */\n  @Input()\n  size: 'small' | 'medium' | 'large' = 'medium';\n\n  /**\n   * Button contents\n   *\n   * @required\n   */\n  @Input()\n  label = 'Button';\n\n  /**\n   * Optional click handler\n   */\n  @Output()\n  onClick = new EventEmitter<Event>();\n\n  isDarkMode = false;\n  themeClasses: string | undefined;\n\n  public get classes(): string[] {\n    const mode = this.primary\n      ? 'storybook-button--primary'\n      : 'storybook-button--secondary';\n\n    return ['storybook-button', `storybook-button--${this.size}`, mode];\n  }\n\n  constructor() {\n    const storedDarkMode = localStorage.getItem('color-theme');\n    console.log('storedDarkMode', storedDarkMode);\n    if (storedDarkMode !== null) {\n      this.isDarkMode = storedDarkMode ? JSON.parse(storedDarkMode) : false;\n    } else {\n      const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;\n      console.log('prefersDarkMode', prefersDarkMode);\n      this.isDarkMode = prefersDarkMode;\n    }\n\n    this.updateBodyClass();\n  }\n\n  ngOnInit(): void {\n    this.updateBodyClass();\n  }\n\n  updateBodyClass() {\n    document.documentElement.setAttribute('data-bs-theme', this.isDarkMode ? 'dark' : 'light');\n\n    if (this.backgroundColor === 'dark' || this.backgroundColor === 'light') {\n      this.backgroundColor = this.isDarkMode ? 'dark' : 'light';\n    }\n  }\n\n  toggleDarkMode() {\n    this.isDarkMode = !this.isDarkMode;\n    localStorage.setItem('color-theme', JSON.stringify(this.isDarkMode));\n    this.updateBodyClass();\n  }\n}\n",
+            "styleUrl": "./btn-theme-mode.component.css",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [],
+                "line": 53
+            },
+            "extends": [],
+            "accessors": {
+                "classes": {
+                    "name": "classes",
+                    "getSignature": {
+                        "name": "classes",
+                        "type": "[]",
+                        "returnType": "string[]",
+                        "line": 47
+                    }
+                }
+            },
+            "templateData": "<button id=\"theme-toggle\" data-tooltip-target=\"tooltip-toggle\" type=\"button\" class=\"btn btn-{{backgroundColor}}\"\n(click)=\"toggleDarkMode()\">\n  <svg id=\"theme-icon\"  width=\"16\" height=\"16\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" viewBox=\"0 0 18 20\">\n    @if(isDarkMode){\n    <path d=\"M17.8 13.75a1 1 0 0 0-.859-.5A7.488 7.488 0 0 1 10.52 2a1 1 0 0 0 0-.969A1.035 1.035 0 0 0 9.687.5h-.113a9.5 9.5 0 1 0 8.222 14.247 1 1 0 0 0 .004-.997Z\"/>\n    } @else {\n    <path d=\"M10 15a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0-11a1 1 0 0 0 1-1V1a1 1 0 0 0-2 0v2a1 1 0 0 0 1 1Zm0 12a1 1 0 0 0-1 1v2a1 1 0 1 0 2 0v-2a1 1 0 0 0-1-1ZM4.343 5.757a1 1 0 0 0 1.414-1.414L4.343 2.929a1 1 0 0 0-1.414 1.414l1.414 1.414Zm11.314 8.486a1 1 0 0 0-1.414 1.414l1.414 1.414a1 1 0 0 0 1.414-1.414l-1.414-1.414ZM4 10a1 1 0 0 0-1-1H1a1 1 0 0 0 0 2h2a1 1 0 0 0 1-1Zm15-1h-2a1 1 0 1 0 0 2h2a1 1 0 0 0 0-2ZM4.343 14.243l-1.414 1.414a1 1 0 1 0 1.414 1.414l1.414-1.414a1 1 0 0 0-1.414-1.414ZM14.95 6.05a1 1 0 0 0 .707-.293l1.414-1.414a1 1 0 1 0-1.414-1.414l-1.414 1.414a1 1 0 0 0 .707 1.707Z\"/>\n    }\n  </svg>\n  {{label}}\n</button>"
+        },
+        {
+            "name": "CoreComponent",
+            "id": "component-CoreComponent-9a1a72ae92deb8c3d591b8936901a3b4cc31e805af1bd9d6ebb7388f01123e9059ec7101bdba6348d0492c6bbb56d445dc2848c56e46d96b8048a4e5e4bb1996",
+            "file": "projects/ngx-flan-kit-ux/src/lib/core/core.component.ts",
+            "changeDetection": "ChangeDetectionStrategy.OnPush",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "rjb-core",
+            "styleUrls": [],
+            "styles": [],
+            "template": "<p [id]=\"id\" [className]=\"css\">core works!</p>",
+            "templateUrl": [],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [
+                {
+                    "name": "css",
+                    "defaultValue": "''",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 16,
+                    "type": "string",
+                    "decorators": []
+                },
+                {
+                    "name": "id",
+                    "defaultValue": "''",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 17,
+                    "type": "string",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "CommonModule",
+                    "type": "module"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { ChangeDetectionStrategy, Component, Input } from '@angular/core';\n\n@Component({\n  selector: 'rjb-core',\n  standalone: true,\n  imports: [\n    CommonModule,\n  ],\n  template: `<p [id]=\"id\" [className]=\"css\">core works!</p>`,\n  styleUrl: './core.component.css',\n  changeDetection: ChangeDetectionStrategy.OnPush,\n})\nexport class CoreComponent { \n\n  @Input() css = '';\n  @Input() id = '';\n}\n",
+            "styleUrl": "./core.component.css",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": []
+        },
+        {
+            "name": "NgxFlanKitUxComponent",
+            "id": "component-NgxFlanKitUxComponent-926381a7ecd7a8d1aa582e9f1ce0d9f06d8fc447c0d8aa749e24f0a7c1657dd4913db12cd6234b807469193ccc4e550561ecda3f75d56a4997da3d25e7052edc",
+            "file": "projects/ngx-flan-kit-ux/src/lib/ngx-flan-kit-ux.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "lib-ngx-flan-kit-ux",
+            "styleUrls": [],
+            "styles": [
+                ""
+            ],
+            "template": "<p>\n  ngx-flan-kit-ux works!\n</p>\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'lib-ngx-flan-kit-ux',\n  standalone: true,\n  imports: [],\n  template: `\n    <p>\n      ngx-flan-kit-ux works!\n    </p>\n  `,\n  styles: ``\n})\nexport class NgxFlanKitUxComponent {\n\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "\n",
+            "extends": []
+        }
+    ],
+    "modules": [],
+    "miscellaneous": {
+        "variables": [
+            {
+                "name": "Color",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    type: 'primary',\n    label: 'Button',\n  },\n}"
+            },
+            {
+                "name": "Css",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/core/core.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    css: 'text-primary',\n  },\n}"
+            },
+            {
+                "name": "Dark",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    backgroundColor: 'dark',\n    label: 'Button',\n  },\n}"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    items: [\n      { title: 'Item 1', content: 'Contenido 1' },\n      { title: 'Item 2', content: 'Contenido 2' },\n      { title: 'Item 3', content: 'Contenido 3' }\n    ]\n  },\n}"
+            },
+            {
+                "name": "Disabled",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    disabled: true,\n    label: 'Button',\n  },\n}"
+            },
+            {
+                "name": "Expand",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    expand: 'block',\n    label: 'Button',\n  },\n}"
+            },
+            {
+                "name": "Id",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    items: [\n      { title: 'Item 1', content: 'Contenido 1' },\n      { title: 'Item 2', content: 'Contenido 2' },\n      { title: 'Item 3', content: 'Contenido 3' }\n    ],\n    id: 'accordion-id'\n  },\n}"
+            },
+            {
+                "name": "Id",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/core/core.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    id: 'id-text',\n  },\n}"
+            },
+            {
+                "name": "Info",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    backgroundColor: 'info',\n    label: 'Button',\n  },\n}"
+            },
+            {
+                "name": "Large",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    size: 'large',\n    label: 'Button',\n  },\n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<AccordionComponent>",
+                "defaultValue": "{\n  title: 'Roanja/Accordion',\n  component: AccordionComponent,\n  tags: ['autodocs'],\n  render: (args: AccordionComponent) => ({\n    props: {\n      ...args,\n    },\n  }),\n  argTypes: {\n    items: {\n      control: 'array',\n    },\n  },\n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<BtnThemeModeComponent>",
+                "defaultValue": "{\n  title: 'Roanja/ThemeMode',\n  component: BtnThemeModeComponent,\n  tags: ['autodocs'],\n  render: (args: BtnThemeModeComponent) => ({\n    props: {\n      ...args,\n    },\n  })  \n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/core/core.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<CoreComponent>",
+                "defaultValue": "{\n  title: 'Roanja/Core',\n  component: CoreComponent,\n  decorators: [componentWrapperDecorator((story) => `<div class=\"text-center m-3\">${story}</div>`)],\n  tags: ['autodocs'],\n  parameters: {\n    componentSubtitle:\n      'Add CSS classes to the component and an ID',\n  },\n  /*\n   * More on Storybook argTypes at:\n   * https://storybook.js.org/docs/react/api/argtypes\n   */\n  render: (args: CoreComponent) => ({\n    props: {\n      ...args,\n    },\n  }),\n  \n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<BtnComponent>",
+                "defaultValue": "{\n  title: 'Roanja/Btn',\n  component: BtnComponent,\n  tags: ['autodocs'],\n  parameters: {\n    componentSubtitle:\n      'Buttons are used to initialize an action, either in the background or foreground of an experience. They are used primarily for actions, such as \"Add\", \"Close\", \"Cancel\", \"Save\", etc.',\n  },\n  /*\n   * More on Storybook argTypes at:\n   * https://storybook.js.org/docs/react/api/argtypes\n   */\n  render: (args: BtnComponent) => ({\n    props: {\n      ...args,\n    },\n  }),\n  \n}"
+            },
+            {
+                "name": "Outline",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    outline: true,\n    label: 'Button',\n  },\n}"
+            },
+            {
+                "name": "preview",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/.storybook/preview.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Preview",
+                "defaultValue": "{\n  globalTypes: {\n    theme: {\n      description: 'Global theme for components',\n      defaultValue: 'light',\n      toolbar: {\n        title: 'Theme',\n        icon: 'circlehollow',\n        items: [\n          { value: 'light', title: 'Light', left: '☀️', right: 'Light' },\n          { value: 'dark', title: 'Dark', left: '🌙', right: 'Dark' },\n        ],\n        dynamicTitle: true,\n      },\n    },\n  },\n  parameters: {\n    docs: {\n      theme: themes.light      \n    },\n    actions: { argTypesRegex: \"^on[A-Z].*\" },\n    controls: {\n      matchers: {\n        color: /(background|color)$/i,\n        date: /Date$/i,\n      },\n    },\n  },\n  decorators: [\n    (storyFunc, context) => {\n      const theme = context.globals[\"theme\"];\n      console.log('theme', theme);\n      \n      document.documentElement.setAttribute('data-bs-theme', theme === 'dark' ? 'dark' : 'light')\n      return storyFunc();\n    },\n  ],\n}"
+            },
+            {
+                "name": "Primary",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    backgroundColor: 'primary',\n    label: 'Button',\n  },\n}"
+            },
+            {
+                "name": "Secondary",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    backgroundColor: 'secondary',\n    label: 'Button',\n  },\n}"
+            },
+            {
+                "name": "ShowAll",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    items: [\n      { title: 'Item 1', content: 'Contenido 1' },\n      { title: 'Item 2', content: 'Contenido 2' },\n      { title: 'Item 3', content: 'Contenido 3' }\n    ],\n    showAll: true\n  },\n}"
+            },
+            {
+                "name": "ShowItem",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    items: [\n      { title: 'Item 1', content: 'Contenido 1' },\n      { title: 'Item 2', content: 'Contenido 2' },\n      { title: 'Item 3', content: 'Contenido 3' }\n    ],\n    showItem: 1\n  },\n}"
+            },
+            {
+                "name": "SizeLg",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    size: 'lg',\n    label: 'Button',\n  },\n}"
+            },
+            {
+                "name": "SizeSm",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    size: 'sm',\n    label: 'Button',\n  },\n}"
+            },
+            {
+                "name": "Small",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    size: 'small',\n    label: 'Button',\n  },\n}"
+            },
+            {
+                "name": "Success",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    backgroundColor: 'success',\n    label: 'Button',\n  },\n}"
+            },
+            {
+                "name": "Warning",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    backgroundColor: 'warning',\n    label: 'Button',\n  },\n}"
+            }
+        ],
+        "functions": [],
+        "typealiases": [
+            {
+                "name": "Color",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "\"primary\" | \"secondary\" | \"success\" | \"info\" | \"warning\" | \"danger\" | \"light\" | \"dark\" | \"link\"",
+                "file": "projects/ngx-flan-kit-ux/src/interfaces/types.interface.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 192
+            },
+            {
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "StoryObj<AccordionComponent>",
+                "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 183
+            },
+            {
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "StoryObj<BtnThemeModeComponent>",
+                "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 183
+            },
+            {
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "StoryObj<CoreComponent>",
+                "file": "projects/ngx-flan-kit-ux/src/lib/core/core.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 183
+            },
+            {
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "StoryObj<BtnComponent>",
+                "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 183
+            }
+        ],
+        "enumerations": [],
+        "groupedVariables": {
+            "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts": [
+                {
+                    "name": "Color",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    type: 'primary',\n    label: 'Button',\n  },\n}"
+                },
+                {
+                    "name": "Disabled",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    disabled: true,\n    label: 'Button',\n  },\n}"
+                },
+                {
+                    "name": "Expand",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    expand: 'block',\n    label: 'Button',\n  },\n}"
+                },
+                {
+                    "name": "meta",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Meta<BtnComponent>",
+                    "defaultValue": "{\n  title: 'Roanja/Btn',\n  component: BtnComponent,\n  tags: ['autodocs'],\n  parameters: {\n    componentSubtitle:\n      'Buttons are used to initialize an action, either in the background or foreground of an experience. They are used primarily for actions, such as \"Add\", \"Close\", \"Cancel\", \"Save\", etc.',\n  },\n  /*\n   * More on Storybook argTypes at:\n   * https://storybook.js.org/docs/react/api/argtypes\n   */\n  render: (args: BtnComponent) => ({\n    props: {\n      ...args,\n    },\n  }),\n  \n}"
+                },
+                {
+                    "name": "Outline",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    outline: true,\n    label: 'Button',\n  },\n}"
+                },
+                {
+                    "name": "SizeLg",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    size: 'lg',\n    label: 'Button',\n  },\n}"
+                },
+                {
+                    "name": "SizeSm",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    size: 'sm',\n    label: 'Button',\n  },\n}"
+                }
+            ],
+            "projects/ngx-flan-kit-ux/src/lib/core/core.stories.ts": [
+                {
+                    "name": "Css",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/core/core.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    css: 'text-primary',\n  },\n}"
+                },
+                {
+                    "name": "Id",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/core/core.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    id: 'id-text',\n  },\n}"
+                },
+                {
+                    "name": "meta",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/core/core.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Meta<CoreComponent>",
+                    "defaultValue": "{\n  title: 'Roanja/Core',\n  component: CoreComponent,\n  decorators: [componentWrapperDecorator((story) => `<div class=\"text-center m-3\">${story}</div>`)],\n  tags: ['autodocs'],\n  parameters: {\n    componentSubtitle:\n      'Add CSS classes to the component and an ID',\n  },\n  /*\n   * More on Storybook argTypes at:\n   * https://storybook.js.org/docs/react/api/argtypes\n   */\n  render: (args: CoreComponent) => ({\n    props: {\n      ...args,\n    },\n  }),\n  \n}"
+                }
+            ],
+            "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts": [
+                {
+                    "name": "Dark",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    backgroundColor: 'dark',\n    label: 'Button',\n  },\n}"
+                },
+                {
+                    "name": "Info",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    backgroundColor: 'info',\n    label: 'Button',\n  },\n}"
+                },
+                {
+                    "name": "Large",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    size: 'large',\n    label: 'Button',\n  },\n}"
+                },
+                {
+                    "name": "meta",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Meta<BtnThemeModeComponent>",
+                    "defaultValue": "{\n  title: 'Roanja/ThemeMode',\n  component: BtnThemeModeComponent,\n  tags: ['autodocs'],\n  render: (args: BtnThemeModeComponent) => ({\n    props: {\n      ...args,\n    },\n  })  \n}"
+                },
+                {
+                    "name": "Primary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    backgroundColor: 'primary',\n    label: 'Button',\n  },\n}"
+                },
+                {
+                    "name": "Secondary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    backgroundColor: 'secondary',\n    label: 'Button',\n  },\n}"
+                },
+                {
+                    "name": "Small",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    size: 'small',\n    label: 'Button',\n  },\n}"
+                },
+                {
+                    "name": "Success",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    backgroundColor: 'success',\n    label: 'Button',\n  },\n}"
+                },
+                {
+                    "name": "Warning",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    backgroundColor: 'warning',\n    label: 'Button',\n  },\n}"
+                }
+            ],
+            "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    items: [\n      { title: 'Item 1', content: 'Contenido 1' },\n      { title: 'Item 2', content: 'Contenido 2' },\n      { title: 'Item 3', content: 'Contenido 3' }\n    ]\n  },\n}"
+                },
+                {
+                    "name": "Id",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    items: [\n      { title: 'Item 1', content: 'Contenido 1' },\n      { title: 'Item 2', content: 'Contenido 2' },\n      { title: 'Item 3', content: 'Contenido 3' }\n    ],\n    id: 'accordion-id'\n  },\n}"
+                },
+                {
+                    "name": "meta",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Meta<AccordionComponent>",
+                    "defaultValue": "{\n  title: 'Roanja/Accordion',\n  component: AccordionComponent,\n  tags: ['autodocs'],\n  render: (args: AccordionComponent) => ({\n    props: {\n      ...args,\n    },\n  }),\n  argTypes: {\n    items: {\n      control: 'array',\n    },\n  },\n}"
+                },
+                {
+                    "name": "ShowAll",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    items: [\n      { title: 'Item 1', content: 'Contenido 1' },\n      { title: 'Item 2', content: 'Contenido 2' },\n      { title: 'Item 3', content: 'Contenido 3' }\n    ],\n    showAll: true\n  },\n}"
+                },
+                {
+                    "name": "ShowItem",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    items: [\n      { title: 'Item 1', content: 'Contenido 1' },\n      { title: 'Item 2', content: 'Contenido 2' },\n      { title: 'Item 3', content: 'Contenido 3' }\n    ],\n    showItem: 1\n  },\n}"
+                }
+            ],
+            "projects/ngx-flan-kit-ux/.storybook/preview.ts": [
+                {
+                    "name": "preview",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/.storybook/preview.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Preview",
+                    "defaultValue": "{\n  globalTypes: {\n    theme: {\n      description: 'Global theme for components',\n      defaultValue: 'light',\n      toolbar: {\n        title: 'Theme',\n        icon: 'circlehollow',\n        items: [\n          { value: 'light', title: 'Light', left: '☀️', right: 'Light' },\n          { value: 'dark', title: 'Dark', left: '🌙', right: 'Dark' },\n        ],\n        dynamicTitle: true,\n      },\n    },\n  },\n  parameters: {\n    docs: {\n      theme: themes.light      \n    },\n    actions: { argTypesRegex: \"^on[A-Z].*\" },\n    controls: {\n      matchers: {\n        color: /(background|color)$/i,\n        date: /Date$/i,\n      },\n    },\n  },\n  decorators: [\n    (storyFunc, context) => {\n      const theme = context.globals[\"theme\"];\n      console.log('theme', theme);\n      \n      document.documentElement.setAttribute('data-bs-theme', theme === 'dark' ? 'dark' : 'light')\n      return storyFunc();\n    },\n  ],\n}"
+                }
+            ]
+        },
+        "groupedFunctions": {},
+        "groupedEnumerations": {},
+        "groupedTypeAliases": {
+            "projects/ngx-flan-kit-ux/src/interfaces/types.interface.ts": [
+                {
+                    "name": "Color",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "\"primary\" | \"secondary\" | \"success\" | \"info\" | \"warning\" | \"danger\" | \"light\" | \"dark\" | \"link\"",
+                    "file": "projects/ngx-flan-kit-ux/src/interfaces/types.interface.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 192
+                }
+            ],
+            "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<AccordionComponent>",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 183
+                }
+            ],
+            "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<BtnThemeModeComponent>",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 183
+                }
+            ],
+            "projects/ngx-flan-kit-ux/src/lib/core/core.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<CoreComponent>",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/core/core.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 183
+                }
+            ],
+            "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<BtnComponent>",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 183
+                }
+            ]
+        }
+    },
+    "routes": [],
+    "coverage": {
+        "count": 2,
+        "status": "low",
+        "files": [
+            {
+                "filePath": "projects/ngx-flan-kit-ux/.storybook/preview.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "preview",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "AccordionComponent",
+                "coveragePercent": 50,
+                "coverageCount": "3/6",
+                "status": "medium"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.component.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "Item",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Id",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "meta",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "ShowAll",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "ShowItem",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "BtnThemeModeComponent",
+                "coveragePercent": 41,
+                "coverageCount": "5/12",
+                "status": "medium"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Dark",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Info",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Large",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "meta",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Primary",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Secondary",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Small",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Success",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Warning",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/btn/btn.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "BtnComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/11",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Color",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Disabled",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Expand",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "meta",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Outline",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "SizeLg",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "SizeSm",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/core/core.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "CoreComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/core/core.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Css",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/core/core.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Id",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/core/core.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "meta",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/ngx-flan-kit-ux.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "NgxFlanKitUxComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/ngx-flan-kit-ux.service.ts",
+                "type": "injectable",
+                "linktype": "injectable",
+                "name": "NgxFlanKitUxService",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            }
+        ]
+    }
+}
