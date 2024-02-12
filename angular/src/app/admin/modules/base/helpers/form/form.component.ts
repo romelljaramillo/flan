@@ -10,14 +10,17 @@ import {
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
 import { Subscription } from 'rxjs';
+
 import { FormService } from './services/form.service';
 import { BaseResponseData } from '../../interfaces/base.interface';
 import { FormDefaultComponent } from './form-default.component';
 import { FormModalsComponent } from './form-modals.component';
 import { FieldModel } from './fields/field-model';
 import { FormFieldsComponent } from './fields/form-fields.component';
+
+// lib ngx-flan-kit-ux theme
+import { BtnComponent } from 'projects/ngx-flan-kit-ux/src/public-api';
 
 export enum TypeForm {
   default = 'default',
@@ -27,29 +30,23 @@ export enum TypeForm {
 @Component({
   selector: 'app-form',
   standalone: true,
-  imports: [CommonModule, FormFieldsComponent, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    FormFieldsComponent,
+    ReactiveFormsModule,
+    BtnComponent,
+  ],
   styles: [''],
   template: `<div class="text-right">
-      @if (btnNew && typeForm === 'modal') {
-      <button
-        type="button"
-        class="btn btn-primary btn-sm mb-2 "
-        title="crear nuevo"
-        (click)="activeForm(true)"
+      @if (btnNew) {
+      <rjb-btn
+        [type]="'primary'"
+        css="btn-sm mb-2"
+        (onClick)="activeForm(true)"
+        icon="plus"
+        label="Nuevo"
       >
-        Nuevo
-        <i class="fas fa-plus"></i>
-      </button>
-      } @else if(btnNew) {
-      <button
-        type="button"
-        class="btn btn-primary btn-sm mb-2 "
-        title="crear nuevo"
-        (click)="activeForm(true)"
-      >
-        Nuevo
-        <i class="fas fa-plus"></i>
-      </button>
+      </rjb-btn>
       }
     </div>
     <ng-template appInsertForm></ng-template>`,
@@ -71,7 +68,7 @@ export class FormComponent<T extends BaseResponseData>
   constructor(
     public formService: FormService,
     private viewContainerRef: ViewContainerRef
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.subscActiveForm = this.formService.activeForm.subscribe((active) => {
@@ -90,7 +87,7 @@ export class FormComponent<T extends BaseResponseData>
       this.activeForm();
       return;
     }
-      
+
     this.removerComponente();
   }
 
@@ -111,13 +108,13 @@ export class FormComponent<T extends BaseResponseData>
     switch (this.typeForm) {
       case TypeForm.modal:
         this.componentRef =
-        this.viewContainerRef.createComponent(FormModalsComponent);
+          this.viewContainerRef.createComponent(FormModalsComponent);
         this.componentRef.instance.fields = this.fields;
         (this.componentRef.instance as FormModalsComponent).open();
         break;
       default:
         this.componentRef =
-        this.viewContainerRef.createComponent(FormDefaultComponent);
+          this.viewContainerRef.createComponent(FormDefaultComponent);
         this.componentRef.instance.fields = this.fields;
         break;
     }
@@ -128,13 +125,13 @@ export class FormComponent<T extends BaseResponseData>
   }
 
   removerComponente() {
-    if(this.componentRef) {
+    if (this.componentRef) {
       this.componentRef.instance.animateForm = false;
-      
+
       setTimeout(() => {
         this.componentRef.destroy();
         this.btnNew = true;
-      }, 300); 
+      }, 300);
     }
   }
 

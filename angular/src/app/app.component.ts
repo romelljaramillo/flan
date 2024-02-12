@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     CommonModule,
     RouterOutlet,
-    HttpClientModule,
+    HttpClientModule
   ],
   template: `<router-outlet></router-outlet>`,
   styles: ['']

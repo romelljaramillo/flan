@@ -186,7 +186,7 @@
         },
         {
             "name": "BtnComponent",
-            "id": "component-BtnComponent-a152fdae9f855a58e926d5f0a7ffa9dda068cc50add4c85b5369f33a87012d32bbef4c01b77dcaec03f1be12bd818206172b8c123bd80b0ed11152fc96a4599a",
+            "id": "component-BtnComponent-6843414dfec10dbf531ebf7ddda9ff1598fe0ce659a727dc6168a7174cc85778517c2b90b7ee10a3ffeedd33311b7d4cf9b24a0add6c0061f70d2707ad42b973",
             "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -194,46 +194,50 @@
             "outputs": [],
             "providers": [],
             "selector": "rjb-btn",
-            "styleUrls": [],
+            "styleUrls": [
+                "./btn.component.css"
+            ],
             "styles": [],
-            "template": "@if(expand === 'block') {\n<div class=\"d-grid gap-2\">\n  <button type=\"button\" (click)=\"onClick.emit($event)\" [ngClass]=\"classes\" [disabled]=\"disabled\" [attr.arial-disabled]=\"disabled ? 'true' : 'false'\">\n    <i [ngClass]=\"onIcon\"></i>\n    {{ label }}\n  </button>\n  </div>\n} @else {\n  <button type=\"button\" (click)=\"onClick.emit($event)\" [ngClass]=\"classes\" [disabled]=\"disabled\" [attr.arial-disabled]=\"disabled ? 'true' : 'false'\">\n    <i [ngClass]=\"onIcon\"></i>\n    {{ label }}\n  </button>\n}\n",
+            "template": "@if(block) {\n  <div class=\"d-grid gap-2\">\n    <ng-container *ngTemplateOutlet=\"buttonTemplate\"></ng-container>\n  </div>\n} @else {\n  <ng-container *ngTemplateOutlet=\"buttonTemplate\"></ng-container>\n}\n<ng-template #buttonTemplate>\n  <button [ngClass]=\"classes\" (click)=\"onClick.emit($event)\" [disabled]=\"disabled\">\n    <i *ngIf=\"icon\" [ngClass]=\"onIcon\"></i>\n    {{ label }}\n    <ng-content></ng-content>\n  </button>\n</ng-template>\n",
             "templateUrl": [],
             "viewProviders": [],
             "hostDirectives": [],
             "inputsClass": [
                 {
-                    "name": "disabled",
+                    "name": "block",
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 45,
+                    "line": 37,
                     "type": "boolean",
                     "decorators": []
                 },
                 {
-                    "name": "expand",
-                    "defaultValue": "''",
+                    "name": "disabled",
+                    "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 48,
-                    "type": "string",
+                    "line": 36,
+                    "type": "boolean",
                     "decorators": []
                 },
                 {
                     "name": "icon",
-                    "defaultValue": "'coffee'",
+                    "defaultValue": "''",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 42,
+                    "rawdescription": "\n\nthe icon is from the fontawesome lib and the format should be only the name part of the icon for example: fa fa-[icon-name]\n",
+                    "description": "<p>the icon is from the fontawesome lib and the format should be only the name part of the icon for example: fa fa-[icon-name]</p>\n",
+                    "line": 35,
                     "type": "string",
                     "decorators": []
                 },
                 {
                     "name": "label",
-                    "defaultValue": "'Button'",
+                    "defaultValue": "''",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 39,
+                    "line": 31,
                     "type": "string",
                     "decorators": []
                 },
@@ -242,7 +246,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 33,
+                    "line": 29,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -251,7 +255,7 @@
                     "defaultValue": "'md'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 36,
+                    "line": 30,
                     "type": "\"sm\" | \"md\" | \"lg\"",
                     "decorators": []
                 },
@@ -260,8 +264,8 @@
                     "defaultValue": "'primary'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 30,
-                    "type": "Color",
+                    "line": 28,
+                    "type": "\"primary\" | \"secondary\" | \"success\" | \"danger\"",
                     "decorators": []
                 },
                 {
@@ -295,7 +299,7 @@
                     "defaultValue": "new EventEmitter<Event>()",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 50,
+                    "line": 38,
                     "type": "EventEmitter"
                 }
             ],
@@ -315,10 +319,14 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { Component, EventEmitter, Input, Output } from '@angular/core';\nimport { Color } from '../../interfaces/types.interface';\nimport { CoreComponent } from '../core/core.component';\n\n@Component({\n  selector: 'rjb-btn',\n  standalone: true,\n  imports: [CommonModule],\n  template: `\n    @if(expand === 'block') {\n    <div class=\"d-grid gap-2\">\n      <button type=\"button\" (click)=\"onClick.emit($event)\" [ngClass]=\"classes\" [disabled]=\"disabled\" [attr.arial-disabled]=\"disabled ? 'true' : 'false'\">\n        <i [ngClass]=\"onIcon\"></i>\n        {{ label }}\n      </button>\n      </div>\n    } @else {\n      <button type=\"button\" (click)=\"onClick.emit($event)\" [ngClass]=\"classes\" [disabled]=\"disabled\" [attr.arial-disabled]=\"disabled ? 'true' : 'false'\">\n        <i [ngClass]=\"onIcon\"></i>\n        {{ label }}\n      </button>\n    }\n  `,\n  styleUrl: './btn.component.css',\n})\nexport class BtnComponent extends CoreComponent {\n\n  @Input()\n  type: Color = 'primary';\n\n  @Input()\n  outline: boolean = false;\n\n  @Input()\n  size: 'sm' | 'md' | 'lg' = 'md';\n\n  @Input()\n  label = 'Button';\n\n  @Input()\n  icon = 'coffee';\n\n  @Input()\n  disabled = false;\n\n  @Input()\n  expand = '';\n\n  @Output() onClick = new EventEmitter<Event>();\n\n  public get classes(): string[] {\n    let btnType: string = `btn-${this.type}`;\n    let size = '';\n    let css = '';\n    let disabled = '';\n\n    if (this.outline) {\n      btnType = `btn-outline-${this.type}`;\n    }\n\n    if (this.size) {\n      size = `btn-${this.size}`;\n    }\n\n    if (this.css) {\n      css = `${this.css}`;\n    }\n\n    if (this.disabled) {\n      disabled = `disabled`;\n    }\n\n    return ['btn', btnType, size, css, disabled];\n\n  }\n\n  public get onIcon(): string {\n    return `fa fa-${this.icon}`;\n  }\n}\n",
-            "styleUrl": "./btn.component.css",
+            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { Component, EventEmitter, Input, Output } from '@angular/core';\nimport { CoreComponent } from '../core/core.component';\n\n@Component({\n  selector: 'rjb-btn',\n  standalone: true,\n  imports: [CommonModule],\n  template: `\n    @if(block) {\n      <div class=\"d-grid gap-2\">\n        <ng-container *ngTemplateOutlet=\"buttonTemplate\"></ng-container>\n      </div>\n    } @else {\n      <ng-container *ngTemplateOutlet=\"buttonTemplate\"></ng-container>\n    }\n    <ng-template #buttonTemplate>\n      <button [ngClass]=\"classes\" (click)=\"onClick.emit($event)\" [disabled]=\"disabled\">\n        <i *ngIf=\"icon\" [ngClass]=\"onIcon\"></i>\n        {{ label }}\n        <ng-content></ng-content>\n      </button>\n    </ng-template>\n  `,\n  styleUrls: ['./btn.component.css'],\n})\nexport class BtnComponent extends CoreComponent {\n  @Input() type: 'primary' | 'secondary' | 'success' | 'danger' = 'primary';\n  @Input() outline = false;\n  @Input() size: 'sm' | 'md' | 'lg' = 'md';\n  @Input() label = '';\n  /**\n   * the icon is from the fontawesome lib and the format should be only the name part of the icon for example: fa fa-[icon-name]\n   */\n  @Input() icon = '';\n  @Input() disabled = false;\n  @Input() block = false;\n  @Output() onClick = new EventEmitter<Event>();\n\n  get classes(): string[] {\n    const btnType = this.outline ? `btn-outline-${this.type}` : `btn-${this.type}`;\n    const sizeClass = `btn-${this.size}`;\n    return ['btn', btnType, sizeClass, this.disabled ? 'disabled' : ''].filter(Boolean);\n  }\n\n  get onIcon(): string {\n    return `fa fa-${this.icon}`;\n  }\n}\n",
             "assetsDirs": [],
-            "styleUrlsData": "",
+            "styleUrlsData": [
+                {
+                    "data": ":host {\n  display: block;\n}\n",
+                    "styleUrl": "./btn.component.css"
+                }
+            ],
             "stylesData": "",
             "extends": [
                 "CoreComponent"
@@ -330,7 +338,7 @@
                         "name": "classes",
                         "type": "[]",
                         "returnType": "string[]",
-                        "line": 52
+                        "line": 40
                     }
                 },
                 "onIcon": {
@@ -339,14 +347,14 @@
                         "name": "onIcon",
                         "type": "string",
                         "returnType": "string",
-                        "line": 78
+                        "line": 46
                     }
                 }
             }
         },
         {
             "name": "BtnThemeModeComponent",
-            "id": "component-BtnThemeModeComponent-8ddd5def84e19e9076d8aa2d21cd990aeddcdc50a687a1eca351df251de1ea5158f416d37eee5a6479aeae35ee857bad16299f6fc86f0ad9c0142deef2cc9640",
+            "id": "component-BtnThemeModeComponent-5ac05a3af1bd3bb5506363999059571945a1625b6442dffaee724e9260ae9c25c80e2b8bd458fcadf5d0843aa27ed2d1d6efe9063983bacfeac38f5b972e3c3a",
             "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -369,7 +377,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nWhat background color to use\n",
                     "description": "<p>What background color to use</p>\n",
-                    "line": 22,
+                    "line": 28,
                     "type": "\"primary\" | \"secondary\" | \"success\" | \"info\" | \"warning\" | \"danger\" | \"light\" | \"dark\"",
                     "decorators": []
                 },
@@ -380,15 +388,15 @@
                     "deprecationMessage": "",
                     "jsdoctags": [
                         {
-                            "pos": 780,
-                            "end": 793,
+                            "pos": 1045,
+                            "end": 1058,
                             "flags": 16842752,
                             "modifierFlagsCache": 0,
                             "transformFlags": 0,
                             "kind": 334,
                             "tagName": {
-                                "pos": 781,
-                                "end": 789,
+                                "pos": 1046,
+                                "end": 1054,
                                 "flags": 16842752,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -400,7 +408,7 @@
                     ],
                     "rawdescription": "\n\nButton contents\n\n",
                     "description": "<p>Button contents</p>\n",
-                    "line": 36,
+                    "line": 42,
                     "type": "string",
                     "decorators": []
                 },
@@ -411,7 +419,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nIs this the principal call to action on the page?\n",
                     "description": "<p>Is this the principal call to action on the page?</p>\n",
-                    "line": 16,
+                    "line": 22,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -422,7 +430,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nHow large should the button be?\n",
                     "description": "<p>How large should the button be?</p>\n",
-                    "line": 28,
+                    "line": 34,
                     "type": "\"small\" | \"medium\" | \"large\"",
                     "decorators": []
                 }
@@ -435,11 +443,31 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nOptional click handler\n",
                     "description": "<p>Optional click handler</p>\n",
-                    "line": 42,
+                    "line": 48,
                     "type": "EventEmitter"
                 }
             ],
             "propertiesClass": [
+                {
+                    "name": "faMoon",
+                    "defaultValue": "faMoon",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 16
+                },
+                {
+                    "name": "faSun",
+                    "defaultValue": "faSun",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 17
+                },
                 {
                     "name": "isDarkMode",
                     "defaultValue": "false",
@@ -448,7 +476,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 44
+                    "line": 50
                 },
                 {
                     "name": "themeClasses",
@@ -457,7 +485,7 @@
                     "type": "string | undefined",
                     "optional": false,
                     "description": "",
-                    "line": 45
+                    "line": 51
                 }
             ],
             "methodsClass": [
@@ -467,7 +495,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 69,
+                    "line": 75,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -477,7 +505,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 81,
+                    "line": 87,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -487,7 +515,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 73,
+                    "line": 79,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -501,12 +529,16 @@
                 {
                     "name": "CommonModule",
                     "type": "module"
+                },
+                {
+                    "name": "FontAwesomeModule",
+                    "type": "module"
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, EventEmitter, Input, Output } from '@angular/core';\nimport { CommonModule } from '@angular/common';\n\n@Component({\n  selector: 'rjb-btn-theme-mode',\n  standalone: true,\n  imports: [CommonModule],\n  templateUrl: './btn-theme-mode.component.html',\n  styleUrl: './btn-theme-mode.component.css',\n})\nexport class BtnThemeModeComponent {\n  /**\n   * Is this the principal call to action on the page?\n   */\n  @Input()\n  primary = false;\n\n  /**\n   * What background color to use\n   */\n  @Input()\n  backgroundColor: 'primary' |  'secondary' |  'success' |  'info' |  'warning' |  'danger' |  'light' |  'dark' = 'light';\n  \n  /**\n   * How large should the button be?\n   */\n  @Input()\n  size: 'small' | 'medium' | 'large' = 'medium';\n\n  /**\n   * Button contents\n   *\n   * @required\n   */\n  @Input()\n  label = 'Button';\n\n  /**\n   * Optional click handler\n   */\n  @Output()\n  onClick = new EventEmitter<Event>();\n\n  isDarkMode = false;\n  themeClasses: string | undefined;\n\n  public get classes(): string[] {\n    const mode = this.primary\n      ? 'storybook-button--primary'\n      : 'storybook-button--secondary';\n\n    return ['storybook-button', `storybook-button--${this.size}`, mode];\n  }\n\n  constructor() {\n    const storedDarkMode = localStorage.getItem('color-theme');\n    console.log('storedDarkMode', storedDarkMode);\n    if (storedDarkMode !== null) {\n      this.isDarkMode = storedDarkMode ? JSON.parse(storedDarkMode) : false;\n    } else {\n      const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;\n      console.log('prefersDarkMode', prefersDarkMode);\n      this.isDarkMode = prefersDarkMode;\n    }\n\n    this.updateBodyClass();\n  }\n\n  ngOnInit(): void {\n    this.updateBodyClass();\n  }\n\n  updateBodyClass() {\n    document.documentElement.setAttribute('data-bs-theme', this.isDarkMode ? 'dark' : 'light');\n\n    if (this.backgroundColor === 'dark' || this.backgroundColor === 'light') {\n      this.backgroundColor = this.isDarkMode ? 'dark' : 'light';\n    }\n  }\n\n  toggleDarkMode() {\n    this.isDarkMode = !this.isDarkMode;\n    localStorage.setItem('color-theme', JSON.stringify(this.isDarkMode));\n    this.updateBodyClass();\n  }\n}\n",
+            "sourceCode": "import { Component, EventEmitter, Input, Output } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { FontAwesomeModule } from '@fortawesome/angular-fontawesome';\nimport { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';\n// import { faMoon, faSun } from '@fortawesome/free-regular-svg-icons';\n\n\n@Component({\n  selector: 'rjb-btn-theme-mode',\n  standalone: true,\n  imports: [CommonModule, FontAwesomeModule],\n  templateUrl: './btn-theme-mode.component.html',\n  styleUrl: './btn-theme-mode.component.css',\n})\nexport class BtnThemeModeComponent {\n  faMoon = faMoon;\n  faSun = faSun;\n  /**\n   * Is this the principal call to action on the page?\n   */\n  @Input()\n  primary = false;\n\n  /**\n   * What background color to use\n   */\n  @Input()\n  backgroundColor: 'primary' |  'secondary' |  'success' |  'info' |  'warning' |  'danger' |  'light' |  'dark' = 'light';\n  \n  /**\n   * How large should the button be?\n   */\n  @Input()\n  size: 'small' | 'medium' | 'large' = 'medium';\n\n  /**\n   * Button contents\n   *\n   * @required\n   */\n  @Input()\n  label = 'Button';\n\n  /**\n   * Optional click handler\n   */\n  @Output()\n  onClick = new EventEmitter<Event>();\n\n  isDarkMode = false;\n  themeClasses: string | undefined;\n\n  public get classes(): string[] {\n    const mode = this.primary\n      ? 'storybook-button--primary'\n      : 'storybook-button--secondary';\n\n    return ['storybook-button', `storybook-button--${this.size}`, mode];\n  }\n\n  constructor() {\n    const storedDarkMode = localStorage.getItem('color-theme');\n    console.log('storedDarkMode', storedDarkMode);\n    if (storedDarkMode !== null) {\n      this.isDarkMode = storedDarkMode ? JSON.parse(storedDarkMode) : false;\n    } else {\n      const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;\n      console.log('prefersDarkMode', prefersDarkMode);\n      this.isDarkMode = prefersDarkMode;\n    }\n\n    this.updateBodyClass();\n  }\n\n  ngOnInit(): void {\n    this.updateBodyClass();\n  }\n\n  updateBodyClass() {\n    document.documentElement.setAttribute('data-bs-theme', this.isDarkMode ? 'dark' : 'light');\n\n    if (this.backgroundColor === 'dark' || this.backgroundColor === 'light') {\n      this.backgroundColor = this.isDarkMode ? 'dark' : 'light';\n    }\n  }\n\n  toggleDarkMode() {\n    this.isDarkMode = !this.isDarkMode;\n    localStorage.setItem('color-theme', JSON.stringify(this.isDarkMode));\n    this.updateBodyClass();\n  }\n}\n",
             "styleUrl": "./btn-theme-mode.component.css",
             "assetsDirs": [],
             "styleUrlsData": "",
@@ -517,7 +549,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "args": [],
-                "line": 53
+                "line": 59
             },
             "extends": [],
             "accessors": {
@@ -527,11 +559,11 @@
                         "name": "classes",
                         "type": "[]",
                         "returnType": "string[]",
-                        "line": 47
+                        "line": 53
                     }
                 }
             },
-            "templateData": "<button id=\"theme-toggle\" data-tooltip-target=\"tooltip-toggle\" type=\"button\" class=\"btn btn-{{backgroundColor}}\"\n(click)=\"toggleDarkMode()\">\n  <svg id=\"theme-icon\"  width=\"16\" height=\"16\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" viewBox=\"0 0 18 20\">\n    @if(isDarkMode){\n    <path d=\"M17.8 13.75a1 1 0 0 0-.859-.5A7.488 7.488 0 0 1 10.52 2a1 1 0 0 0 0-.969A1.035 1.035 0 0 0 9.687.5h-.113a9.5 9.5 0 1 0 8.222 14.247 1 1 0 0 0 .004-.997Z\"/>\n    } @else {\n    <path d=\"M10 15a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0-11a1 1 0 0 0 1-1V1a1 1 0 0 0-2 0v2a1 1 0 0 0 1 1Zm0 12a1 1 0 0 0-1 1v2a1 1 0 1 0 2 0v-2a1 1 0 0 0-1-1ZM4.343 5.757a1 1 0 0 0 1.414-1.414L4.343 2.929a1 1 0 0 0-1.414 1.414l1.414 1.414Zm11.314 8.486a1 1 0 0 0-1.414 1.414l1.414 1.414a1 1 0 0 0 1.414-1.414l-1.414-1.414ZM4 10a1 1 0 0 0-1-1H1a1 1 0 0 0 0 2h2a1 1 0 0 0 1-1Zm15-1h-2a1 1 0 1 0 0 2h2a1 1 0 0 0 0-2ZM4.343 14.243l-1.414 1.414a1 1 0 1 0 1.414 1.414l1.414-1.414a1 1 0 0 0-1.414-1.414ZM14.95 6.05a1 1 0 0 0 .707-.293l1.414-1.414a1 1 0 1 0-1.414-1.414l-1.414 1.414a1 1 0 0 0 .707 1.707Z\"/>\n    }\n  </svg>\n  {{label}}\n</button>"
+            "templateData": "<button id=\"theme-toggle\" data-tooltip-target=\"tooltip-toggle\" type=\"button\" class=\"btn btn-{{backgroundColor}}\"\n(click)=\"toggleDarkMode()\">\n  @if(isDarkMode){\n  <fa-icon [icon]=\"faMoon\"></fa-icon>\n} @else {\n    <fa-icon [icon]=\"faSun\"></fa-icon>\n  }\n<!-- \n  <svg id=\"theme-icon\"  width=\"16\" height=\"16\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" viewBox=\"0 0 18 20\">\n    @if(isDarkMode){\n    <path d=\"M17.8 13.75a1 1 0 0 0-.859-.5A7.488 7.488 0 0 1 10.52 2a1 1 0 0 0 0-.969A1.035 1.035 0 0 0 9.687.5h-.113a9.5 9.5 0 1 0 8.222 14.247 1 1 0 0 0 .004-.997Z\"/>\n    } @else {\n    <path d=\"M10 15a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0-11a1 1 0 0 0 1-1V1a1 1 0 0 0-2 0v2a1 1 0 0 0 1 1Zm0 12a1 1 0 0 0-1 1v2a1 1 0 1 0 2 0v-2a1 1 0 0 0-1-1ZM4.343 5.757a1 1 0 0 0 1.414-1.414L4.343 2.929a1 1 0 0 0-1.414 1.414l1.414 1.414Zm11.314 8.486a1 1 0 0 0-1.414 1.414l1.414 1.414a1 1 0 0 0 1.414-1.414l-1.414-1.414ZM4 10a1 1 0 0 0-1-1H1a1 1 0 0 0 0 2h2a1 1 0 0 0 1-1Zm15-1h-2a1 1 0 1 0 0 2h2a1 1 0 0 0 0-2ZM4.343 14.243l-1.414 1.414a1 1 0 1 0 1.414 1.414l1.414-1.414a1 1 0 0 0-1.414-1.414ZM14.95 6.05a1 1 0 0 0 .707-.293l1.414-1.414a1 1 0 1 0-1.414-1.414l-1.414 1.414a1 1 0 0 0 .707 1.707Z\"/>\n    }\n  </svg> -->\n  {{label}}\n</button>"
         },
         {
             "name": "CoreComponent",
@@ -636,6 +668,16 @@
     "miscellaneous": {
         "variables": [
             {
+                "name": "Block",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    block: true,\n    label: 'Button',\n  },\n}"
+            },
+            {
                 "name": "Color",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -686,14 +728,14 @@
                 "defaultValue": "{\n  args: {\n    disabled: true,\n    label: 'Button',\n  },\n}"
             },
             {
-                "name": "Expand",
+                "name": "Id",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                "file": "projects/ngx-flan-kit-ux/src/lib/core/core.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\n  args: {\n    expand: 'block',\n    label: 'Button',\n  },\n}"
+                "defaultValue": "{\n  args: {\n    id: 'id-text',\n  },\n}"
             },
             {
                 "name": "Id",
@@ -704,16 +746,6 @@
                 "deprecationMessage": "",
                 "type": "Story",
                 "defaultValue": "{\n  args: {\n    items: [\n      { title: 'Item 1', content: 'Contenido 1' },\n      { title: 'Item 2', content: 'Contenido 2' },\n      { title: 'Item 3', content: 'Contenido 3' }\n    ],\n    id: 'accordion-id'\n  },\n}"
-            },
-            {
-                "name": "Id",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "projects/ngx-flan-kit-ux/src/lib/core/core.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story",
-                "defaultValue": "{\n  args: {\n    id: 'id-text',\n  },\n}"
             },
             {
                 "name": "Info",
@@ -734,16 +766,6 @@
                 "deprecationMessage": "",
                 "type": "Story",
                 "defaultValue": "{\n  args: {\n    size: 'large',\n    label: 'Button',\n  },\n}"
-            },
-            {
-                "name": "meta",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Meta<AccordionComponent>",
-                "defaultValue": "{\n  title: 'Roanja/Accordion',\n  component: AccordionComponent,\n  tags: ['autodocs'],\n  render: (args: AccordionComponent) => ({\n    props: {\n      ...args,\n    },\n  }),\n  argTypes: {\n    items: {\n      control: 'array',\n    },\n  },\n}"
             },
             {
                 "name": "meta",
@@ -773,7 +795,17 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Meta<BtnComponent>",
-                "defaultValue": "{\n  title: 'Roanja/Btn',\n  component: BtnComponent,\n  tags: ['autodocs'],\n  parameters: {\n    componentSubtitle:\n      'Buttons are used to initialize an action, either in the background or foreground of an experience. They are used primarily for actions, such as \"Add\", \"Close\", \"Cancel\", \"Save\", etc.',\n  },\n  /*\n   * More on Storybook argTypes at:\n   * https://storybook.js.org/docs/react/api/argtypes\n   */\n  render: (args: BtnComponent) => ({\n    props: {\n      ...args,\n    },\n  }),\n  \n}"
+                "defaultValue": "{\n  title: 'Roanja/Btn',\n  component: BtnComponent,\n  tags: ['autodocs'],\n  parameters: {\n    componentSubtitle:\n      `Buttons are used to initialize an action, either in the background or foreground of an experience. \n      They are used primarily for actions, such as \"Add\", \"Close\", \"Cancel\", \"Save\", etc.`,\n  },\n  render: (args: BtnComponent) => ({\n    props: {\n      ...args,\n    },\n  }),\n  \n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<AccordionComponent>",
+                "defaultValue": "{\n  title: 'Roanja/Accordion',\n  component: AccordionComponent,\n  tags: ['autodocs'],\n  render: (args: AccordionComponent) => ({\n    props: {\n      ...args,\n    },\n  }),\n  argTypes: {\n    items: {\n      control: 'array',\n    },\n  },\n}"
             },
             {
                 "name": "Outline",
@@ -903,17 +935,6 @@
                 "name": "Story",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
-                "rawtype": "StoryObj<AccordionComponent>",
-                "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "description": "",
-                "kind": 183
-            },
-            {
-                "name": "Story",
-                "ctype": "miscellaneous",
-                "subtype": "typealias",
                 "rawtype": "StoryObj<BtnThemeModeComponent>",
                 "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
                 "deprecated": false,
@@ -942,11 +963,32 @@
                 "deprecationMessage": "",
                 "description": "",
                 "kind": 183
+            },
+            {
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "StoryObj<AccordionComponent>",
+                "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 183
             }
         ],
         "enumerations": [],
         "groupedVariables": {
             "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts": [
+                {
+                    "name": "Block",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    block: true,\n    label: 'Button',\n  },\n}"
+                },
                 {
                     "name": "Color",
                     "ctype": "miscellaneous",
@@ -968,16 +1010,6 @@
                     "defaultValue": "{\n  args: {\n    disabled: true,\n    label: 'Button',\n  },\n}"
                 },
                 {
-                    "name": "Expand",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story",
-                    "defaultValue": "{\n  args: {\n    expand: 'block',\n    label: 'Button',\n  },\n}"
-                },
-                {
                     "name": "meta",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
@@ -985,7 +1017,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Meta<BtnComponent>",
-                    "defaultValue": "{\n  title: 'Roanja/Btn',\n  component: BtnComponent,\n  tags: ['autodocs'],\n  parameters: {\n    componentSubtitle:\n      'Buttons are used to initialize an action, either in the background or foreground of an experience. They are used primarily for actions, such as \"Add\", \"Close\", \"Cancel\", \"Save\", etc.',\n  },\n  /*\n   * More on Storybook argTypes at:\n   * https://storybook.js.org/docs/react/api/argtypes\n   */\n  render: (args: BtnComponent) => ({\n    props: {\n      ...args,\n    },\n  }),\n  \n}"
+                    "defaultValue": "{\n  title: 'Roanja/Btn',\n  component: BtnComponent,\n  tags: ['autodocs'],\n  parameters: {\n    componentSubtitle:\n      `Buttons are used to initialize an action, either in the background or foreground of an experience. \n      They are used primarily for actions, such as \"Add\", \"Close\", \"Cancel\", \"Save\", etc.`,\n  },\n  render: (args: BtnComponent) => ({\n    props: {\n      ...args,\n    },\n  }),\n  \n}"
                 },
                 {
                     "name": "Outline",
@@ -1223,19 +1255,6 @@
                     "kind": 192
                 }
             ],
-            "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts": [
-                {
-                    "name": "Story",
-                    "ctype": "miscellaneous",
-                    "subtype": "typealias",
-                    "rawtype": "StoryObj<AccordionComponent>",
-                    "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "description": "",
-                    "kind": 183
-                }
-            ],
             "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts": [
                 {
                     "name": "Story",
@@ -1269,6 +1288,19 @@
                     "subtype": "typealias",
                     "rawtype": "StoryObj<BtnComponent>",
                     "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 183
+                }
+            ],
+            "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<AccordionComponent>",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "description": "",
@@ -1365,8 +1397,8 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "BtnThemeModeComponent",
-                "coveragePercent": 41,
-                "coverageCount": "5/12",
+                "coveragePercent": 35,
+                "coverageCount": "5/14",
                 "status": "medium"
             },
             {
@@ -1464,8 +1496,18 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "BtnComponent",
+                "coveragePercent": 9,
+                "coverageCount": "1/11",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Block",
                 "coveragePercent": 0,
-                "coverageCount": "0/11",
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {
@@ -1484,16 +1526,6 @@
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
                 "name": "Disabled",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "Expand",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"

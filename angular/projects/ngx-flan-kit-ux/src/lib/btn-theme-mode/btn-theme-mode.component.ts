@@ -1,14 +1,20 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
+// import { faMoon, faSun } from '@fortawesome/free-regular-svg-icons';
+
 
 @Component({
   selector: 'rjb-btn-theme-mode',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FontAwesomeModule],
   templateUrl: './btn-theme-mode.component.html',
   styleUrl: './btn-theme-mode.component.css',
 })
 export class BtnThemeModeComponent {
+  faMoon = faMoon;
+  faSun = faSun;
   /**
    * Is this the principal call to action on the page?
    */

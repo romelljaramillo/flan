@@ -1,5 +1,4 @@
-import { componentWrapperDecorator, type Meta, type StoryObj } from '@storybook/angular';
-
+import type { Meta, StoryObj } from '@storybook/angular';
 import { BtnComponent } from './btn.component';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
@@ -9,12 +8,9 @@ const meta: Meta<BtnComponent> = {
   tags: ['autodocs'],
   parameters: {
     componentSubtitle:
-      'Buttons are used to initialize an action, either in the background or foreground of an experience. They are used primarily for actions, such as "Add", "Close", "Cancel", "Save", etc.',
+      `Buttons are used to initialize an action, either in the background or foreground of an experience. 
+      They are used primarily for actions, such as "Add", "Close", "Cancel", "Save", etc.`,
   },
-  /*
-   * More on Storybook argTypes at:
-   * https://storybook.js.org/docs/react/api/argtypes
-   */
   render: (args: BtnComponent) => ({
     props: {
       ...args,
@@ -54,9 +50,9 @@ export const SizeSm: Story = {
   },
 };
 
-export const Expand: Story = {
+export const Block: Story = {
   args: {
-    expand: 'block',
+    block: true,
     label: 'Button',
   },
 };
