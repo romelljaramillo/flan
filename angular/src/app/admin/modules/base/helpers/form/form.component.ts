@@ -40,11 +40,12 @@ export enum TypeForm {
   template: `<div class="text-right">
       @if (btnNew) {
       <rjb-btn
-        [type]="'primary'"
+        [color]="'primary'"
         css="btn-sm mb-2"
         (onClick)="activeForm(true)"
         icon="plus"
         label="Nuevo"
+        [additionalAttributes]="{'data-custom-attribute': 'valor', 'aria-label': 'Boton'}"
       >
       </rjb-btn>
       }

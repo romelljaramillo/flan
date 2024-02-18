@@ -1,22 +1,30 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CoreComponent } from '../core/core.component';
+import { DynamicAttrsDirective } from '../core/dynamic-attrs.directive';
 
 @Component({
   selector: 'rjb-btn',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DynamicAttrsDirective],
   template: `
     @if(block) {
-      <div class="d-grid gap-2">
-        <ng-container *ngTemplateOutlet="buttonTemplate"></ng-container>
-      </div>
-    } @else {
+    <div class="d-grid gap-2">
       <ng-container *ngTemplateOutlet="buttonTemplate"></ng-container>
+    </div>
+    } @else {
+    <ng-container *ngTemplateOutlet="buttonTemplate"></ng-container>
     }
     <ng-template #buttonTemplate>
-      <button [ngClass]="classes" (click)="onClick.emit($event)" [disabled]="disabled">
-        <i *ngIf="icon" [ngClass]="onIcon"></i>
+      <button [attr.id]="id || null" [attr.type]="type || null"
+        [ngClass]="classes"
+        (click)="onClick.emit($event)"
+        [disabled]="disabled"
+        [dynamicAttrs]="additionalAttributes"
+      >
+        @if(icon) {
+          <i [ngClass]="onIcon"></i>
+        }
         {{ label }}
         <ng-content></ng-content>
       </button>
@@ -25,25 +33,27 @@ import { CoreComponent } from '../core/core.component';
   styleUrls: ['./btn.component.css'],
 })
 export class BtnComponent extends CoreComponent {
-  @Input() type: 'primary' | 'secondary' | 'success' | 'danger' = 'primary';
   @Input() outline = false;
-  @Input() size: 'sm' | 'md' | 'lg' = 'md';
-  @Input() label = '';
-  /**
-   * the icon is from the fontawesome lib and the format should be only the name part of the icon for example: fa fa-[icon-name]
-   */
-  @Input() icon = '';
+  @Input() size!: 'sm' | 'md' | 'lg';
+  @Input() type!: 'button' | 'submit' | 'reset';
+  @Input() label!: string;
   @Input() disabled = false;
   @Input() block = false;
   @Output() onClick = new EventEmitter<Event>();
 
   get classes(): string[] {
-    const btnType = this.outline ? `btn-outline-${this.type}` : `btn-${this.type}`;
-    const sizeClass = `btn-${this.size}`;
-    return ['btn', btnType, sizeClass, this.disabled ? 'disabled' : ''].filter(Boolean);
-  }
+    let btnType = '';
 
-  get onIcon(): string {
-    return `fa fa-${this.icon}`;
+    if (this.color) {
+      btnType = this.outline
+        ? `btn btn-outline-${this.color}`
+        : `btn btn-${this.color}`;
+    }
+
+    const sizeClass = (this.size) ? `btn-${this.size}` : '';
+    
+    return [btnType, sizeClass, this.textColor, this.css, this.disabled ? 'disabled' : ''].filter(
+      Boolean
+    );
   }
 }

@@ -186,7 +186,7 @@
         },
         {
             "name": "BtnComponent",
-            "id": "component-BtnComponent-6843414dfec10dbf531ebf7ddda9ff1598fe0ce659a727dc6168a7174cc85778517c2b90b7ee10a3ffeedd33311b7d4cf9b24a0add6c0061f70d2707ad42b973",
+            "id": "component-BtnComponent-63b6df6706082241b5b8b71c7dc89e647035764f1e3065d4fa185b5620adc01e3ec785082ebbd1cf0a6a8593211f3cb7b5346caeb846d7b0cbbd381e04f6865d",
             "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -198,7 +198,7 @@
                 "./btn.component.css"
             ],
             "styles": [],
-            "template": "@if(block) {\n  <div class=\"d-grid gap-2\">\n    <ng-container *ngTemplateOutlet=\"buttonTemplate\"></ng-container>\n  </div>\n} @else {\n  <ng-container *ngTemplateOutlet=\"buttonTemplate\"></ng-container>\n}\n<ng-template #buttonTemplate>\n  <button [ngClass]=\"classes\" (click)=\"onClick.emit($event)\" [disabled]=\"disabled\">\n    <i *ngIf=\"icon\" [ngClass]=\"onIcon\"></i>\n    {{ label }}\n    <ng-content></ng-content>\n  </button>\n</ng-template>\n",
+            "template": "@if(block) {\n<div class=\"d-grid gap-2\">\n  <ng-container *ngTemplateOutlet=\"buttonTemplate\"></ng-container>\n</div>\n} @else {\n<ng-container *ngTemplateOutlet=\"buttonTemplate\"></ng-container>\n}\n<ng-template #buttonTemplate>\n  <button [attr.id]=\"id || null\" [attr.type]=\"type || null\"\n    [ngClass]=\"classes\"\n    (click)=\"onClick.emit($event)\"\n    [disabled]=\"disabled\"\n    [ngStyle]=\"attributesKeys\"\n  >\n    @if(icon) {\n      <i [ngClass]=\"onIcon\"></i>\n    }\n    {{ label }}\n    <ng-content></ng-content>\n  </button>\n</ng-template>\n",
             "templateUrl": [],
             "viewProviders": [],
             "hostDirectives": [],
@@ -208,7 +208,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 37,
+                    "line": 44,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -217,27 +217,17 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 36,
+                    "rawdescription": "\n\nthe icon is from the fontawesome lib and the format should be only the name part of the icon for example: fa fa-[icon-name]\n",
+                    "description": "<p>the icon is from the fontawesome lib and the format should be only the name part of the icon for example: fa fa-[icon-name]</p>\n",
+                    "line": 43,
                     "type": "boolean",
                     "decorators": []
                 },
                 {
-                    "name": "icon",
-                    "defaultValue": "''",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "rawdescription": "\n\nthe icon is from the fontawesome lib and the format should be only the name part of the icon for example: fa fa-[icon-name]\n",
-                    "description": "<p>the icon is from the fontawesome lib and the format should be only the name part of the icon for example: fa fa-[icon-name]</p>\n",
-                    "line": 35,
-                    "type": "string",
-                    "decorators": []
-                },
-                {
                     "name": "label",
-                    "defaultValue": "''",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 31,
+                    "line": 38,
                     "type": "string",
                     "decorators": []
                 },
@@ -246,34 +236,73 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 29,
+                    "line": 35,
                     "type": "boolean",
                     "decorators": []
                 },
                 {
                     "name": "size",
-                    "defaultValue": "'md'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 30,
+                    "line": 36,
                     "type": "\"sm\" | \"md\" | \"lg\"",
                     "decorators": []
                 },
                 {
                     "name": "type",
-                    "defaultValue": "'primary'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 28,
-                    "type": "\"primary\" | \"secondary\" | \"success\" | \"danger\"",
+                    "line": 37,
+                    "type": "\"button\" | \"submit\" | \"reset\"",
                     "decorators": []
                 },
                 {
+                    "name": "attributes",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nApplies a custom attribute to the element example: 'data-custom=\"example\"'\n",
+                    "description": "<p>Applies a custom attribute to the element example: &#39;data-custom=&quot;example&quot;&#39;</p>\n",
+                    "line": 31,
+                    "type": "literal type",
+                    "decorators": [],
+                    "inheritance": {
+                        "file": "CoreComponent"
+                    }
+                },
+                {
+                    "name": "color",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nBootstrap’s color palette has continued to expand and become more nuanced in v5.3.0.\nWe’ve added new variables for secondary and tertiary text and background colors, plus {color}-bg-subtle,\n{color}-border-subtle, and {color}-text-emphasis for our theme colors. These new colors are available\nthrough Sass and CSS variables (but not our color maps or utility classes) with the express goal of making\nit easier to customize across multiple colors modes like light and dark. These new variables are globally\nset on :root and are adapted for our new dark color mode while our original theme colors remain unchanged.\n",
+                    "description": "<p>Bootstrap’s color palette has continued to expand and become more nuanced in v5.3.0.\nWe’ve added new variables for secondary and tertiary text and background colors, plus {color}-bg-subtle,\n{color}-border-subtle, and {color}-text-emphasis for our theme colors. These new colors are available\nthrough Sass and CSS variables (but not our color maps or utility classes) with the express goal of making\nit easier to customize across multiple colors modes like light and dark. These new variables are globally\nset on :root and are adapted for our new dark color mode while our original theme colors remain unchanged.</p>\n",
+                    "line": 41,
+                    "type": "\"primary\" | \"secondary\" | \"success\" | \"info\" | \"warning\" | \"danger\" | \"light\" | \"dark\" | \"link\"",
+                    "decorators": [],
+                    "inheritance": {
+                        "file": "CoreComponent"
+                    }
+                },
+                {
                     "name": "css",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nApplies a custom class to the element example: 'fw-bold'\n",
+                    "description": "<p>Applies a custom class to the element example: &#39;fw-bold&#39;</p>\n",
+                    "line": 26,
+                    "type": "string",
+                    "decorators": [],
+                    "inheritance": {
+                        "file": "CoreComponent"
+                    }
+                },
+                {
+                    "name": "icon",
                     "defaultValue": "''",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 16,
+                    "rawdescription": "\n\nthe icon is from the fontawesome lib and the format should be only the name part of the icon for example: fa fa-[icon-name]\nexample: 'fa fa-[plus]'\n",
+                    "description": "<p>the icon is from the fontawesome lib and the format should be only the name part of the icon for example: fa fa-[icon-name]\nexample: &#39;fa fa-[plus]&#39;</p>\n",
+                    "line": 70,
                     "type": "string",
                     "decorators": [],
                     "inheritance": {
@@ -282,11 +311,25 @@
                 },
                 {
                     "name": "id",
-                    "defaultValue": "''",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 17,
+                    "rawdescription": "\n\nApplies an identifier to the element\n",
+                    "description": "<p>Applies an identifier to the element</p>\n",
+                    "line": 21,
                     "type": "string",
+                    "decorators": [],
+                    "inheritance": {
+                        "file": "CoreComponent"
+                    }
+                },
+                {
+                    "name": "textColor",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nApplies a text color to the element\n",
+                    "description": "<p>Applies a text color to the element</p>\n",
+                    "line": 55,
+                    "type": "\"text-primary\" | \"text-secondary\" | \"text-success\" | \"text-info\" | \"text-warning\" | \"text-danger\" | \"text-light\" | \"text-dark\" | \"text-link\"",
                     "decorators": [],
                     "inheritance": {
                         "file": "CoreComponent"
@@ -299,7 +342,7 @@
                     "defaultValue": "new EventEmitter<Event>()",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 38,
+                    "line": 45,
                     "type": "EventEmitter"
                 }
             ],
@@ -319,7 +362,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { Component, EventEmitter, Input, Output } from '@angular/core';\nimport { CoreComponent } from '../core/core.component';\n\n@Component({\n  selector: 'rjb-btn',\n  standalone: true,\n  imports: [CommonModule],\n  template: `\n    @if(block) {\n      <div class=\"d-grid gap-2\">\n        <ng-container *ngTemplateOutlet=\"buttonTemplate\"></ng-container>\n      </div>\n    } @else {\n      <ng-container *ngTemplateOutlet=\"buttonTemplate\"></ng-container>\n    }\n    <ng-template #buttonTemplate>\n      <button [ngClass]=\"classes\" (click)=\"onClick.emit($event)\" [disabled]=\"disabled\">\n        <i *ngIf=\"icon\" [ngClass]=\"onIcon\"></i>\n        {{ label }}\n        <ng-content></ng-content>\n      </button>\n    </ng-template>\n  `,\n  styleUrls: ['./btn.component.css'],\n})\nexport class BtnComponent extends CoreComponent {\n  @Input() type: 'primary' | 'secondary' | 'success' | 'danger' = 'primary';\n  @Input() outline = false;\n  @Input() size: 'sm' | 'md' | 'lg' = 'md';\n  @Input() label = '';\n  /**\n   * the icon is from the fontawesome lib and the format should be only the name part of the icon for example: fa fa-[icon-name]\n   */\n  @Input() icon = '';\n  @Input() disabled = false;\n  @Input() block = false;\n  @Output() onClick = new EventEmitter<Event>();\n\n  get classes(): string[] {\n    const btnType = this.outline ? `btn-outline-${this.type}` : `btn-${this.type}`;\n    const sizeClass = `btn-${this.size}`;\n    return ['btn', btnType, sizeClass, this.disabled ? 'disabled' : ''].filter(Boolean);\n  }\n\n  get onIcon(): string {\n    return `fa fa-${this.icon}`;\n  }\n}\n",
+            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { Component, EventEmitter, Input, Output } from '@angular/core';\nimport { CoreComponent } from '../core/core.component';\n\n@Component({\n  selector: 'rjb-btn',\n  standalone: true,\n  imports: [CommonModule],\n  template: `\n    @if(block) {\n    <div class=\"d-grid gap-2\">\n      <ng-container *ngTemplateOutlet=\"buttonTemplate\"></ng-container>\n    </div>\n    } @else {\n    <ng-container *ngTemplateOutlet=\"buttonTemplate\"></ng-container>\n    }\n    <ng-template #buttonTemplate>\n      <button [attr.id]=\"id || null\" [attr.type]=\"type || null\"\n        [ngClass]=\"classes\"\n        (click)=\"onClick.emit($event)\"\n        [disabled]=\"disabled\"\n        [ngStyle]=\"attributesKeys\"\n      >\n        @if(icon) {\n          <i [ngClass]=\"onIcon\"></i>\n        }\n        {{ label }}\n        <ng-content></ng-content>\n      </button>\n    </ng-template>\n  `,\n  styleUrls: ['./btn.component.css'],\n})\nexport class BtnComponent extends CoreComponent {\n  @Input() outline = false;\n  @Input() size!: 'sm' | 'md' | 'lg';\n  @Input() type!: 'button' | 'submit' | 'reset';\n  @Input() label!: string;\n  /**\n   * the icon is from the fontawesome lib and the format should be only the name part of the icon for example: fa fa-[icon-name]\n   */\n  // @Input() icon = '';\n  @Input() disabled = false;\n  @Input() block = false;\n  @Output() onClick = new EventEmitter<Event>();\n\n  get classes(): string[] {\n    let btnType = '';\n\n    if (this.color) {\n      btnType = this.outline\n        ? `btn btn-outline-${this.color}`\n        : `btn btn-${this.color}`;\n    }\n\n    const sizeClass = (this.size) ? `btn-${this.size}` : '';\n    \n    return [btnType, sizeClass, this.textColor, this.css, this.disabled ? 'disabled' : ''].filter(\n      Boolean\n    );\n  }\n\n  // get onIcon(): string {\n  //   return `fa fa-${this.icon}`;\n  // }\n\n  get attributesKeys() {\n    const attrs: { [key: string]: any } = {}; // Explicitly define the type of attrs\n    if (this.attributes) {\n      for (const key of Object.keys(this.attributes)) {\n        attrs[key] = this.attributes[key];\n      }\n    }\n    // Aquí puedes agregar más lógica si es necesario\n    return attrs;\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -338,23 +381,23 @@
                         "name": "classes",
                         "type": "[]",
                         "returnType": "string[]",
-                        "line": 40
+                        "line": 47
                     }
                 },
-                "onIcon": {
-                    "name": "onIcon",
+                "attributesKeys": {
+                    "name": "attributesKeys",
                     "getSignature": {
-                        "name": "onIcon",
-                        "type": "string",
-                        "returnType": "string",
-                        "line": 46
+                        "name": "attributesKeys",
+                        "type": "",
+                        "returnType": "",
+                        "line": 67
                     }
                 }
             }
         },
         {
             "name": "BtnThemeModeComponent",
-            "id": "component-BtnThemeModeComponent-5ac05a3af1bd3bb5506363999059571945a1625b6442dffaee724e9260ae9c25c80e2b8bd458fcadf5d0843aa27ed2d1d6efe9063983bacfeac38f5b972e3c3a",
+            "id": "component-BtnThemeModeComponent-172d43dac6208db4a9cdc583242bb121316a3b1c5755a19bc084822cfd201804163faa165b1950137269d235c50f39fdd1499351de24d97920e9164d289d2455",
             "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -371,32 +414,21 @@
             "hostDirectives": [],
             "inputsClass": [
                 {
-                    "name": "backgroundColor",
-                    "defaultValue": "'light'",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "rawdescription": "\n\nWhat background color to use\n",
-                    "description": "<p>What background color to use</p>\n",
-                    "line": 28,
-                    "type": "\"primary\" | \"secondary\" | \"success\" | \"info\" | \"warning\" | \"danger\" | \"light\" | \"dark\"",
-                    "decorators": []
-                },
-                {
                     "name": "label",
                     "defaultValue": "'Button'",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
                         {
-                            "pos": 1045,
-                            "end": 1058,
+                            "pos": 1127,
+                            "end": 1140,
                             "flags": 16842752,
                             "modifierFlagsCache": 0,
                             "transformFlags": 0,
                             "kind": 334,
                             "tagName": {
-                                "pos": 1046,
-                                "end": 1054,
+                                "pos": 1128,
+                                "end": 1136,
                                 "flags": 16842752,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -408,7 +440,7 @@
                     ],
                     "rawdescription": "\n\nButton contents\n\n",
                     "description": "<p>Button contents</p>\n",
-                    "line": 42,
+                    "line": 43,
                     "type": "string",
                     "decorators": []
                 },
@@ -419,7 +451,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nIs this the principal call to action on the page?\n",
                     "description": "<p>Is this the principal call to action on the page?</p>\n",
-                    "line": 22,
+                    "line": 23,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -430,9 +462,88 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nHow large should the button be?\n",
                     "description": "<p>How large should the button be?</p>\n",
-                    "line": 34,
+                    "line": 35,
                     "type": "\"small\" | \"medium\" | \"large\"",
                     "decorators": []
+                },
+                {
+                    "name": "attributes",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nApplies a custom attribute to the element example: 'data-custom=\"example\"'\n",
+                    "description": "<p>Applies a custom attribute to the element example: &#39;data-custom=&quot;example&quot;&#39;</p>\n",
+                    "line": 31,
+                    "type": "literal type",
+                    "decorators": [],
+                    "inheritance": {
+                        "file": "CoreComponent"
+                    }
+                },
+                {
+                    "name": "color",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nBootstrap’s color palette has continued to expand and become more nuanced in v5.3.0.\nWe’ve added new variables for secondary and tertiary text and background colors, plus {color}-bg-subtle,\n{color}-border-subtle, and {color}-text-emphasis for our theme colors. These new colors are available\nthrough Sass and CSS variables (but not our color maps or utility classes) with the express goal of making\nit easier to customize across multiple colors modes like light and dark. These new variables are globally\nset on :root and are adapted for our new dark color mode while our original theme colors remain unchanged.\n",
+                    "description": "<p>Bootstrap’s color palette has continued to expand and become more nuanced in v5.3.0.\nWe’ve added new variables for secondary and tertiary text and background colors, plus {color}-bg-subtle,\n{color}-border-subtle, and {color}-text-emphasis for our theme colors. These new colors are available\nthrough Sass and CSS variables (but not our color maps or utility classes) with the express goal of making\nit easier to customize across multiple colors modes like light and dark. These new variables are globally\nset on :root and are adapted for our new dark color mode while our original theme colors remain unchanged.</p>\n",
+                    "line": 41,
+                    "type": "\"primary\" | \"secondary\" | \"success\" | \"info\" | \"warning\" | \"danger\" | \"light\" | \"dark\" | \"link\"",
+                    "decorators": [],
+                    "inheritance": {
+                        "file": "CoreComponent"
+                    }
+                },
+                {
+                    "name": "css",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nApplies a custom class to the element example: 'fw-bold'\n",
+                    "description": "<p>Applies a custom class to the element example: &#39;fw-bold&#39;</p>\n",
+                    "line": 26,
+                    "type": "string",
+                    "decorators": [],
+                    "inheritance": {
+                        "file": "CoreComponent"
+                    }
+                },
+                {
+                    "name": "icon",
+                    "defaultValue": "''",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nthe icon is from the fontawesome lib and the format should be only the name part of the icon for example: fa fa-[icon-name]\nexample: 'fa fa-[plus]'\n",
+                    "description": "<p>the icon is from the fontawesome lib and the format should be only the name part of the icon for example: fa fa-[icon-name]\nexample: &#39;fa fa-[plus]&#39;</p>\n",
+                    "line": 70,
+                    "type": "string",
+                    "decorators": [],
+                    "inheritance": {
+                        "file": "CoreComponent"
+                    }
+                },
+                {
+                    "name": "id",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nApplies an identifier to the element\n",
+                    "description": "<p>Applies an identifier to the element</p>\n",
+                    "line": 21,
+                    "type": "string",
+                    "decorators": [],
+                    "inheritance": {
+                        "file": "CoreComponent"
+                    }
+                },
+                {
+                    "name": "textColor",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nApplies a text color to the element\n",
+                    "description": "<p>Applies a text color to the element</p>\n",
+                    "line": 55,
+                    "type": "\"text-primary\" | \"text-secondary\" | \"text-success\" | \"text-info\" | \"text-warning\" | \"text-danger\" | \"text-light\" | \"text-dark\" | \"text-link\"",
+                    "decorators": [],
+                    "inheritance": {
+                        "file": "CoreComponent"
+                    }
                 }
             ],
             "outputsClass": [
@@ -443,7 +554,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nOptional click handler\n",
                     "description": "<p>Optional click handler</p>\n",
-                    "line": 48,
+                    "line": 49,
                     "type": "EventEmitter"
                 }
             ],
@@ -456,7 +567,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 16
+                    "line": 17
                 },
                 {
                     "name": "faSun",
@@ -466,7 +577,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 17
+                    "line": 18
                 },
                 {
                     "name": "isDarkMode",
@@ -476,7 +587,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 50
+                    "line": 51
                 },
                 {
                     "name": "themeClasses",
@@ -485,7 +596,7 @@
                     "type": "string | undefined",
                     "optional": false,
                     "description": "",
-                    "line": 51
+                    "line": 52
                 }
             ],
             "methodsClass": [
@@ -495,7 +606,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 75,
+                    "line": 78,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -505,7 +616,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 87,
+                    "line": 90,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -515,7 +626,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 79,
+                    "line": 82,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -538,7 +649,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, EventEmitter, Input, Output } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { FontAwesomeModule } from '@fortawesome/angular-fontawesome';\nimport { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';\n// import { faMoon, faSun } from '@fortawesome/free-regular-svg-icons';\n\n\n@Component({\n  selector: 'rjb-btn-theme-mode',\n  standalone: true,\n  imports: [CommonModule, FontAwesomeModule],\n  templateUrl: './btn-theme-mode.component.html',\n  styleUrl: './btn-theme-mode.component.css',\n})\nexport class BtnThemeModeComponent {\n  faMoon = faMoon;\n  faSun = faSun;\n  /**\n   * Is this the principal call to action on the page?\n   */\n  @Input()\n  primary = false;\n\n  /**\n   * What background color to use\n   */\n  @Input()\n  backgroundColor: 'primary' |  'secondary' |  'success' |  'info' |  'warning' |  'danger' |  'light' |  'dark' = 'light';\n  \n  /**\n   * How large should the button be?\n   */\n  @Input()\n  size: 'small' | 'medium' | 'large' = 'medium';\n\n  /**\n   * Button contents\n   *\n   * @required\n   */\n  @Input()\n  label = 'Button';\n\n  /**\n   * Optional click handler\n   */\n  @Output()\n  onClick = new EventEmitter<Event>();\n\n  isDarkMode = false;\n  themeClasses: string | undefined;\n\n  public get classes(): string[] {\n    const mode = this.primary\n      ? 'storybook-button--primary'\n      : 'storybook-button--secondary';\n\n    return ['storybook-button', `storybook-button--${this.size}`, mode];\n  }\n\n  constructor() {\n    const storedDarkMode = localStorage.getItem('color-theme');\n    console.log('storedDarkMode', storedDarkMode);\n    if (storedDarkMode !== null) {\n      this.isDarkMode = storedDarkMode ? JSON.parse(storedDarkMode) : false;\n    } else {\n      const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;\n      console.log('prefersDarkMode', prefersDarkMode);\n      this.isDarkMode = prefersDarkMode;\n    }\n\n    this.updateBodyClass();\n  }\n\n  ngOnInit(): void {\n    this.updateBodyClass();\n  }\n\n  updateBodyClass() {\n    document.documentElement.setAttribute('data-bs-theme', this.isDarkMode ? 'dark' : 'light');\n\n    if (this.backgroundColor === 'dark' || this.backgroundColor === 'light') {\n      this.backgroundColor = this.isDarkMode ? 'dark' : 'light';\n    }\n  }\n\n  toggleDarkMode() {\n    this.isDarkMode = !this.isDarkMode;\n    localStorage.setItem('color-theme', JSON.stringify(this.isDarkMode));\n    this.updateBodyClass();\n  }\n}\n",
+            "sourceCode": "import { Component, EventEmitter, Input, Output } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { FontAwesomeModule } from '@fortawesome/angular-fontawesome';\nimport { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';\nimport { CoreComponent } from '../core/core.component';\n// import { faMoon, faSun } from '@fortawesome/free-regular-svg-icons';\n\n\n@Component({\n  selector: 'rjb-btn-theme-mode',\n  standalone: true,\n  imports: [CommonModule, FontAwesomeModule],\n  templateUrl: './btn-theme-mode.component.html',\n  styleUrl: './btn-theme-mode.component.css',\n})\nexport class BtnThemeModeComponent extends CoreComponent{\n  faMoon = faMoon;\n  faSun = faSun;\n  /**\n   * Is this the principal call to action on the page?\n   */\n  @Input()\n  primary = false;\n\n  // /**\n  //  * What background color to use\n  //  */\n  // @Input()\n  // color: 'primary' |  'secondary' |  'success' |  'info' |  'warning' |  'danger' |  'light' |  'dark' = 'light';\n  \n  /**\n   * How large should the button be?\n   */\n  @Input()\n  size: 'small' | 'medium' | 'large' = 'medium';\n\n  /**\n   * Button contents\n   *\n   * @required\n   */\n  @Input()\n  label = 'Button';\n\n  /**\n   * Optional click handler\n   */\n  @Output()\n  onClick = new EventEmitter<Event>();\n\n  isDarkMode = false;\n  themeClasses: string | undefined;\n\n  public get classes(): string[] {\n    const mode = this.primary\n      ? 'storybook-button--primary'\n      : 'storybook-button--secondary';\n\n    return ['storybook-button', `storybook-button--${this.size}`, mode];\n  }\n\n  constructor() {\n    super();\n    this.color = 'light';\n    const storedDarkMode = localStorage.getItem('color-theme');\n    console.log('storedDarkMode', storedDarkMode);\n    if (storedDarkMode !== null) {\n      this.isDarkMode = storedDarkMode ? JSON.parse(storedDarkMode) : false;\n    } else {\n      const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;\n      console.log('prefersDarkMode', prefersDarkMode);\n      this.isDarkMode = prefersDarkMode;\n    }\n\n    this.updateBodyClass();\n  }\n\n  ngOnInit(): void {\n    this.updateBodyClass();\n  }\n\n  updateBodyClass() {\n    document.documentElement.setAttribute('data-bs-theme', this.isDarkMode ? 'dark' : 'light');\n\n    if (this.color === 'dark' || this.color === 'light') {\n      this.color = this.isDarkMode ? 'dark' : 'light';\n    }\n  }\n\n  toggleDarkMode() {\n    this.isDarkMode = !this.isDarkMode;\n    localStorage.setItem('color-theme', JSON.stringify(this.isDarkMode));\n    this.updateBodyClass();\n  }\n}\n",
             "styleUrl": "./btn-theme-mode.component.css",
             "assetsDirs": [],
             "styleUrlsData": "",
@@ -549,9 +660,11 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "args": [],
-                "line": 59
+                "line": 60
             },
-            "extends": [],
+            "extends": [
+                "CoreComponent"
+            ],
             "accessors": {
                 "classes": {
                     "name": "classes",
@@ -559,15 +672,15 @@
                         "name": "classes",
                         "type": "[]",
                         "returnType": "string[]",
-                        "line": 53
+                        "line": 54
                     }
                 }
             },
-            "templateData": "<button id=\"theme-toggle\" data-tooltip-target=\"tooltip-toggle\" type=\"button\" class=\"btn btn-{{backgroundColor}}\"\n(click)=\"toggleDarkMode()\">\n  @if(isDarkMode){\n  <fa-icon [icon]=\"faMoon\"></fa-icon>\n} @else {\n    <fa-icon [icon]=\"faSun\"></fa-icon>\n  }\n<!-- \n  <svg id=\"theme-icon\"  width=\"16\" height=\"16\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" viewBox=\"0 0 18 20\">\n    @if(isDarkMode){\n    <path d=\"M17.8 13.75a1 1 0 0 0-.859-.5A7.488 7.488 0 0 1 10.52 2a1 1 0 0 0 0-.969A1.035 1.035 0 0 0 9.687.5h-.113a9.5 9.5 0 1 0 8.222 14.247 1 1 0 0 0 .004-.997Z\"/>\n    } @else {\n    <path d=\"M10 15a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0-11a1 1 0 0 0 1-1V1a1 1 0 0 0-2 0v2a1 1 0 0 0 1 1Zm0 12a1 1 0 0 0-1 1v2a1 1 0 1 0 2 0v-2a1 1 0 0 0-1-1ZM4.343 5.757a1 1 0 0 0 1.414-1.414L4.343 2.929a1 1 0 0 0-1.414 1.414l1.414 1.414Zm11.314 8.486a1 1 0 0 0-1.414 1.414l1.414 1.414a1 1 0 0 0 1.414-1.414l-1.414-1.414ZM4 10a1 1 0 0 0-1-1H1a1 1 0 0 0 0 2h2a1 1 0 0 0 1-1Zm15-1h-2a1 1 0 1 0 0 2h2a1 1 0 0 0 0-2ZM4.343 14.243l-1.414 1.414a1 1 0 1 0 1.414 1.414l1.414-1.414a1 1 0 0 0-1.414-1.414ZM14.95 6.05a1 1 0 0 0 .707-.293l1.414-1.414a1 1 0 1 0-1.414-1.414l-1.414 1.414a1 1 0 0 0 .707 1.707Z\"/>\n    }\n  </svg> -->\n  {{label}}\n</button>"
+            "templateData": "<button id=\"theme-toggle\" data-tooltip-target=\"tooltip-toggle\" type=\"button\" class=\"btn btn-{{color}}\"\n  (click)=\"toggleDarkMode()\">\n  @if(isDarkMode){\n  <fa-icon [icon]=\"faMoon\"></fa-icon>\n  } @else {\n  <fa-icon [icon]=\"faSun\"></fa-icon>\n  }\n  {{label}}\n</button>"
         },
         {
             "name": "CoreComponent",
-            "id": "component-CoreComponent-9a1a72ae92deb8c3d591b8936901a3b4cc31e805af1bd9d6ebb7388f01123e9059ec7101bdba6348d0492c6bbb56d445dc2848c56e46d96b8048a4e5e4bb1996",
+            "id": "component-CoreComponent-2cc0d92bbe2c5fc28bb73e7c0d17d1c05ca2c4f33b60dce722aa506eec0f554004372b9f33675240ac366edf3f8a4e8c795cbe2194ba65991bd1c79cd2b74d53",
             "file": "projects/ngx-flan-kit-ux/src/lib/core/core.component.ts",
             "changeDetection": "ChangeDetectionStrategy.OnPush",
             "encapsulation": [],
@@ -578,27 +691,70 @@
             "selector": "rjb-core",
             "styleUrls": [],
             "styles": [],
-            "template": "<p [id]=\"id\" [className]=\"css\">core works!</p>",
+            "template": "<p    [attr.id]=\"id || null\"\n    [ngClass]=\"[css, textColor, 'btn btn-' + color]\"\n  >\n    core works!\n  </p>",
             "templateUrl": [],
             "viewProviders": [],
             "hostDirectives": [],
             "inputsClass": [
                 {
+                    "name": "attributes",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nApplies a custom attribute to the element example: 'data-custom=\"example\"'\n",
+                    "description": "<p>Applies a custom attribute to the element example: &#39;data-custom=&quot;example&quot;&#39;</p>\n",
+                    "line": 31,
+                    "type": "literal type",
+                    "decorators": []
+                },
+                {
+                    "name": "color",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nBootstrap’s color palette has continued to expand and become more nuanced in v5.3.0.\nWe’ve added new variables for secondary and tertiary text and background colors, plus {color}-bg-subtle,\n{color}-border-subtle, and {color}-text-emphasis for our theme colors. These new colors are available\nthrough Sass and CSS variables (but not our color maps or utility classes) with the express goal of making\nit easier to customize across multiple colors modes like light and dark. These new variables are globally\nset on :root and are adapted for our new dark color mode while our original theme colors remain unchanged.\n",
+                    "description": "<p>Bootstrap’s color palette has continued to expand and become more nuanced in v5.3.0.\nWe’ve added new variables for secondary and tertiary text and background colors, plus {color}-bg-subtle,\n{color}-border-subtle, and {color}-text-emphasis for our theme colors. These new colors are available\nthrough Sass and CSS variables (but not our color maps or utility classes) with the express goal of making\nit easier to customize across multiple colors modes like light and dark. These new variables are globally\nset on :root and are adapted for our new dark color mode while our original theme colors remain unchanged.</p>\n",
+                    "line": 41,
+                    "type": "\"primary\" | \"secondary\" | \"success\" | \"info\" | \"warning\" | \"danger\" | \"light\" | \"dark\" | \"link\"",
+                    "decorators": []
+                },
+                {
                     "name": "css",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nApplies a custom class to the element example: 'fw-bold'\n",
+                    "description": "<p>Applies a custom class to the element example: &#39;fw-bold&#39;</p>\n",
+                    "line": 26,
+                    "type": "string",
+                    "decorators": []
+                },
+                {
+                    "name": "icon",
                     "defaultValue": "''",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 16,
+                    "rawdescription": "\n\nthe icon is from the fontawesome lib and the format should be only the name part of the icon for example: fa fa-[icon-name]\nexample: 'fa fa-[plus]'\n",
+                    "description": "<p>the icon is from the fontawesome lib and the format should be only the name part of the icon for example: fa fa-[icon-name]\nexample: &#39;fa fa-[plus]&#39;</p>\n",
+                    "line": 70,
                     "type": "string",
                     "decorators": []
                 },
                 {
                     "name": "id",
-                    "defaultValue": "''",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 17,
+                    "rawdescription": "\n\nApplies an identifier to the element\n",
+                    "description": "<p>Applies an identifier to the element</p>\n",
+                    "line": 21,
                     "type": "string",
+                    "decorators": []
+                },
+                {
+                    "name": "textColor",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nApplies a text color to the element\n",
+                    "description": "<p>Applies a text color to the element</p>\n",
+                    "line": 55,
+                    "type": "\"text-primary\" | \"text-secondary\" | \"text-success\" | \"text-info\" | \"text-warning\" | \"text-danger\" | \"text-light\" | \"text-dark\" | \"text-link\"",
                     "decorators": []
                 }
             ],
@@ -619,12 +775,23 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { ChangeDetectionStrategy, Component, Input } from '@angular/core';\n\n@Component({\n  selector: 'rjb-core',\n  standalone: true,\n  imports: [\n    CommonModule,\n  ],\n  template: `<p [id]=\"id\" [className]=\"css\">core works!</p>`,\n  styleUrl: './core.component.css',\n  changeDetection: ChangeDetectionStrategy.OnPush,\n})\nexport class CoreComponent { \n\n  @Input() css = '';\n  @Input() id = '';\n}\n",
+            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { ChangeDetectionStrategy, Component, Input } from '@angular/core';\n\n@Component({\n  selector: 'rjb-core',\n  standalone: true,\n  imports: [CommonModule],\n  template: `<p\n    [attr.id]=\"id || null\"\n    [ngClass]=\"[css, textColor, 'btn btn-' + color]\"\n  >\n    core works!\n  </p>`,\n  styleUrl: './core.component.css',\n  changeDetection: ChangeDetectionStrategy.OnPush,\n})\nexport class CoreComponent {\n  /**\n   * Applies an identifier to the element\n   */\n  @Input() id!: string;\n\n  /**\n   * Applies a custom class to the element example: 'fw-bold'\n   */\n  @Input() css!: string;\n\n  /**\n   * Applies a custom attribute to the element example: 'data-custom=\"example\"'\n   */\n  @Input() attributes?: { [key: string]: any };\n\n  /**\n   * Bootstrap’s color palette has continued to expand and become more nuanced in v5.3.0.\n   * We’ve added new variables for secondary and tertiary text and background colors, plus {color}-bg-subtle,\n   * {color}-border-subtle, and {color}-text-emphasis for our theme colors. These new colors are available\n   * through Sass and CSS variables (but not our color maps or utility classes) with the express goal of making\n   * it easier to customize across multiple colors modes like light and dark. These new variables are globally\n   * set on :root and are adapted for our new dark color mode while our original theme colors remain unchanged.\n   */\n  @Input() color!:\n    | 'primary'\n    | 'secondary'\n    | 'success'\n    | 'info'\n    | 'warning'\n    | 'danger'\n    | 'light'\n    | 'dark'\n    | 'link';\n\n  /**\n   * Applies a text color to the element\n   */\n  @Input() textColor!:\n    | 'text-primary'\n    | 'text-secondary'\n    | 'text-success'\n    | 'text-info'\n    | 'text-warning'\n    | 'text-danger'\n    | 'text-light'\n    | 'text-dark'\n    | 'text-link';\n\n  /**\n   * the icon is from the fontawesome lib and the format should be only the name part of the icon for example: fa fa-[icon-name]\n   * example: 'fa fa-[plus]'\n  */\n  @Input() icon = '';\n\n\n /*  get attributesKeys(): string[] {\n    return this.objectKeys(this.attributes);\n  }\n\n  objectKeys(obj?: { [key: string]: any }): string[] {\n    return obj ? Object.keys(obj) : [];\n  } */\n\n  /* get attributesKeys() {\n    const attrs: { [key: string]: any } = {}; // Explicitly define the type of attrs\n    if (this.attributes) {\n      for (const key of Object.keys(this.attributes)) {\n        attrs[key] = this.attributes[key];\n      }\n    }\n    // Aquí puedes agregar más lógica si es necesario\n    return attrs;\n  } */\n\n  get onIcon(): string {\n    return `fa fa-${this.icon}`;\n  }\n\n}\n",
             "styleUrl": "./core.component.css",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
-            "extends": []
+            "extends": [],
+            "accessors": {
+                "onIcon": {
+                    "name": "onIcon",
+                    "getSignature": {
+                        "name": "onIcon",
+                        "type": "string",
+                        "returnType": "string",
+                        "line": 92
+                    }
+                }
+            }
         },
         {
             "name": "NgxFlanKitUxComponent",
@@ -675,7 +842,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\n  args: {\n    block: true,\n    label: 'Button',\n  },\n}"
+                "defaultValue": "{\n  args: {\n    block: true,\n    color: 'primary',\n    label: 'Button',\n  },\n}"
             },
             {
                 "name": "Color",
@@ -685,7 +852,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\n  args: {\n    type: 'primary',\n    label: 'Button',\n  },\n}"
+                "defaultValue": "{\n  args: {\n    color: 'primary',\n    label: 'Button',\n  },\n}"
             },
             {
                 "name": "Css",
@@ -705,7 +872,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\n  args: {\n    backgroundColor: 'dark',\n    label: 'Button',\n  },\n}"
+                "defaultValue": "{\n  args: {\n    color: 'dark',\n    label: 'Button',\n  },\n}"
             },
             {
                 "name": "Default",
@@ -725,17 +892,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\n  args: {\n    disabled: true,\n    label: 'Button',\n  },\n}"
-            },
-            {
-                "name": "Id",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "projects/ngx-flan-kit-ux/src/lib/core/core.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story",
-                "defaultValue": "{\n  args: {\n    id: 'id-text',\n  },\n}"
+                "defaultValue": "{\n  args: {\n    disabled: true,\n    color: 'primary',\n    label: 'Button',\n  },\n}"
             },
             {
                 "name": "Id",
@@ -748,6 +905,16 @@
                 "defaultValue": "{\n  args: {\n    items: [\n      { title: 'Item 1', content: 'Contenido 1' },\n      { title: 'Item 2', content: 'Contenido 2' },\n      { title: 'Item 3', content: 'Contenido 3' }\n    ],\n    id: 'accordion-id'\n  },\n}"
             },
             {
+                "name": "Id",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ngx-flan-kit-ux/src/lib/core/core.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    id: 'id-text',\n  },\n}"
+            },
+            {
                 "name": "Info",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -755,7 +922,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\n  args: {\n    backgroundColor: 'info',\n    label: 'Button',\n  },\n}"
+                "defaultValue": "{\n  args: {\n    color: 'info',\n    label: 'Button',\n  },\n}"
             },
             {
                 "name": "Large",
@@ -771,11 +938,11 @@
                 "name": "meta",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": "Meta<BtnThemeModeComponent>",
-                "defaultValue": "{\n  title: 'Roanja/ThemeMode',\n  component: BtnThemeModeComponent,\n  tags: ['autodocs'],\n  render: (args: BtnThemeModeComponent) => ({\n    props: {\n      ...args,\n    },\n  })  \n}"
+                "type": "Meta<AccordionComponent>",
+                "defaultValue": "{\n  title: 'Roanja/Accordion',\n  component: AccordionComponent,\n  tags: ['autodocs'],\n  render: (args: AccordionComponent) => ({\n    props: {\n      ...args,\n    },\n  }),\n  argTypes: {\n    items: {\n      control: 'array',\n    },\n  },\n}"
             },
             {
                 "name": "meta",
@@ -791,21 +958,21 @@
                 "name": "meta",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": "Meta<BtnComponent>",
-                "defaultValue": "{\n  title: 'Roanja/Btn',\n  component: BtnComponent,\n  tags: ['autodocs'],\n  parameters: {\n    componentSubtitle:\n      `Buttons are used to initialize an action, either in the background or foreground of an experience. \n      They are used primarily for actions, such as \"Add\", \"Close\", \"Cancel\", \"Save\", etc.`,\n  },\n  render: (args: BtnComponent) => ({\n    props: {\n      ...args,\n    },\n  }),\n  \n}"
+                "type": "Meta<BtnThemeModeComponent>",
+                "defaultValue": "{\n  title: 'Roanja/ThemeMode',\n  component: BtnThemeModeComponent,\n  tags: ['autodocs'],\n  render: (args: BtnThemeModeComponent) => ({\n    props: {\n      ...args,\n    },\n  })  \n}"
             },
             {
                 "name": "meta",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
+                "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": "Meta<AccordionComponent>",
-                "defaultValue": "{\n  title: 'Roanja/Accordion',\n  component: AccordionComponent,\n  tags: ['autodocs'],\n  render: (args: AccordionComponent) => ({\n    props: {\n      ...args,\n    },\n  }),\n  argTypes: {\n    items: {\n      control: 'array',\n    },\n  },\n}"
+                "type": "Meta<BtnComponent>",
+                "defaultValue": "{\n  title: 'Roanja/Btn',\n  component: BtnComponent,\n  tags: ['autodocs'],\n  parameters: {\n    componentSubtitle:\n      `Buttons are used to initialize an action, either in the background or foreground of an experience. \n      They are used primarily for actions, such as \"Add\", \"Close\", \"Cancel\", \"Save\", etc.`,\n  },\n  render: (args: BtnComponent) => ({\n    props: {\n      ...args,\n    },\n  }),\n  \n}"
             },
             {
                 "name": "Outline",
@@ -815,7 +982,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\n  args: {\n    outline: true,\n    label: 'Button',\n  },\n}"
+                "defaultValue": "{\n  args: {\n    outline: true,\n    color: 'primary',\n    label: 'Button',\n  },\n}"
             },
             {
                 "name": "preview",
@@ -835,7 +1002,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\n  args: {\n    backgroundColor: 'primary',\n    label: 'Button',\n  },\n}"
+                "defaultValue": "{\n  args: {\n    color: 'primary',\n    label: 'Button',\n  },\n}"
             },
             {
                 "name": "Secondary",
@@ -845,7 +1012,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\n  args: {\n    backgroundColor: 'secondary',\n    label: 'Button',\n  },\n}"
+                "defaultValue": "{\n  args: {\n    color: 'secondary',\n    label: 'Button',\n  },\n}"
             },
             {
                 "name": "ShowAll",
@@ -875,7 +1042,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\n  args: {\n    size: 'lg',\n    label: 'Button',\n  },\n}"
+                "defaultValue": "{\n  args: {\n    size: 'lg',\n    color: 'primary',\n    label: 'Button',\n  },\n}"
             },
             {
                 "name": "SizeSm",
@@ -885,7 +1052,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\n  args: {\n    size: 'sm',\n    label: 'Button',\n  },\n}"
+                "defaultValue": "{\n  args: {\n    size: 'sm',\n    color: 'primary',\n    label: 'Button',\n  },\n}"
             },
             {
                 "name": "Small",
@@ -905,7 +1072,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\n  args: {\n    backgroundColor: 'success',\n    label: 'Button',\n  },\n}"
+                "defaultValue": "{\n  args: {\n    color: 'success',\n    label: 'Button',\n  },\n}"
             },
             {
                 "name": "Warning",
@@ -915,7 +1082,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\n  args: {\n    backgroundColor: 'warning',\n    label: 'Button',\n  },\n}"
+                "defaultValue": "{\n  args: {\n    color: 'warning',\n    label: 'Button',\n  },\n}"
             }
         ],
         "functions": [],
@@ -935,8 +1102,8 @@
                 "name": "Story",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
-                "rawtype": "StoryObj<BtnThemeModeComponent>",
-                "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                "rawtype": "StoryObj<AccordionComponent>",
+                "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
@@ -957,8 +1124,8 @@
                 "name": "Story",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
-                "rawtype": "StoryObj<BtnComponent>",
-                "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
+                "rawtype": "StoryObj<BtnThemeModeComponent>",
+                "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
@@ -968,8 +1135,8 @@
                 "name": "Story",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
-                "rawtype": "StoryObj<AccordionComponent>",
-                "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
+                "rawtype": "StoryObj<BtnComponent>",
+                "file": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
@@ -987,7 +1154,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\n  args: {\n    block: true,\n    label: 'Button',\n  },\n}"
+                    "defaultValue": "{\n  args: {\n    block: true,\n    color: 'primary',\n    label: 'Button',\n  },\n}"
                 },
                 {
                     "name": "Color",
@@ -997,7 +1164,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\n  args: {\n    type: 'primary',\n    label: 'Button',\n  },\n}"
+                    "defaultValue": "{\n  args: {\n    color: 'primary',\n    label: 'Button',\n  },\n}"
                 },
                 {
                     "name": "Disabled",
@@ -1007,7 +1174,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\n  args: {\n    disabled: true,\n    label: 'Button',\n  },\n}"
+                    "defaultValue": "{\n  args: {\n    disabled: true,\n    color: 'primary',\n    label: 'Button',\n  },\n}"
                 },
                 {
                     "name": "meta",
@@ -1027,7 +1194,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\n  args: {\n    outline: true,\n    label: 'Button',\n  },\n}"
+                    "defaultValue": "{\n  args: {\n    outline: true,\n    color: 'primary',\n    label: 'Button',\n  },\n}"
                 },
                 {
                     "name": "SizeLg",
@@ -1037,7 +1204,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\n  args: {\n    size: 'lg',\n    label: 'Button',\n  },\n}"
+                    "defaultValue": "{\n  args: {\n    size: 'lg',\n    color: 'primary',\n    label: 'Button',\n  },\n}"
                 },
                 {
                     "name": "SizeSm",
@@ -1047,7 +1214,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\n  args: {\n    size: 'sm',\n    label: 'Button',\n  },\n}"
+                    "defaultValue": "{\n  args: {\n    size: 'sm',\n    color: 'primary',\n    label: 'Button',\n  },\n}"
                 }
             ],
             "projects/ngx-flan-kit-ux/src/lib/core/core.stories.ts": [
@@ -1091,7 +1258,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\n  args: {\n    backgroundColor: 'dark',\n    label: 'Button',\n  },\n}"
+                    "defaultValue": "{\n  args: {\n    color: 'dark',\n    label: 'Button',\n  },\n}"
                 },
                 {
                     "name": "Info",
@@ -1101,7 +1268,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\n  args: {\n    backgroundColor: 'info',\n    label: 'Button',\n  },\n}"
+                    "defaultValue": "{\n  args: {\n    color: 'info',\n    label: 'Button',\n  },\n}"
                 },
                 {
                     "name": "Large",
@@ -1131,7 +1298,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\n  args: {\n    backgroundColor: 'primary',\n    label: 'Button',\n  },\n}"
+                    "defaultValue": "{\n  args: {\n    color: 'primary',\n    label: 'Button',\n  },\n}"
                 },
                 {
                     "name": "Secondary",
@@ -1141,7 +1308,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\n  args: {\n    backgroundColor: 'secondary',\n    label: 'Button',\n  },\n}"
+                    "defaultValue": "{\n  args: {\n    color: 'secondary',\n    label: 'Button',\n  },\n}"
                 },
                 {
                     "name": "Small",
@@ -1161,7 +1328,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\n  args: {\n    backgroundColor: 'success',\n    label: 'Button',\n  },\n}"
+                    "defaultValue": "{\n  args: {\n    color: 'success',\n    label: 'Button',\n  },\n}"
                 },
                 {
                     "name": "Warning",
@@ -1171,7 +1338,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\n  args: {\n    backgroundColor: 'warning',\n    label: 'Button',\n  },\n}"
+                    "defaultValue": "{\n  args: {\n    color: 'warning',\n    label: 'Button',\n  },\n}"
                 }
             ],
             "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts": [
@@ -1255,13 +1422,13 @@
                     "kind": 192
                 }
             ],
-            "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts": [
+            "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts": [
                 {
                     "name": "Story",
                     "ctype": "miscellaneous",
                     "subtype": "typealias",
-                    "rawtype": "StoryObj<BtnThemeModeComponent>",
-                    "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                    "rawtype": "StoryObj<AccordionComponent>",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "description": "",
@@ -1281,6 +1448,19 @@
                     "kind": 183
                 }
             ],
+            "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<BtnThemeModeComponent>",
+                    "file": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 183
+                }
+            ],
             "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts": [
                 {
                     "name": "Story",
@@ -1293,25 +1473,12 @@
                     "description": "",
                     "kind": 183
                 }
-            ],
-            "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts": [
-                {
-                    "name": "Story",
-                    "ctype": "miscellaneous",
-                    "subtype": "typealias",
-                    "rawtype": "StoryObj<AccordionComponent>",
-                    "file": "projects/ngx-flan-kit-ux/src/lib/accordion/accordion.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "description": "",
-                    "kind": 183
-                }
             ]
         }
     },
     "routes": [],
     "coverage": {
-        "count": 2,
+        "count": 7,
         "status": "low",
         "files": [
             {
@@ -1397,9 +1564,9 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "BtnThemeModeComponent",
-                "coveragePercent": 35,
-                "coverageCount": "5/14",
-                "status": "medium"
+                "coveragePercent": 52,
+                "coverageCount": "10/19",
+                "status": "good"
             },
             {
                 "filePath": "projects/ngx-flan-kit-ux/src/lib/btn-theme-mode/btn-theme-mode.stories.ts",
@@ -1496,9 +1663,9 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "BtnComponent",
-                "coveragePercent": 9,
-                "coverageCount": "1/11",
-                "status": "low"
+                "coveragePercent": 50,
+                "coverageCount": "7/14",
+                "status": "medium"
             },
             {
                 "filePath": "projects/ngx-flan-kit-ux/src/lib/btn/btn.stories.ts",
@@ -1575,9 +1742,9 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "CoreComponent",
-                "coveragePercent": 0,
-                "coverageCount": "0/3",
-                "status": "low"
+                "coveragePercent": 85,
+                "coverageCount": "6/7",
+                "status": "very-good"
             },
             {
                 "filePath": "projects/ngx-flan-kit-ux/src/lib/core/core.stories.ts",

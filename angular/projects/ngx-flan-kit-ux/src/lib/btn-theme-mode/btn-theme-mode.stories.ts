@@ -19,42 +19,42 @@ type Story = StoryObj<BtnThemeModeComponent>;
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Dark: Story = {
   args: {
-    backgroundColor: 'dark',
+    color: 'dark',
     label: 'Button',
   },
 };
 
 export const Primary: Story = {
   args: {
-    backgroundColor: 'primary',
+    color: 'primary',
     label: 'Button',
   },
 };
 
 export const Secondary: Story = {
   args: {
-    backgroundColor: 'secondary',
+    color: 'secondary',
     label: 'Button',
   },
 };
 
 export const Success: Story = {
   args: {
-    backgroundColor: 'success',
+    color: 'success',
     label: 'Button',
   },
 };
 
 export const Info: Story = {
   args: {
-    backgroundColor: 'info',
+    color: 'info',
     label: 'Button',
   },
 };
 
 export const Warning: Story = {
   args: {
-    backgroundColor: 'warning',
+    color: 'warning',
     label: 'Button',
   },
 };

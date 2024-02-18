@@ -19,6 +19,9 @@ import { FieldModel } from './fields/field-model';
 import { FormControlService } from './services/form-control.service';
 import { FormFieldsComponent } from './fields/form-fields.component';
 
+// lib ngx-flan-kit-ux theme
+import { BtnComponent } from 'projects/ngx-flan-kit-ux/src/public-api';
+
 @Component({
   selector: 'app-form-modals',
   standalone: true,
@@ -26,6 +29,7 @@ import { FormFieldsComponent } from './fields/form-fields.component';
     CommonModule,
     ReactiveFormsModule,
     FormFieldsComponent,
+    BtnComponent
   ],
   animations: [
     trigger('formAnimation', [
@@ -64,9 +68,11 @@ import { FormFieldsComponent } from './fields/form-fields.component';
         <form (ngSubmit)="onSubmit()" [formGroup]="form" autocomplete="off">
           <div class="modal-header">
             <h4 class="modal-title">formulario</h4>
-            <button type="button" class="close" aria-label="Close">
-              <span aria-hidden="true" (click)="close()">×</span>
-            </button>
+            <rjb-btn (onClick)="close()" css="close" aria-label="Close">
+            <!-- <button type="button" class="close" aria-label="Close" > -->
+              <span aria-hidden="true">×</span>
+            <!-- </button> -->
+            </rjb-btn>
           </div>
           <div class="modal-body">
             @for (field of fields; track field.key) {
@@ -78,12 +84,14 @@ import { FormFieldsComponent } from './fields/form-fields.component';
           <div class="modal-footer">
             <div class="row mt-3">
               <div class="col-sm-6 float-left">
-                <button type="button" class="btn btn-default" (click)="close()">
+                <rjb-btn color="secondary" (onClick)="close()" label="cancel"/>
+                <!-- <button type="button" class="btn btn-default" (click)="close()">
                   cancel
-                </button>
+                </button> -->
               </div>
               <div class="col-sm-6 text-right">
-                <button type="submit" class="btn btn-primary">Guardar</button>
+                <rjb-btn type="submit" color="primary" label="Guardar"/>
+                <!-- <button type="submit" class="btn btn-primary">Guardar</button> -->
               </div>
             </div>
           </div>

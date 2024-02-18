@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
+import { CoreComponent } from '../core/core.component';
 // import { faMoon, faSun } from '@fortawesome/free-regular-svg-icons';
 
 
@@ -12,7 +13,7 @@ import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
   templateUrl: './btn-theme-mode.component.html',
   styleUrl: './btn-theme-mode.component.css',
 })
-export class BtnThemeModeComponent {
+export class BtnThemeModeComponent extends CoreComponent{
   faMoon = faMoon;
   faSun = faSun;
   /**
@@ -21,11 +22,11 @@ export class BtnThemeModeComponent {
   @Input()
   primary = false;
 
-  /**
-   * What background color to use
-   */
-  @Input()
-  backgroundColor: 'primary' |  'secondary' |  'success' |  'info' |  'warning' |  'danger' |  'light' |  'dark' = 'light';
+  // /**
+  //  * What background color to use
+  //  */
+  // @Input()
+  // color: 'primary' |  'secondary' |  'success' |  'info' |  'warning' |  'danger' |  'light' |  'dark' = 'light';
   
   /**
    * How large should the button be?
@@ -59,6 +60,8 @@ export class BtnThemeModeComponent {
   }
 
   constructor() {
+    super();
+    this.color = 'light';
     const storedDarkMode = localStorage.getItem('color-theme');
     console.log('storedDarkMode', storedDarkMode);
     if (storedDarkMode !== null) {
@@ -79,8 +82,8 @@ export class BtnThemeModeComponent {
   updateBodyClass() {
     document.documentElement.setAttribute('data-bs-theme', this.isDarkMode ? 'dark' : 'light');
 
-    if (this.backgroundColor === 'dark' || this.backgroundColor === 'light') {
-      this.backgroundColor = this.isDarkMode ? 'dark' : 'light';
+    if (this.color === 'dark' || this.color === 'light') {
+      this.color = this.isDarkMode ? 'dark' : 'light';
     }
   }
 

@@ -24,7 +24,7 @@ type Story = StoryObj<BtnComponent>;
 
 export const Color: Story = {
   args: {
-    type: 'primary',
+    color: 'primary',
     label: 'Button',
   },
 };
@@ -32,6 +32,7 @@ export const Color: Story = {
 export const Outline: Story = {
   args: {
     outline: true,
+    color: 'primary',
     label: 'Button',
   },
 };
@@ -39,6 +40,7 @@ export const Outline: Story = {
 export const SizeLg: Story = {
   args: {
     size: 'lg',
+    color: 'primary',
     label: 'Button',
   },
 };
@@ -46,6 +48,7 @@ export const SizeLg: Story = {
 export const SizeSm: Story = {
   args: {
     size: 'sm',
+    color: 'primary',
     label: 'Button',
   },
 };
@@ -53,6 +56,7 @@ export const SizeSm: Story = {
 export const Block: Story = {
   args: {
     block: true,
+    color: 'primary',
     label: 'Button',
   },
 };
@@ -60,6 +64,7 @@ export const Block: Story = {
 export const Disabled: Story = {
   args: {
     disabled: true,
+    color: 'primary',
     label: 'Button',
   },
 };
