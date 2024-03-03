@@ -1,0 +1,82 @@
+<button class="btn btn-default btn-sm" title="Busqueda avanzada" data-toggle="modal" data-target="#modal-advancesearch">
+  <i class="fas fa-solid fa-filter"></i>
+</button>
+<button class="btn btn-default btn-sm" title="Refrescar" (click)="resetSearch()">
+  <i class="fas fa-sync"></i>
+</button>
+
+<div class="modal fade show" id="modal-advancesearch">
+  <div class="modal-dialog modal-lg">
+    <form [formGroup]="form" (ngSubmit)="getSearch()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Busqueda avanzada</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <div class="row">
+            <div class="col-12 text-right">
+              <button type="button" class="btn btn-outline-primary btn-sm" (click)="filterAdd()">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="row">
+            <div class="col-12">
+              @for (itemForm of formFilterArray.controls; track $index) {
+                <div class="row" formArrayName="filter">
+                  <div class="col-12">
+                    <div class="row" [formGroupName]="$index">
+                      <div class="col-4 form-group">
+                        <select class="form-control" formControlName="field" (ngModelChange)="getOptions($event)">
+                          <option value="">Seleccione una opción</option>
+                          @for (field of fields; track $index) {
+                            @if (field['searchAdvance']) {
+                              <option value="{{ field['key'] }}">
+                                {{ field['key']  }}
+                              </option>
+                            }
+                          }
+                        </select>
+                      </div>
+                      <div class="col-3 form-group">
+                        <select class="form-control" formControlName="option">
+                          @for (opt of filterOptions; track $index) {
+                            <option value="{{ opt.option }}">{{opt.description}}</option>
+                          }
+                        </select>
+                      </div>
+                      <div class="col-4 form-group">
+                        <input type="text" class="form-control" formControlName="value" placeholder="buscar...">
+                      </div>
+                      <div class="col-1 form-group">
+                        <button (click)="filterRemove($index)" class="btn btn-sm btn-danger" type="button">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal" #closeModal>Close</button>
+          <button type="submit" class="btn btn-primary">Buscar</button>
+        </div>
+      </div>
+    </form>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

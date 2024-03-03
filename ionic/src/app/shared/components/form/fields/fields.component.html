@@ -1,0 +1,94 @@
+<ng-container [formGroup]="form">
+  <ion-item>
+    @if (field.type === 'hidden') {
+      <ion-input
+        [formControlName]="field.key"
+        [id]="field.key"
+        [type]="field.type"
+      />
+    } @else { 
+      @switch (field.controlType) { 
+        @case ('switch') {
+          <ion-toggle labelPlacement="start" [formControlName]="field.key">
+          {{ field.label }}</ion-toggle>
+        } @case ('checkbox') {
+          <ion-checkbox 
+          justify="start" 
+          [formControlName]="field.key">{{field.label}}
+          </ion-checkbox>
+        } @case ('radio') {
+          <ion-radio-group>
+            <ion-radio [formControlName]="field.key"> {{ field.label }} </ion-radio>
+          </ion-radio-group>
+        } @case ('image') {
+          <ion-input
+            [id]="field.key" 
+            [label]="field.label"
+            label-placement="floating"
+            [placeholder]="field.placeholder"
+            [required]="field.required"
+            minlength="5"
+            maxlength="100"
+            errorText="Invalid {{ field.label }}"
+            [type]="field.type"
+            [formControlName]="field.key"
+            (change)="onImageChange($event)"
+            accept="image/*"
+          ></ion-input>
+          @if (previewImage) {
+            <ion-thumbnail slot="end">
+              <img alt="img-previe" [src]="previewImage || field.value" />
+            </ion-thumbnail>
+          } 
+        } @case ('textarea') {
+          <ion-textarea
+            [label]="field.label"
+            label-placement="floating"
+            [placeholder]="field.placeholder"
+            [required]="field.required"
+            minlength="5"
+            maxlength="100"
+            errorText="Invalid {{ field.label }}"
+            [formControlName]="field.key"
+          ></ion-textarea>
+        } @case ('datetime') {
+          <ion-input
+            [label]="field.label"
+            label-placement="floating"
+            [placeholder]="field.placeholder"
+            [required]="field.required"
+            minlength="5"
+            maxlength="100"
+            errorText="Invalid {{ field.label }}"
+            type="datetime-local"
+            [formControlName]="field.key"
+          ></ion-input>
+        } @case ('select') {
+          <ion-select
+            [label]="field.label"
+            label-placement="floating"
+            [multiple]="field.multiple"
+            [id]="field.key"
+            [formControlName]="field.key"
+          >
+            @for(opt of field.options; track $index){
+            <ion-select-option [value]="opt.id">{{ opt.name }}</ion-select-option>
+            }
+          </ion-select>
+        } @default {
+          <ion-input
+            [label]="field.label"
+            label-placement="floating"
+            [placeholder]="field.placeholder"
+            [required]="field.required"
+            minlength="5"
+            maxlength="100"
+            errorText="Invalid {{ field.label }}"
+            [type]="field.type"
+            [formControlName]="field.key"
+          ></ion-input>
+        } 
+      } 
+    } 
+  </ion-item>
+</ng-container>

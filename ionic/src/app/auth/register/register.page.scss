@@ -1,0 +1,32 @@
+ion-grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+
+    ion-row.row-form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        width: 100vw;
+
+        ion-col {
+            max-width: 400px;
+            margin: 0;
+        }
+    }
+
+    ion-img.logo {
+        width: 100px;
+        height: auto;
+        margin: 0;
+    }
+
+    ion-card {
+        max-width: 400px;
+        margin: 0;
+    }
+}

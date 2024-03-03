@@ -1,0 +1,66 @@
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-img src="assets/img/logo.png" alt="logo" class="logo"></ion-img>
+      </ion-col>
+    </ion-row>
+    <ion-row class="row-form">
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Register</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+              <ion-item>
+                <ion-input label="First Name" label-placement="floating" required minlength="2" maxlength="100"
+                  errorText="Invalid First Name" type="text" formControlName="first_name"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-input label="Last Name" label-placement="floating" required minlength="2" maxlength="100"
+                  errorText="Invalid Last Name" type="text" formControlName="last_name"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-input label="Username" label-placement="floating" required minlength="5" maxlength="100"
+                  errorText="Invalid Username" type="text" formControlName="name"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-input label="Email" label-placement="floating" required email errorText="Invalid Email"
+                  type="email" formControlName="email"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-input label="Password" label-placement="floating" required minlength="8"
+                  errorText="Invalid Password" type="password" formControlName="password"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-input label="Confirm Password" label-placement="floating" required minlength="8"
+                  errorText="Invalid Password" type="password" formControlName="confirm_password"></ion-input>
+              </ion-item>
+
+              <ion-button expand="block" type="submit" [disabled]="!registerForm.valid">Registrar</ion-button>
+
+              <ion-button class="google-button" expand="block">
+                <ion-icon slot="start" name="logo-google"></ion-icon>
+                Login Google
+              </ion-button>
+              <ion-button class="google-facebook" expand="block">
+                <ion-icon slot="start" name="logo-facebook"></ion-icon>
+                Login Facebook
+              </ion-button>
+            </form>
+          </ion-card-content>
+        </ion-card>
+        <ion-button expand="block" fill="clear" routerLink="/auth/login">
+          <ion-icon name="chevron-back-outline"></ion-icon>
+          back to login?
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,31 @@
+<ion-modal [isOpen]="showModal">
+    <ng-template>
+        <ion-header>
+            <ion-toolbar>
+                <ion-title>Form</ion-title>
+                <ion-buttons slot="end">
+                    <ion-button (click)="close()">X</ion-button>
+                </ion-buttons>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content>
+            <form (ngSubmit)="onSubmit()" [formGroup]="form" autocomplete="off">
+                <ion-list>  
+                @for (field of fields; track field.key) {
+                    <app-form-fields [field]="field" [form]="form">></app-form-fields>
+                }
+                </ion-list>
+                <ion-toolbar >
+                    <ion-buttons slot="start" >
+                        <ion-button type="button" color="medium" fill="solid"(click)="close()">
+                            cancel
+                        </ion-button>
+                    </ion-buttons>
+                    <ion-buttons slot="end">
+                        <ion-button type="submit" color="primary" fill="solid">Save</ion-button>
+                    </ion-buttons>
+                </ion-toolbar>
+            </form>
+        </ion-content>
+    </ng-template>
+</ion-modal>

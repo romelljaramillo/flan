@@ -1,0 +1,38 @@
+.horizontal-scroll {
+	overflow-x: auto;
+	overflow-y: hidden;
+	-webkit-overflow-scrolling: touch;
+}
+
+ion-card.list-card {
+	margin: 5px;
+	ion-card-header {
+		padding: 2px;
+
+		ion-toolbar.sc-ion-searchbar-ios-h, ion-toolbar .sc-ion-searchbar-ios-h {
+			padding: 0 2px;
+			text-align: left;
+		}
+		
+		ion-grid {
+			margin: 5px;
+
+		}
+	}
+	ion-grid.table {
+		ion-row {
+			ion-col {
+				@media screen and (max-width: 992px) {
+					ion-avatar {
+						width: 40px;
+						height: auto;
+						margin-inline: auto;
+					}
+	
+				}
+	
+				text-align: left;
+			}
+		}
+	}
+}

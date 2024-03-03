@@ -43,7 +43,7 @@ class UserResource extends JsonResource
                 'email_verified' => $this->resource->email_verified_at,
                 'two_factor_confirmed' => $this->resource->two_factor_confirmed_at,
                 'current_team_id' => $this->resource->current_team_id,
-                'avatar' => $this->resource->avatar,
+                'avatar' => $this->resource->avatar ? $this->resource->avatar : '',
                 'active' => $this->resource->active,
                 'roles' => $roles,
                 'created_at' => $this->resource->created_at,

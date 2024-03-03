@@ -78,6 +78,7 @@ class User extends Authenticatable
      * @var string
      */
     protected $diskAvatar = 'avatar';
+    protected $diskImages = 'images';
 
     /**
      * Check if the user is an admin.
@@ -129,8 +130,8 @@ class User extends Authenticatable
      */
     public function getAvatarAttribute(): string
     {
-        if (!Storage::disk($this->diskAvatar)->exists($this->profile_avatar)) {
-            return Storage::disk('images')->url('avatar.png');
+        if (!$this->profile_avatar || !Storage::disk($this->diskAvatar)->exists($this->profile_avatar)) {
+            return Storage::disk($this->diskImages)->url('avatar.png');
         } 
 
         return Storage::disk($this->diskAvatar)->url($this->profile_avatar);

@@ -1,0 +1,91 @@
+<ion-buttons slot="end" size="small">
+  <ion-button id="open-modal" title="Busqueda avanzada" size="small">
+    <ion-icon  slot="icon-only" name="filter-outline" size="small"></ion-icon>
+  </ion-button>
+  <ion-button title="Refrescar" (click)="resetSearch()" size="small">
+    <ion-icon slot="icon-only" name="refresh-outline" size="small"></ion-icon>
+  </ion-button>
+</ion-buttons>
+
+<ion-modal trigger="open-modal" >
+  <ng-template>
+
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Busqueda avanzada</ion-title>
+        <ion-buttons slot="end" >
+          <ion-button (click)="cancel()">
+            <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12" class="ion-text-right">
+            <ion-button fill="outline" size="small" (click)="filterAdd()">
+              <ion-icon name="add-outline"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <hr/>
+    
+        <form [formGroup]="form" #formRef="ngForm" (ngSubmit)="getSearch()">
+          <div formArrayName="filter">
+            @for (itemForm of formFilterArray.controls; track $index) {
+            <ion-row [formGroupName]="$index">
+              <ion-col size="4">
+                <ion-item>
+                  <ion-select label="Field" label-placement="floating" formControlName="field" (ionChange)="getOptions($event.target.value)">
+                    @for (field of fields; track $index) {
+                      @if (field.searchAdvance) {
+                        <ion-select-option [value]="field.key">
+                          {{ field.key }}
+                        </ion-select-option>
+                      }
+                    }
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+              <ion-col size="3">
+                <ion-item>
+                  <ion-select label="Option" label-placement="floating" formControlName="option">
+                    @for (opt of filterOptions; track $index) {
+                      <ion-select-option [value]="opt.option">{{opt.description}}</ion-select-option>
+                    }
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+              <ion-col size="4">
+                <ion-item>
+                  <ion-input type="text" label="Term" label-placement="floating" formControlName="value" placeholder="Buscar..."></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col size="1">
+                <ion-button color="danger" fill="clear" size="small" (click)="filterRemove($index)">
+                  <ion-icon name="remove-outline"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+            }
+          </div>
+        </form>
+      </ion-grid>
+ 
+    </ion-content>
+
+    <ion-footer>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="cancel()">Cerrar</ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-button (click)="formRef.ngSubmit.emit()">Buscar</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>

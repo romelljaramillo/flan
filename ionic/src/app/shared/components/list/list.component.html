@@ -1,0 +1,148 @@
+<ion-card class="list-card">
+  <ion-card-header>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-md="6" size-lg="6" size-xl="6">
+          <h4>Users total:
+            @if(!total){
+              No hay usuarios para mostrar
+            } @else {
+              {{ total }}
+            }
+          </h4>
+        </ion-col>
+        @if(total){
+        <ion-col size="12" size-md="6" size-lg="6" size-xl="6" class="ion-text-right">
+          <ion-toolbar color="light">
+            <ion-buttons>
+              <ion-searchbar #searchbar type="text" name="table_search" animated="true" placeholder="search"
+                (keyup.enter)="onFilterEven()" [(ngModel)]="searchTerm"></ion-searchbar>
+              <ion-button (click)="onFilterEven()" size="small">
+                <ion-icon slot="icon-only" name="search-outline" size="small"></ion-icon>
+              </ion-button>
+              @if(isAdvanceSearch){
+              <app-advancesearch [fields]="fields" (filterSearch)="onFilterAdvanceEven($event)"></app-advancesearch>
+              }
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-col>
+        }
+      </ion-row>
+    </ion-grid>
+
+  </ion-card-header>
+
+  <ion-card-content>
+
+    @if(!total){
+    <ion-grid>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-icon name="alert-circle" size="large"></ion-icon>
+          <ion-text color="tertiary">
+            <h3>No hay usuarios para mostrar</h3>
+          </ion-text>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    } @else {
+    <div class="horizontal-scroll">
+      <ion-grid class="table">
+        <ion-row>
+          <!-- Encabezado de la tabla -->
+          @for (field of fields; track $index) {
+          <ion-col class="ion-text-start" [size]="($index === 0  ? 'auto': '')"
+            [ngClass]="{'ion-hide-sm-down': $index >= 3, 'ion-hide-md-down': $index >= 4, 'ion-hide-lg-down': $index >= 5 }">
+            <b (click)="onSortColumn(field['key'])">
+              {{field.label}}
+              @if(field.orderby){
+              <ion-icon name="arrow-up" *ngIf="filters.orderBy === 'ASC'"></ion-icon>
+              <ion-icon name="arrow-down" *ngIf="filters.orderBy === 'DESC'"></ion-icon>
+              }
+            </b>
+          </ion-col>
+          }
+          <ion-col class="ion-text-end">
+            <b>Actions</b>
+          </ion-col>
+        </ion-row>
+        <!-- Items de la tabla -->
+        @for(item of items; track $index){
+        <ion-row>
+          @for(field of fields; track field; let i = $index) {
+          @if(field['type']) {
+          @switch(field.type) {
+          @case ("image") {
+          <ion-col>
+            <ion-avatar>
+              <img src="{{ item.attribute[field['key']] | noimage }}" alt="{{item.id}}" />
+            </ion-avatar>
+          </ion-col>
+          }
+          @case ("datetime") {
+          <ion-col [ngClass]="{'ion-hide-sm-down': i >= 3, 'ion-hide-md-down': i >= 4, 'ion-hide-lg-down': i >= 5 } ">{{
+            item.attribute[field['key']] | date: 'dd/MM/yyyy HH:mm' }}</ion-col>
+          }
+          @case ("date") {
+          <ion-col [ngClass]="{'ion-hide-sm-down': i >= 3, 'ion-hide-md-down': i >= 4, 'ion-hide-lg-down': i >= 5  }">{{
+            item.attribute[field['key']] | date: 'dd/MM/yyyy' }}</ion-col>
+          }
+          @case ("boolean") {
+          <ion-col class="ion-text-center">
+            @if(item.attribute[field['key']] === true){
+            <ion-icon name="checkmark-circle" color="success"></ion-icon>
+            } @else {
+            <ion-icon name="close-circle" color="danger"></ion-icon>
+            }
+          </ion-col>
+          }
+          @default {
+          <ion-col [size]="(i === 0  ? 'auto': '')"
+            [ngClass]="{'ion-hide-sm-down': i >= 3, 'ion-hide-md-down': i >= 4, 'ion-hide-lg-down': i >= 5 }">{{
+            item.attribute[field['key']] }}</ion-col>
+          }
+          }
+          }
+          @else {
+          <ion-col [size]="(i === 0  ? 'auto': '')"
+            [ngClass]="{'ion-hide-sm-down': i >= 3, 'ion-hide-md-down': i >= 4, 'ion-hide-lg-down': i >= 5 }">{{
+            item.attribute[field['key']] }}</ion-col>
+          }
+          }
+
+          <ion-col size="auto">
+            <ion-buttons size="small">
+              <ion-button size="small" fill="clear">
+                <ion-icon slot="icon-only" size="small" name="create-outline" title="edit"
+                (click)="editAction(item)"></ion-icon>
+              </ion-button>
+              <ion-button size="small" fill="clear">
+                <ion-icon slot="icon-only" size="small" name="trash-outline" title="delete"
+                (click)="deleteAction(item)"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-col>
+        </ion-row>
+        }
+      </ion-grid>
+    </div>
+
+    <ion-toolbar color="light">
+      <ion-buttons slot="start">
+        <ion-button fill="clear" (click)="previousPage()" [disabled]="filters.page <= 1">
+          <ion-icon slot="start" name="chevron-back-outline"></ion-icon>
+          <ion-text class="ion-hide-sm-down">Anterior</ion-text>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>Page {{ filters.page }} de {{ totalPages }}</ion-title>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" (click)="nextPage()" [disabled]="filters.page >= totalPages">
+          <ion-text class="ion-hide-sm-down">Siguiente</ion-text>
+          <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+    }
+
+  </ion-card-content>
+</ion-card>
