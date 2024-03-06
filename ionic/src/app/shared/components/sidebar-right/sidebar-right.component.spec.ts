@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { ThemeSwitchComponent } from './theme-switch.component';
+import { SidebarRightComponent } from './sidebar-right.component';
 
-describe('ThemeSwitchComponent', () => {
-  let component: ThemeSwitchComponent;
-  let fixture: ComponentFixture<ThemeSwitchComponent>;
+describe('SidebarRightComponent', () => {
+  let component: SidebarRightComponent;
+  let fixture: ComponentFixture<SidebarRightComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ThemeSwitchComponent ],
+      declarations: [ SidebarRightComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ThemeSwitchComponent);
+    fixture = TestBed.createComponent(SidebarRightComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

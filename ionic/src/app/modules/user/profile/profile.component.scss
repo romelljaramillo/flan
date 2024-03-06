@@ -1,0 +1,30 @@
+.user-profile-card {
+    margin-top: 20px;
+      text-align: center;
+      ion-avatar {
+        margin: 0 auto;
+        width: 7rem;
+        height: 7rem;
+      }
+      ion-text{
+          h1 {
+            font-size: 1.2em;
+            margin-top: 1rem;
+          }
+          h3 {
+            font-size: 1em;
+            color: var(--ion-color-medium);
+          }
+      } 
+      ion-item {
+        --padding-start: 0;
+        --inner-padding-end: 0;
+        --padding-end: 0;
+        --border-style: none;
+        ion-icon {
+          margin-right: 1rem;
+          color: var(--ion-color-medium);
+        }
+      }
+  }
+  

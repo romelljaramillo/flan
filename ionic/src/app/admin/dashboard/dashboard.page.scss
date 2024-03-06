@@ -1,0 +1,13 @@
+/* styles.css */
+.clients-container {
+    display: flex;
+    height: 100%; /* O la altura que prefieras */
+  }
+  
+  .clients-list {
+    flex: 1;
+  }
+  
+  .clients-detail {
+    flex: 2;
+  }

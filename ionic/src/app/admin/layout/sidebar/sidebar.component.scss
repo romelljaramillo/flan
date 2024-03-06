@@ -1,0 +1,13 @@
+.sub-menu {
+    border-left: 2px solid var(--ion-color-primary, #3880ff);
+    ion-item {
+        cursor: pointer;
+        ion-label {
+            padding-left: 20px;
+        }
+    }
+}
+
+ion-item {
+    cursor: auto;
+}

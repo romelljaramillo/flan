@@ -1,5 +1,13 @@
 <ion-split-pane contentId="admin-content">
-  <ion-menu  menuId="left-menu" contentId="admin-content" type="overlay">
+  <ion-menu menuId="left-menu" contentId="admin-content" type="overlay">
+    <ion-toolbar>
+      <ion-item routerLink="/admin">
+        <ion-thumbnail class="ion-margin-horizontal" slot="start">
+          <img alt="Silhouette of mountains" src="assets/img/logo.png" />
+        </ion-thumbnail>
+        <ion-label>Flan</ion-label>
+      </ion-item>
+    </ion-toolbar>
     <ion-content>
       <app-sidebar />
     </ion-content>
@@ -8,21 +16,26 @@
     <app-nav />
     <ion-content>
       <app-content />
-      <app-footer />
     </ion-content>
+    <app-footer />
   </div>
 </ion-split-pane>
+<!-- <app-sidebar-right idConten="admin-content"></app-sidebar-right> -->
 
 <ion-menu side="end" menuId="right-menu" class="right-menu" contentId="admin-content" type="overlay">
-  <ion-header>
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-button (click)="closeMenu()">
-          <ion-icon slot="icon-only" name="close-outline" ></ion-icon>
-        </ion-button>
-      </ion-buttons>
-      <ion-title>Perfil</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content class="ion-padding">This is the end menu content.</ion-content>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeMenu()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-content>
+    @if(componenteActivo === 'profile'){
+    <app-profile></app-profile>
+    } @else {
+    <app-profile2></app-profile2>
+    }
+    <router-outlet id="rightmenu"></router-outlet>
+  </ion-content>
 </ion-menu>

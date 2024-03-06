@@ -6,19 +6,22 @@
 
 ion-card.list-card {
 	margin: 5px;
+
 	ion-card-header {
 		padding: 2px;
 
-		ion-toolbar.sc-ion-searchbar-ios-h, ion-toolbar .sc-ion-searchbar-ios-h {
+		ion-toolbar.sc-ion-searchbar-ios-h,
+		ion-toolbar .sc-ion-searchbar-ios-h {
 			padding: 0 2px;
 			text-align: left;
 		}
-		
+
 		ion-grid {
 			margin: 5px;
 
 		}
 	}
+
 	ion-grid.table {
 		ion-row {
 			ion-col {
@@ -28,11 +31,18 @@ ion-card.list-card {
 						height: auto;
 						margin-inline: auto;
 					}
-	
+
 				}
-	
+
 				text-align: left;
 			}
 		}
+	}
+}
+
+ion-toolbar.pagination {
+	ion-title {
+		font-size: 0.8em;
+		text-align: center;
 	}
 }

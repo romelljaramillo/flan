@@ -3,11 +3,17 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Flan</ion-title>
+    <ion-thumbnail slot="start" class="logo" routerLink="/admin">
+      <img alt="Silhouette of mountains" src="assets/img/logo.png" />
+    </ion-thumbnail>
+    <ion-title class="logo-title" routerLink="/admin">Flan</ion-title>
     <ion-buttons slot="end">
       <app-theme-switch />
-      <ion-button (click)="onAvatarClick()" [title]="user.name">
-        <ion-avatar>
+      <ion-button size="small" (click)="onSidebarRight('profile2')" >
+        <ion-icon slot="icon-only" size="small" name="notifications-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="onSidebarRight('profile')" [title]="user.name">
+        <ion-avatar  slot="icon-only" >
           <img [alt]="user.name" [src]="user.avatar" />
         </ion-avatar>
       </ion-button>

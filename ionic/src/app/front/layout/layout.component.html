@@ -1,3 +1,16 @@
-<app-nav/>
-<app-content/>
-<app-footer/>
+<ion-split-pane contentId="front-content">
+
+	<ion-menu menuId="left-menu" contentId="front-content" type="overlay">
+		<ion-content>
+			<app-sidebar />
+		</ion-content>
+	</ion-menu>
+	<div class="ion-page" id="front-content">
+		<app-nav />
+		<ion-content>
+			<app-content />
+			<app-footer />
+		</ion-content>
+	</div>
+
+</ion-split-pane>

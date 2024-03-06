@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -42,12 +42,12 @@ import { FieldsComponent } from '../fields/fields.component';
   templateUrl: './form-modal.component.html',
   styleUrls: ['./form-modal.component.scss'],
 })
-export class FormModalComponent implements OnInit {
+export class FormModalComponent implements OnInit, OnDestroy {
   @Input() fields!: FieldModel<string>[];
   @Output() formSubmit = new EventEmitter<any[]>();
-
+  @Input() activeBtnClose: boolean = true;
+  
   public form!: FormGroup;
-  public isActiveForm: boolean = false;
   public showModal: boolean = false;
 
   constructor(
@@ -85,8 +85,7 @@ export class FormModalComponent implements OnInit {
     }
 
     const values = this.form.value;
-    console.log('values', values);
-    
+    this.showModal = false;
     this.formControlService.processCheckboxFields(values);
     this.formSubmit.emit(values);
   }

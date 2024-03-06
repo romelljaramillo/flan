@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonButton, IonIcon, IonButtons } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { moonOutline, sunnyOutline } from 'ionicons/icons';
+import { ThemeSwitchService } from '../../services/theme-switch.service';
 
 @Component({
   selector: 'app-theme-switch',
@@ -14,29 +15,13 @@ import { moonOutline, sunnyOutline } from 'ionicons/icons';
 export class ThemeSwitchComponent {
   darkMode: boolean | undefined;
 
+  private themeSwitchService = inject(ThemeSwitchService);
+
   constructor() {
     addIcons({ sunnyOutline, moonOutline });
-
-    const savedTheme = localStorage.getItem('theme');
-    this.darkMode = savedTheme
-      ? savedTheme === 'dark'
-      : window.matchMedia('(prefers-color-scheme: dark)').matches;
-    this.updateTheme(this.darkMode);
   }
 
   toggleTheme() {
-    this.darkMode = !this.darkMode;
-    this.updateTheme(this.darkMode);
-  }
-
-  updateTheme(darkMode: boolean) {
-    document.body.classList.toggle('dark', darkMode);
-
-    const metaColorScheme = document.querySelector('meta[name="color-scheme"]');
-    if (metaColorScheme) {
-      metaColorScheme.setAttribute('content', darkMode ? 'dark' : 'light');
-    }
-
-    localStorage.setItem('theme', darkMode ? 'dark' : 'light');
+    this.themeSwitchService.toggleTheme();
   }
 }

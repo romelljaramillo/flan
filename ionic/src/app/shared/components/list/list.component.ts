@@ -33,7 +33,12 @@ import {
   IonText,
   IonGrid,
   IonRow,
-  IonCol, IonSearchbar, IonButtons, IonToolbar, IonTitle } from '@ionic/angular/standalone';
+  IonCol,
+  IonSearchbar,
+  IonButtons,
+  IonToolbar,
+  IonTitle,
+} from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
   alertCircle,
@@ -51,7 +56,11 @@ import {
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [IonTitle, IonToolbar, IonButtons, IonSearchbar, 
+  imports: [
+    IonTitle,
+    IonToolbar,
+    IonButtons,
+    IonSearchbar,
     IonCol,
     IonRow,
     IonGrid,
@@ -84,7 +93,7 @@ export class ListComponent<T extends BaseResponseData>
 
   @ViewChild('searchbar') searchbar!: IonSearchbar;
   searchControl = new FormControl('');
-  searchTerm = ''
+  searchTerm = '';
 
   @Input() fields!: FieldList[];
   @Input() items: T[] = [];
@@ -119,7 +128,7 @@ export class ListComponent<T extends BaseResponseData>
       arrowUp,
       chevronBackOutline,
       chevronForwardOutline,
-      searchOutline
+      searchOutline,
     });
   }
 
@@ -169,6 +178,8 @@ export class ListComponent<T extends BaseResponseData>
   }
 
   editAction(item: T) {
+    console.log('editAction', item);
+
     this.edit.emit(item);
   }
 

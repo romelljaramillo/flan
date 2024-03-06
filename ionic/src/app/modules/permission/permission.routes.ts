@@ -1,12 +1,14 @@
 import { Routes } from '@angular/router';
 
-import { PermissionComponent } from './permission.component';
+import { PermissionPage } from './permission.page';
 import { ActionCrud, RouteDataPermission } from './interfaces/permission.interface';
+import { AuthGuard } from '@auth/auth.guard';
 
-export const routes: Routes = [
+export const routesPermissions: Routes = [
   {
     path: '',
-    component: PermissionComponent,
+    component: PermissionPage,
     data: { title: 'Permissions', entity: 'permissions', action: ActionCrud.list } as RouteDataPermission,
+    canLoad: [AuthGuard],
   }
 ]

@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   ViewContainerRef,
@@ -12,12 +13,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 
-import { IonButton } from '@ionic/angular/standalone';
+import { IonButton, IonContent, IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { addOutline } from 'ionicons/icons';
 
 import { FormService } from './services/form.service';
-import { FormDefaultComponent } from './form-default.component';
+import { FormDefaultComponent } from './default/form-default.component';
 import { FormModalComponent } from './modal/form-modal.component';
 import { FieldModel } from './fields/field-model';
 import { BaseResponseData } from '@core/interfaces/base.interface';
@@ -31,22 +32,16 @@ export enum TypeForm {
 @Component({
   selector: 'app-form',
   standalone: true,
-  imports: [CommonModule, FieldsComponent, ReactiveFormsModule, IonButton],
-  styles: [''],
-  template: `
-      @if (btnNew) {
-      <ion-button slot="end" fill="clear" id="open-form" (click)="activeForm(true)">
-        <!-- <ion-icon slot="start" name="add-outline"></ion-icon> -->
-        Nuevo
-      </ion-button>
-      }
-    <ng-template appInsertForm></ng-template>`,
+  imports: [IonIcon, CommonModule, FieldsComponent, ReactiveFormsModule, IonButton, IonContent],
+  templateUrl: './form.component.html',
+  styleUrls: ['./form.component.scss'],
 })
 export class FormComponent<T extends BaseResponseData>
-  implements OnInit, OnChanges
+  implements OnInit, OnChanges, OnDestroy
 {
   @Input() typeForm: TypeForm = TypeForm.default;
   @Input() isActive: boolean = false;
+  @Input() activeBtnClose: boolean = true;
   @Input() data: T | undefined;
   @Input() fields!: FieldModel<string>[];
   @Output() submitAction = new EventEmitter<T>();
@@ -66,22 +61,13 @@ export class FormComponent<T extends BaseResponseData>
   ngOnInit() {
     this.subscActiveForm = this.formService.activeForm.subscribe((active) => {
       if (!active) {
-        this.removerComponente();
+        this.removeComponent();
       }
     });
   }
 
-  onSubmitAction(dataForm: T) {
-    this.submitAction.emit(dataForm);
-  }
-
-  ngOnChanges() {
-    if (this.isActive) {
-      this.activeForm();
-      return;
-    }
-
-    this.removerComponente();
+  ngOnChanges(): void {
+    this.isActive ? this.activeForm() : this.removeComponent();
   }
 
   activeForm(newItem: boolean = false) {
@@ -96,7 +82,7 @@ export class FormComponent<T extends BaseResponseData>
     });
   }
 
-  renderForm() {
+  private renderForm(): void {
     this.viewContainerRef.clear();
     switch (this.typeForm) {
       case TypeForm.modal:
@@ -109,15 +95,16 @@ export class FormComponent<T extends BaseResponseData>
         this.componentRef =
           this.viewContainerRef.createComponent(FormDefaultComponent);
         this.componentRef.instance.fields = this.fields;
+        this.componentRef.instance.activeBtnClose = this.activeBtnClose;
         break;
     }
 
     this.componentRef.instance.formSubmit.subscribe((dataForm: T) => {
-      this.onSubmitAction(dataForm);
+      this.submitAction.emit(dataForm);
     });
   }
 
-  removerComponente() {
+  private removeComponent() {
     if (this.componentRef) {
       setTimeout(() => {
         this.componentRef.destroy();

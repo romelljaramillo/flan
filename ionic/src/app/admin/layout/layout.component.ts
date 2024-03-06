@@ -1,4 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import {
   MenuController,
   IonSplitPane,
@@ -14,8 +17,7 @@ import {
   IonToolbar,
   IonHeader,
   IonButton,
-  IonButtons,
-} from '@ionic/angular/standalone';
+  IonButtons, IonFooter, IonRouterOutlet, IonThumbnail, IonRouterLink } from '@ionic/angular/standalone';
 import { ContentComponent } from './content/content.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { NavComponent } from './nav/nav.component';
@@ -42,53 +44,51 @@ import {
   bookmarkOutline,
   bookmarkSharp,
 } from 'ionicons/icons';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+
+import { Subscription } from 'rxjs';
+import { SidebarRightService } from '@shared/services/sidebar-right.service';
+import { Profile2Component } from '@admin/dashboard/profile2/profile2.component';
+import { ProfileComponent } from '@modules/user/profile/profile.component';
+import { SidebarRightComponent } from '@shared/components/sidebar-right/sidebar-right.component';
+import { BreadcrumbComponent } from "./breadcrumb/breadcrumb.component";
 
 @Component({
-  selector: 'app-layout',
-  templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss'],
-  standalone: true,
-  imports: [
-    IonButtons,
-    IonButton,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonLabel,
-    IonItem,
-    IonIcon,
-    IonList,
-    IonListHeader,
-    IonContent,
-    IonSplitPane,
-    ContentComponent,
-    SidebarComponent,
-    NavComponent,
-    FooterComponent,
-    IonMenu,
-    IonMenuToggle,
-    RouterLink,
-    RouterLinkActive,
-    CommonModule,
-    FormsModule,
-  ],
+    selector: 'app-layout',
+    templateUrl: './layout.component.html',
+    styleUrls: ['./layout.component.scss'],
+    standalone: true,
+    imports: [IonRouterLink, IonThumbnail, IonRouterOutlet,
+        IonFooter,
+        IonButtons,
+        IonButton,
+        IonHeader,
+        IonToolbar,
+        IonTitle,
+        IonLabel,
+        IonItem,
+        IonIcon,
+        IonList,
+        IonListHeader,
+        IonContent,
+        IonSplitPane,
+        ContentComponent,
+        SidebarComponent,
+        NavComponent,
+        FooterComponent,
+        IonMenu,
+        IonMenuToggle,
+        CommonModule,
+        RouterModule,
+        FormsModule,
+        ProfileComponent,
+        Profile2Component,
+        SidebarRightComponent, BreadcrumbComponent]
 })
-export class LayoutComponent {
+export class LayoutComponent implements OnDestroy {
   private menuCtrl = inject(MenuController);
-  urlAdmin = '/admin';
-
-  public appPages = [
-    { title: 'Dashboard', url: this.urlAdmin + '/dashboard', icon: 'home' },
-    { title: 'Users', url: this.urlAdmin + '/users', icon: 'people' },
-    { title: 'Favorites', url: '/folder/favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/spam', icon: 'warning' },
-  ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  private sidebarRightService = inject(SidebarRightService);
+  componenteActivo: string = '';
+  suscripcion: Subscription;
 
   constructor() {
     addIcons({
@@ -112,10 +112,18 @@ export class LayoutComponent {
       bookmarkOutline,
       bookmarkSharp,
     });
+
+    this.suscripcion = this.sidebarRightService.componenteActivo.subscribe(activo => {
+      this.componenteActivo = activo;
+    });
   }
 
+
   closeMenu() {
-    console.log('close clicked');
     this.menuCtrl.close('right-menu');
+  }
+
+  ngOnDestroy() {
+    this.suscripcion.unsubscribe();
   }
 }

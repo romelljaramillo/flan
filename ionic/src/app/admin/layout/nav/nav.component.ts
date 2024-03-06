@@ -1,46 +1,47 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+
 import {
-  IonMenuToggle,
   MenuController,
   IonHeader,
   IonToolbar,
   IonButtons,
   IonTitle,
   IonMenuButton,
-  IonItem,
   IonAvatar,
   IonButton,
-  IonContent,
   IonIcon,
-} from '@ionic/angular/standalone';
+  IonMenu,
+  IonContent,
+  IonThumbnail, IonLabel } from '@ionic/angular/standalone';
 import { ActivatedRoute } from '@angular/router';
 import { ThemeSwitchComponent } from '@shared/components/theme-switch/theme-switch.component';
 import { AuthService } from '@auth/auth.service';
 import { UserAttribute } from '@modules/user/interfaces/user.interface';
 import { addIcons } from 'ionicons';
-import { closeOutline } from 'ionicons/icons';
+import { closeOutline, notificationsOutline } from 'ionicons/icons';
+import { SidebarRightService } from '../../../shared/services/sidebar-right.service';
 
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss'],
   standalone: true,
-  imports: [
+  imports: [IonContent, IonLabel, 
+    IonThumbnail,
     IonIcon,
-    IonContent,
-    IonMenuToggle,
     IonButton,
     IonAvatar,
-    IonItem,
     IonTitle,
     IonButtons,
     IonToolbar,
     IonMenuButton,
     IonHeader,
+    IonMenu,
+    IonContent,
     CommonModule,
-    FormsModule,
+    RouterModule,
     ThemeSwitchComponent,
   ],
 })
@@ -48,11 +49,14 @@ export class NavComponent implements OnInit {
   public folder!: string;
   private activatedRoute = inject(ActivatedRoute);
   private authService = inject(AuthService);
+  private SidebarRightService = inject(SidebarRightService);
+  private router = inject(Router);
   private menuCtrl = inject(MenuController);
+
   public user: UserAttribute;
 
   constructor() {
-    addIcons({ closeOutline });
+    addIcons({ closeOutline, notificationsOutline });
     this.user = this.authService.userSession;
   }
 
@@ -60,9 +64,9 @@ export class NavComponent implements OnInit {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id') as string;
   }
 
-  onAvatarClick() {
-    console.log('Avatar clicked');
+  onSidebarRight(componente: string) {
     this.menuCtrl.open('right-menu');
+    this.SidebarRightService.cambiarComponente(componente);
   }
 
   logout() {

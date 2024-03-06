@@ -112,13 +112,12 @@
 
           <ion-col size="auto">
             <ion-buttons size="small">
-              <ion-button size="small" fill="clear">
-                <ion-icon slot="icon-only" size="small" name="create-outline" title="edit"
-                (click)="editAction(item)"></ion-icon>
+              <ion-button size="small" fill="clear" title="edit" (click)="editAction(item)">
+                <ion-icon slot="icon-only" size="small" name="create-outline"></ion-icon>
               </ion-button>
-              <ion-button size="small" fill="clear">
-                <ion-icon slot="icon-only" size="small" name="trash-outline" title="delete"
-                (click)="deleteAction(item)"></ion-icon>
+              <ion-button size="small" fill="clear"  title="delete" (click)="deleteAction(item)">
+                <ion-icon slot="icon-only" size="small" name="trash-outline"
+                ></ion-icon>
               </ion-button>
             </ion-buttons>
           </ion-col>
@@ -127,16 +126,16 @@
       </ion-grid>
     </div>
 
-    <ion-toolbar color="light">
+    <ion-toolbar class="pagination">
       <ion-buttons slot="start">
-        <ion-button fill="clear" (click)="previousPage()" [disabled]="filters.page <= 1">
+        <ion-button fill="clear" size="small" (click)="previousPage()" [disabled]="filters.page <= 1">
           <ion-icon slot="start" name="chevron-back-outline"></ion-icon>
           <ion-text class="ion-hide-sm-down">Anterior</ion-text>
         </ion-button>
       </ion-buttons>
       <ion-title>Page {{ filters.page }} de {{ totalPages }}</ion-title>
       <ion-buttons slot="end">
-        <ion-button fill="clear" (click)="nextPage()" [disabled]="filters.page >= totalPages">
+        <ion-button fill="clear" size="small" (click)="nextPage()" [disabled]="filters.page >= totalPages">
           <ion-text class="ion-hide-sm-down">Siguiente</ion-text>
           <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
         </ion-button>

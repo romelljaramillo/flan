@@ -12,10 +12,19 @@ import { AuthService } from '@auth/auth.service';
 import { NotificationService } from '@shared/services/notification.service';
 import { PermissionData } from '@modules/permission/interfaces/permission.interface';
 import { TypeForm } from '@shared/components/form/form.component';
-import { FieldList, OptionsQuery } from '@shared/components/list/interfaces/list.interface';
+import {
+  FieldList,
+  OptionsQuery,
+} from '@shared/components/list/interfaces/list.interface';
 import { FieldModel } from '@shared/components/form/fields';
 import { FormService } from '@shared/components/form/services/form.service';
-import { IonGrid, IonRow, IonItem, IonLabel, IonSpinner } from "@ionic/angular/standalone";
+import {
+  IonGrid,
+  IonRow,
+  IonItem,
+  IonLabel,
+  IonSpinner,
+} from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-base',
@@ -155,6 +164,8 @@ export class BaseComponent<
   onEdit(item: D) {
     if (!item.id) return;
     this.baseService.getById(item.id).subscribe((response) => {
+      console.log(response.data);
+
       if (response.data && !(response.data instanceof Array)) {
         this.item = response.data.attribute as unknown as D;
         this.activeForm(true);

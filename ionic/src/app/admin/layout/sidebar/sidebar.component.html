@@ -1,18 +1,38 @@
-<ion-list id="inbox-list">
-  <ion-list-header>Inbox</ion-list-header>
-  <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-    <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-      <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-      <ion-label>{{ p.title }}</ion-label>
-    </ion-item>
-  </ion-menu-toggle>
-</ion-list>
-
-<ion-list id="labels-list">
-  <ion-list-header>Labels</ion-list-header>
-
-  <ion-item *ngFor="let label of labels" lines="none">
-    <ion-icon aria-hidden="true" slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-    <ion-label>{{ label }}</ion-label>
-  </ion-item>
+<ion-list id="menu-list">
+  <ion-accordion-group>
+    @for (menu of menuRoutes; track $index) {
+      @if (menu.submenu) {
+      <ion-accordion [value]="$index">
+          <ion-item slot="header" lines="none" >
+            <ion-icon aria-hidden="true" slot="start" [ios]="menu.icon ? menu.icon + '-outline' : 'bookmark-outline'"
+              [md]="menu.icon ? menu.icon + '-sharp' : 'bookmark-sharp'"></ion-icon>
+            <ion-label>{{ menu.tab | slice:0:20 }}</ion-label>
+          </ion-item>
+    
+          <div slot="content" class="sub-menu">
+            @for (submenu of menu.submenu; track $index) {
+            <ion-item routerDirection="root" [routerLink]="[submenu.url]" lines="none" detail="false"
+              routerLinkActive="selected" (click)="onMenuItemSelected()">
+              <ion-label>{{ submenu.title| slice:0:20 }}</ion-label>
+            </ion-item>
+            }
+          </div>
+      </ion-accordion>
+      } @else {
+        @if(menu.url !== ''){
+        <ion-item routerDirection="root" [routerLink]="[menu.url]" lines="none" detail="false" routerLinkActive="selected" (click)="onMenuItemSelected()">
+          <ion-icon aria-hidden="true" slot="start" [ios]="menu.icon ? menu.icon + '-outline' : 'bookmark-outline'"
+            [md]="menu.icon ? menu.icon + '-sharp' : 'bookmark-sharp'"></ion-icon>
+          <ion-label>{{ menu.tab | slice:0:17 }}</ion-label>
+        </ion-item>
+        } @else {
+        <ion-item href="javascript:void(0)" lines="none" detail="false" routerLinkActive="selected">
+          <ion-icon aria-hidden="true" slot="start" [ios]="menu.icon ? menu.icon + '-outline' : 'bookmark-outline'"
+            [md]="menu.icon ? menu.icon + '-sharp' : 'bookmark-sharp'"></ion-icon>
+          <ion-label>{{ menu.tab | slice:0:17 }}</ion-label>
+        </ion-item>
+        }
+      }
+    }
+  </ion-accordion-group>
 </ion-list>

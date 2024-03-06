@@ -1,0 +1,27 @@
+<ion-card>
+	<ion-card-header>
+		<ion-card-title>Form</ion-card-title>
+	</ion-card-header>
+
+	<ion-card-content>
+		<form (ngSubmit)="onSubmit()" [formGroup]="form" autocomplete="off">
+			<ion-list>
+				@for (field of fields; track field.key) {
+				<app-form-fields [field]="field" [form]="form">></app-form-fields>
+				}
+			</ion-list>
+			<ion-toolbar>
+				@if(activeBtnClose) {
+				<ion-buttons slot="start">
+					<ion-button type="button" color="medium" fill="solid" (click)="close()">
+						cancel
+					</ion-button>
+				</ion-buttons>
+				}
+				<ion-buttons slot="end">
+					<ion-button type="submit" color="primary" fill="solid">Save</ion-button>
+				</ion-buttons>
+			</ion-toolbar>
+		</form>
+	</ion-card-content>
+</ion-card>

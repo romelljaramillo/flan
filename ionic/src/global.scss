@@ -98,7 +98,6 @@ ion-menu.md {
     ion-item {
         --padding-start: 10px;
         --padding-end: 10px;
-        border-radius: 4px;
 
         &.selected {
             --background: rgba(var(--ion-color-primary-rgb), 0.14);
@@ -117,8 +116,6 @@ ion-menu.md {
         }
     }
 }
-
-
 
 ion-menu.ios {
     ion-content {
@@ -174,4 +171,12 @@ ion-note {
 
 ion-item.selected {
     --color: var(--ion-color-primary);
+}
+
+ion-menu {
+    &.right-menu {
+        --max-width: 500px;
+        --min-width: 270px;
+        --width: 100%;
+    }
 }

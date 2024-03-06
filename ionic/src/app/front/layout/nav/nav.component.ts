@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonHeader, IonToolbar, IonButtons, IonTitle, IonMenuButton } from '@ionic/angular/standalone';
 import { ActivatedRoute } from '@angular/router';
-
+import { ThemeSwitchComponent } from '@shared/components/theme-switch/theme-switch.component';
 
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss'],
   standalone: true,
-  imports: [IonTitle, IonButtons, IonToolbar, IonMenuButton, IonHeader, CommonModule, FormsModule]
+  imports: [IonTitle, IonButtons, IonToolbar, IonMenuButton, IonHeader, CommonModule, FormsModule, ThemeSwitchComponent]
 
 })
 export class NavComponent implements OnInit{
