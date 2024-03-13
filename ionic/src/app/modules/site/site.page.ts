@@ -15,6 +15,7 @@ import { FormComponent } from "@shared/components/form/form.component";
 import { ListComponent } from "@shared/components/list/list.component";
 
 import {
+  SiteAttribute,
   SiteResponse,
   SiteResponseData,
   SiteResponseMeta,
@@ -42,7 +43,8 @@ import { SiteService } from "./services/site.service";
 export class SitePage extends BaseComponent<
   SiteResponse,
   SiteResponseData,
-  SiteResponseMeta
+  SiteResponseMeta,
+  SiteAttribute
 > {
   constructor(protected siteService: SiteService) {
     super(siteService);

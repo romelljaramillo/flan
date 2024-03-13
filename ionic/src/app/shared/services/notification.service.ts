@@ -1,76 +1,67 @@
 import { Injectable } from '@angular/core';
-
-import Swal, { SweetAlertOptions } from 'sweetalert2';
+import { ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
+  //https://ionicframework.com/docs/v8/api/toast#interfaces
 
-  private Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000,
-  });
+  constructor(private toastController: ToastController) {}
 
-  private Confirm = Swal.mixin({
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#0069d9',
-    cancelButtonColor: '#d33',
-    cancelButtonText: 'Cancelar',
-    confirmButtonText: 'Eliminar',
-  });
-
-  toast(options?: SweetAlertOptions) {
-    this.Toast.fire({ ...options });
-  }
-
-  confirm(message: string, options?: SweetAlertOptions) {
-    return this.Confirm.fire({ ...options, title: message })
-    .then((result) => result.isConfirmed);
-  }
-
-  success(message: string, options?: SweetAlertOptions) {
-    this.toast({
-      ...options,
-      title: message,
-      background: '#d4edda',
-      color: '#155724',
-      icon: 'success',
+  async toast(message: string, options?: any) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: options && options.duration ? options.duration : 3000,
+      position: options && options.position ? options.position : 'top',
+      color: options && options.color ? options.color : 'dark',
+      cssClass: options && options.cssClass ? options.cssClass : '',
+      buttons: options && options.buttons ? options.buttons : null
     });
+    toast.present();
   }
 
-  error(message: string, options?: SweetAlertOptions) {
-    this.toast({
-      ...options,
-      title: message,
-      background: '#f8d7da',
-      color: '#721c24',
-      icon: 'error',
+  async confirm(message: string, options?: any) {
+    const toast = await this.toastController.create({
+      message: message,
+      position: 'top',
+      color: 'warning',
+      buttons: [
+        {
+          text: options && options.cancelButtonText ? options.cancelButtonText : 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            if (options && options.onCancel) {
+              options.onCancel();
+            }
+          }
+        },
+        {
+          text: options && options.confirmButtonText ? options.confirmButtonText : 'Eliminar',
+          handler: () => {
+            if (options && options.onConfirm) {
+              options.onConfirm();
+            }
+          }
+        }
+      ]
     });
+    toast.present();
   }
 
-  info(message: string, options?: SweetAlertOptions) {
-    this.toast({
-      ...options,
-      title: message,
-      background: '#d1ecf1',
-      color: '#0c5460',
-      icon: 'info',
-    });
+  async success(message: string, options?: any) {
+    await this.toast(message, { ...options, color: 'success' });
   }
 
-  warn(message: string, options?: SweetAlertOptions) {
-    this.toast({
-      ...options,
-      title: message,
-      background: '#fff3cd',
-      color: '#856404',
-      icon: 'warning',
-    });
+  async error(message: string, options?: any) {
+    await this.toast(message, { ...options, color: 'danger' });
+  }
+
+  async info(message: string, options?: any) {
+    await this.toast(message, { ...options, color: 'primary' });
+  }
+
+  async warn(message: string, options?: any) {
+    await this.toast(message, { ...options, color: 'warning' });
   }
 }
-
-

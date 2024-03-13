@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 
 import {
+  BaseAttribute,
   BaseResponse,
   BaseResponseData,
   BaseResponseMeta,
@@ -37,7 +38,8 @@ import {
 export class BaseComponent<
   T extends BaseResponse,
   D extends BaseResponseData,
-  M extends BaseResponseMeta
+  M extends BaseResponseMeta,
+  A extends BaseAttribute
 > implements OnInit
 {
   protected formSubscription?: Subscription;
@@ -58,7 +60,7 @@ export class BaseComponent<
   };
 
   public items!: D[];
-  public item!: D;
+  public item!: A;
   public meta: M = {
     current_page: 1,
     from: 0,
@@ -79,7 +81,7 @@ export class BaseComponent<
   protected notificationService = inject(NotificationService);
   protected formService = inject(FormService);
 
-  constructor(private baseService: BaseService<T>) {}
+  constructor(private baseService: BaseService<T, D, A>) {}
 
   ngOnInit(): void {
     this.authService.entity = this.baseService.entity;
@@ -125,7 +127,7 @@ export class BaseComponent<
     });
   }
 
-  add(data: D) {
+  add(data: A) {
     this.baseService.create(data).subscribe((response) => {
       this.notificationService?.success('Se ha creado con éxito.');
       this.activeForm(false);
@@ -133,8 +135,9 @@ export class BaseComponent<
     });
   }
 
-  update(data: D) {
+  update(data: A) {
     if (!data.id) return;
+    
     this.baseService.update(data.id, data).subscribe((response) => {
       this.notificationService?.success('Actualización exitosa.');
       this.activeForm(false);
@@ -147,9 +150,9 @@ export class BaseComponent<
     this.formService.activeForm.emit(isActive);
   }
 
-  onSubmitAction(data: D) {
+  onSubmitAction(data: A) {
     if (!data) return;
-    if (data.id && data.id.trim() !== '') {
+    if (data.id && data.id.trim()) {
       this.update(data);
     } else {
       this.add(data);
@@ -161,13 +164,13 @@ export class BaseComponent<
     this.getAll();
   }
 
-  onEdit(item: D) {
+  onEdit(item: A) {
     if (!item.id) return;
     this.baseService.getById(item.id).subscribe((response) => {
       console.log(response.data);
 
       if (response.data && !(response.data instanceof Array)) {
-        this.item = response.data.attribute as unknown as D;
+        this.item = response.data.attribute as unknown as A;
         this.activeForm(true);
       }
     });

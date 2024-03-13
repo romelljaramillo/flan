@@ -86,7 +86,7 @@ import {
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
 })
-export class ListComponent<T extends BaseResponseData>
+export class ListComponent
   implements AfterContentChecked
 {
   @ViewChild('terminoSearch') terminoSearch!: ElementRef;
@@ -96,14 +96,14 @@ export class ListComponent<T extends BaseResponseData>
   searchTerm = '';
 
   @Input() fields!: FieldList[];
-  @Input() items: T[] = [];
+  @Input() items: any[] = [];
   @Input() total: number = 0;
   @Input() isAdvanceSearch: boolean = true;
   @Input() editable: boolean = false;
   @Input() deletable: boolean = false;
 
-  @Output() edit = new EventEmitter<T>();
-  @Output() delete = new EventEmitter<T>();
+  @Output() edit = new EventEmitter<any>();
+  @Output() delete = new EventEmitter<any>();
   @Output() filter = new EventEmitter<OptionsQuery>();
 
   totalPages: number = 0;
@@ -177,22 +177,26 @@ export class ListComponent<T extends BaseResponseData>
     this.filters.filterAdvance = [];
   }
 
-  editAction(item: T) {
+  editAction(item: any) {
     console.log('editAction', item);
 
     this.edit.emit(item);
   }
 
-  deleteAction(item: T) {
-    this.notificationService
-      ?.confirm('Está seguro de eliminar?', {
-        text: '¡No podrás revertir esto!',
-      })
-      .then((result: boolean = false) => {
-        if (result) {
-          this.delete.emit(item);
-        }
-      });
+  async deleteAction(item: any) {
+    const message = '¿Estás seguro de que deseas eliminar este elemento?';
+    const options = {
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar',
+      onConfirm: () => {
+        this.delete.emit(item);
+      },
+      onCancel: () => {
+        return;
+      }
+    };
+
+    await this.notificationService?.confirm(message, options);
   }
 
   previousPage() {

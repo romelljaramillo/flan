@@ -21,7 +21,7 @@ import { FormService } from './services/form.service';
 import { FormDefaultComponent } from './default/form-default.component';
 import { FormModalComponent } from './modal/form-modal.component';
 import { FieldModel } from './fields/field-model';
-import { BaseResponseData } from '@core/interfaces/base.interface';
+import { BaseAttribute } from '@core/interfaces/base.interface';
 import { FieldsComponent } from './fields/fields.component';
 
 export enum TypeForm {
@@ -36,15 +36,15 @@ export enum TypeForm {
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
 })
-export class FormComponent<T extends BaseResponseData>
+export class FormComponent<A extends BaseAttribute>
   implements OnInit, OnChanges, OnDestroy
 {
   @Input() typeForm: TypeForm = TypeForm.default;
   @Input() isActive: boolean = false;
   @Input() activeBtnClose: boolean = true;
-  @Input() data: T | undefined;
+  @Input() data: A | undefined;
   @Input() fields!: FieldModel<string>[];
-  @Output() submitAction = new EventEmitter<T>();
+  @Output() submitAction = new EventEmitter<A>();
 
   public btnNew: boolean = true;
   componentRef!: ComponentRef<FormModalComponent | FormDefaultComponent>;
@@ -99,7 +99,7 @@ export class FormComponent<T extends BaseResponseData>
         break;
     }
 
-    this.componentRef.instance.formSubmit.subscribe((dataForm: T) => {
+    this.componentRef.instance.formSubmit.subscribe((dataForm: A) => {
       this.submitAction.emit(dataForm);
     });
   }
@@ -115,5 +115,9 @@ export class FormComponent<T extends BaseResponseData>
 
   ngOnDestroy() {
     this.subscActiveForm?.unsubscribe();
+
+    if (this.componentRef) {
+      this.componentRef.destroy();
+    }
   }
 }

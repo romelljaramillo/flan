@@ -15,6 +15,7 @@ import { FormComponent } from "@shared/components/form/form.component";
 import { ListComponent } from "@shared/components/list/list.component";
 
 import {
+  UserAttribute,
   UserResponse,
   UserResponseData,
   UserResponseMeta,
@@ -42,7 +43,8 @@ import { UserService } from "./services/user.service";
 export class UserPage extends BaseComponent<
   UserResponse,
   UserResponseData,
-  UserResponseMeta
+  UserResponseMeta,
+  UserAttribute
 > {
   constructor(protected userService: UserService) {
     super(userService);

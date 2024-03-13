@@ -15,6 +15,7 @@ import { FormComponent } from "@shared/components/form/form.component";
 import { ListComponent } from "@shared/components/list/list.component";
 
 import {
+  LangAttribute,
   LangResponse,
   LangResponseData,
   LangResponseMeta,
@@ -42,7 +43,8 @@ import { LangService } from "./services/lang.service";
 export class LangPage extends BaseComponent<
   LangResponse,
   LangResponseData,
-  LangResponseMeta
+  LangResponseMeta,
+  LangAttribute
 > {
   constructor(protected langService: LangService) {
     super(langService);

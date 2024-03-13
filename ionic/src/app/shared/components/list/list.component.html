@@ -51,16 +51,16 @@
         <ion-row>
           <!-- Encabezado de la tabla -->
           @for (field of fields; track $index) {
-          <ion-col class="ion-text-start" [size]="($index === 0  ? 'auto': '')"
-            [ngClass]="{'ion-hide-sm-down': $index >= 3, 'ion-hide-md-down': $index >= 4, 'ion-hide-lg-down': $index >= 5 }">
-            <b (click)="onSortColumn(field['key'])">
-              {{field.label}}
-              @if(field.orderby){
-              <ion-icon name="arrow-up" *ngIf="filters.orderBy === 'ASC'"></ion-icon>
-              <ion-icon name="arrow-down" *ngIf="filters.orderBy === 'DESC'"></ion-icon>
-              }
-            </b>
-          </ion-col>
+            <ion-col class="ion-text-start" [size]="($index === 0  ? 'auto': '')"
+              [ngClass]="{'ion-hide-sm-down': $index >= 3, 'ion-hide-md-down': $index >= 4, 'ion-hide-lg-down': $index >= 5 }">
+              <b (click)="onSortColumn(field['key'])">
+                {{field.label}}
+                @if(field.orderby){
+                  <ion-icon name="arrow-up" *ngIf="filters.orderBy === 'ASC'"></ion-icon>
+                  <ion-icon name="arrow-down" *ngIf="filters.orderBy === 'DESC'"></ion-icon>
+                }
+              </b>
+            </ion-col>
           }
           <ion-col class="ion-text-end">
             <b>Actions</b>
@@ -68,60 +68,60 @@
         </ion-row>
         <!-- Items de la tabla -->
         @for(item of items; track $index){
-        <ion-row>
-          @for(field of fields; track field; let i = $index) {
-          @if(field['type']) {
-          @switch(field.type) {
-          @case ("image") {
-          <ion-col>
-            <ion-avatar>
-              <img src="{{ item.attribute[field['key']] | noimage }}" alt="{{item.id}}" />
-            </ion-avatar>
-          </ion-col>
-          }
-          @case ("datetime") {
-          <ion-col [ngClass]="{'ion-hide-sm-down': i >= 3, 'ion-hide-md-down': i >= 4, 'ion-hide-lg-down': i >= 5 } ">{{
-            item.attribute[field['key']] | date: 'dd/MM/yyyy HH:mm' }}</ion-col>
-          }
-          @case ("date") {
-          <ion-col [ngClass]="{'ion-hide-sm-down': i >= 3, 'ion-hide-md-down': i >= 4, 'ion-hide-lg-down': i >= 5  }">{{
-            item.attribute[field['key']] | date: 'dd/MM/yyyy' }}</ion-col>
-          }
-          @case ("boolean") {
-          <ion-col class="ion-text-center">
-            @if(item.attribute[field['key']] === true){
-            <ion-icon name="checkmark-circle" color="success"></ion-icon>
-            } @else {
-            <ion-icon name="close-circle" color="danger"></ion-icon>
+          <ion-row>
+            @for(field of fields; track field; let i = $index) {
+              @if(field['type']) {
+                @switch(field.type) {
+                  @case ("image") {
+                  <ion-col>
+                    <ion-avatar>
+                      <img src="{{ item.attribute[field['key']] | noimage }}" alt="{{item.id}}" />
+                    </ion-avatar>
+                  </ion-col>
+                  }
+                  @case ("datetime") {
+                  <ion-col [ngClass]="{'ion-hide-sm-down': i >= 3, 'ion-hide-md-down': i >= 4, 'ion-hide-lg-down': i >= 5 } ">{{
+                    item.attribute[field['key']] | date: 'dd/MM/yyyy HH:mm' }}</ion-col>
+                  }
+                  @case ("date") {
+                  <ion-col [ngClass]="{'ion-hide-sm-down': i >= 3, 'ion-hide-md-down': i >= 4, 'ion-hide-lg-down': i >= 5  }">{{
+                    item.attribute[field['key']] | date: 'dd/MM/yyyy' }}</ion-col>
+                  }
+                  @case ("boolean") {
+                  <ion-col class="ion-text-center">
+                    @if(item.attribute[field['key']]){
+                    <ion-icon name="checkmark-circle" color="success"></ion-icon>
+                    } @else {
+                    <ion-icon name="close-circle" color="danger"></ion-icon>
+                    }
+                  </ion-col>
+                  }
+                  @default {
+                  <ion-col [size]="(i === 0  ? 'auto': '')"
+                    [ngClass]="{'ion-hide-sm-down': i >= 3, 'ion-hide-md-down': i >= 4, 'ion-hide-lg-down': i >= 5 }">
+                    {{ item.attribute[field['key']] }}</ion-col>
+                  }
+                }
+              }
+              @else {
+              <ion-col [size]="(i === 0  ? 'auto': '')"
+                [ngClass]="{'ion-hide-sm-down': i >= 3, 'ion-hide-md-down': i >= 4, 'ion-hide-lg-down': i >= 5 }">
+                {{ item.attribute[field['key']] }}</ion-col>
+              }
             }
-          </ion-col>
-          }
-          @default {
-          <ion-col [size]="(i === 0  ? 'auto': '')"
-            [ngClass]="{'ion-hide-sm-down': i >= 3, 'ion-hide-md-down': i >= 4, 'ion-hide-lg-down': i >= 5 }">{{
-            item.attribute[field['key']] }}</ion-col>
-          }
-          }
-          }
-          @else {
-          <ion-col [size]="(i === 0  ? 'auto': '')"
-            [ngClass]="{'ion-hide-sm-down': i >= 3, 'ion-hide-md-down': i >= 4, 'ion-hide-lg-down': i >= 5 }">{{
-            item.attribute[field['key']] }}</ion-col>
-          }
-          }
 
-          <ion-col size="auto">
-            <ion-buttons size="small">
-              <ion-button size="small" fill="clear" title="edit" (click)="editAction(item)">
-                <ion-icon slot="icon-only" size="small" name="create-outline"></ion-icon>
-              </ion-button>
-              <ion-button size="small" fill="clear"  title="delete" (click)="deleteAction(item)">
-                <ion-icon slot="icon-only" size="small" name="trash-outline"
-                ></ion-icon>
-              </ion-button>
-            </ion-buttons>
-          </ion-col>
-        </ion-row>
+            <ion-col size="auto">
+              <ion-buttons size="small">
+                <ion-button size="small" fill="clear" title="edit" (click)="editAction(item)">
+                  <ion-icon slot="icon-only" size="small" name="create-outline"></ion-icon>
+                </ion-button>
+                <ion-button size="small" fill="clear"  title="delete" (click)="deleteAction(item)">
+                  <ion-icon slot="icon-only" size="small" name="trash-outline"
+                  ></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </ion-col>
+          </ion-row>
         }
       </ion-grid>
     </div>

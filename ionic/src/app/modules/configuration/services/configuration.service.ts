@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from '@core/services/base.service';
-import { ConfigurationResponse } from '../interfaces/configuration.interface';
+import { ConfigurationAttribute, ConfigurationResponse, ConfigurationResponseData } from '../interfaces/configuration.interface';
 import { catchError, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ConfigurationService extends BaseService<ConfigurationResponse> {
+export class ConfigurationService extends BaseService<ConfigurationResponse, ConfigurationResponseData, ConfigurationAttribute> {
   override url = 'configurations';
   override entity = 'configurations';
 

@@ -8,11 +8,16 @@ import { ErrorHandlerService } from '@shared/services/error-handler.service';
 import { AdvanceSearchService } from '@shared/components/advancesearch/services/advancesearch.service';
 import { FieldResponseList, OptionsQuery } from '@shared/components/list/interfaces/list.interface';
 import { FieldResponseForm } from '@shared/components/form/interfaces/form.interface';
+import { BaseAttribute, BaseResponse, BaseResponseData } from '@core/interfaces/base.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export abstract class BaseService<T> {
+export abstract class BaseService<
+T extends BaseResponse,
+D extends BaseResponseData,
+A extends BaseAttribute
+> {
   public url: string = '';
   public entity: string = '';
   public baseUrl = environment.API_BASE_URL;
@@ -62,18 +67,25 @@ export abstract class BaseService<T> {
       .pipe(catchError((error) => this.errorHandlerService.handleError(error)));
   }
 
-  update<T>(id: string, record: T): Observable<T> {
-    let formData: any = new FormData();
+  /**
+   * Actualiza un registro existente por su ID con los nuevos datos proporcionados.
+   * Utiliza FormData para permitir la actualización de archivos si es necesario.
+   * @param id El ID del registro a actualizar.
+   * @param record Los datos actualizados del registro.
+   * @returns Un Observable de tipo T con la respuesta del servidor.
+   */
+  update(id: string, record: A): Observable<T> {
+    let formData = new FormData();
 
-    for (const key in record) {
-      formData.append(`${key}`, record[key]);
-    }
+    Object.entries(record).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
 
     formData.append('_method', 'PUT');
 
     return this.http
-      .post<T>(`${this.baseUrl}/${this.url}/${id}`, formData)
-      .pipe(catchError((error) => this.errorHandlerService.handleError(error)));
+    .post<T>(`${this.baseUrl}/${this.url}/${id}`, formData)
+    .pipe(catchError(error => this.errorHandlerService.handleError(error)));
   }
 
   delete(id: string): Observable<T> {

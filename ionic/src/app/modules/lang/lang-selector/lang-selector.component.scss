@@ -1,0 +1,17 @@
+:host {
+  display: block;
+}
+
+ion-list.languaje-list {
+  ion-list-header {
+    font-size: 1.2em;
+    padding-bottom: 20px;
+    text-align: center;
+  }
+  ion-item {
+    ion-thumbnail {
+      --size: 32px;
+    }
+  }
+
+}

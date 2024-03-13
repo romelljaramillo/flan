@@ -40,6 +40,14 @@ export const adminRoutes: Routes = [
           action: ActionCrud.list,
         } as RouteDataPermission,
       },
+      /* {
+        path: "profile",
+        loadComponent: () =>
+          import("@modules/user/profile/profile.component").then(
+            (m) => m.ProfileComponent
+          ),
+          outlet: "sidebar",
+      }, */
       {
         path: "langs",
         loadChildren: () =>

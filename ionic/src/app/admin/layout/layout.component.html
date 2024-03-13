@@ -3,7 +3,7 @@
     <ion-toolbar>
       <ion-item routerLink="/admin">
         <ion-thumbnail class="ion-margin-horizontal" slot="start">
-          <img alt="Silhouette of mountains" src="assets/img/logo.png" />
+          <img alt="Flan" src="assets/img/logo.png"/>
         </ion-thumbnail>
         <ion-label>Flan</ion-label>
       </ion-item>
@@ -20,7 +20,6 @@
     <app-footer />
   </div>
 </ion-split-pane>
-<!-- <app-sidebar-right idConten="admin-content"></app-sidebar-right> -->
 
 <ion-menu side="end" menuId="right-menu" class="right-menu" contentId="admin-content" type="overlay">
   <ion-toolbar>
@@ -31,11 +30,6 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-content>
-    @if(componenteActivo === 'profile'){
-    <app-profile></app-profile>
-    } @else {
-    <app-profile2></app-profile2>
-    }
-    <router-outlet id="rightmenu"></router-outlet>
+    <ng-template #templateRightMenu></ng-template>
   </ion-content>
 </ion-menu>

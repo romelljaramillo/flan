@@ -15,6 +15,7 @@ import { FormComponent } from "@shared/components/form/form.component";
 import { ListComponent } from "@shared/components/list/list.component";
 
 import {
+  RoleAttribute,
   RoleResponse,
   RoleResponseData,
   RoleResponseMeta,
@@ -42,7 +43,8 @@ import { RoleService } from "./services/role.service";
 export class RoleComponent extends BaseComponent<
   RoleResponse,
   RoleResponseData,
-  RoleResponseMeta
+  RoleResponseMeta,
+  RoleAttribute
 > {
   constructor(protected roleService: RoleService) {
     super(roleService);

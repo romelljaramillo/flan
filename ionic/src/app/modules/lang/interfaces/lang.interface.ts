@@ -14,6 +14,7 @@ export interface LangResponseData {
 export interface LangAttribute {
     id:               string;
     name:             string;
+    image:            string;
     active:           number;
     iso_code:         string;
     language_code:    string;

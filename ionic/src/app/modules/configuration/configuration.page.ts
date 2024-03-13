@@ -18,6 +18,7 @@ import {
 import { ListComponent } from "@shared/components/list/list.component";
 
 import {
+  ConfigurationAttribute,
   ConfigurationResponse,
   ConfigurationResponseData,
   ConfigurationResponseMeta,
@@ -46,7 +47,8 @@ import { ConfigurationService } from "./services/configuration.service";
 export class ConfigurationPage extends BaseComponent<
   ConfigurationResponse,
   ConfigurationResponseData,
-  ConfigurationResponseMeta
+  ConfigurationResponseMeta,
+  ConfigurationAttribute
 > {
   constructor(protected configurationService: ConfigurationService) {
     super(configurationService);

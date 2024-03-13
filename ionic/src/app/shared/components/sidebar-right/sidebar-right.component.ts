@@ -11,14 +11,15 @@ import { IonIcon, IonButtons, IonToolbar, IonButton, IonContent, IonMenu, MenuCo
 })
 export class SidebarRightComponent {
   idConten = input<string>(); 
+  idMenu = input<string>(); 
   private menuCtrl = inject(MenuController);
   constructor() { }
 
   openMenu() {
-    this.menuCtrl.open('sidebar-menu');
+    this.menuCtrl.open(this.idMenu());
   }
 
   closeMenu() {
-    this.menuCtrl.close('sidebar-menu');
+    this.menuCtrl.close(this.idMenu());
   }
 }

@@ -19,11 +19,20 @@ export const routesUsers: Routes = [
     } as RouteDataPermission,
     canLoad: [AuthGuard],
     children: [
-      // {
-      //   path: "profile",
-      //   component: ProfileComponent,
-      //   outlet: 'secondary'
-      // },
+      {
+        path: "profile",
+        loadComponent: () =>
+          import("./profile/profile.component").then(
+            (m) => m.ProfileComponent
+          ),
+      },
+      /* {
+        path: ':id',
+        loadComponent: () =>
+          import("@admin/dashboard/profile2/profile2.component").then(
+            (m) => m.Profile2Component
+          ),
+      }, */
       // {
       //   path: 'edit/:id',
       //   loadComponent: () =>

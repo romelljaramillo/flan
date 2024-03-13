@@ -45,10 +45,10 @@ export class DashboardPage {
   private menuCtrl = inject(MenuController);
 
   openMenu() {
-    this.menuCtrl.open('sidebar-menu');
+    this.menuCtrl.open('dashboard');
   }
 
   closeMenu() {
-    this.menuCtrl.close('sidebar-menu');
+    this.menuCtrl.close('dashboard');
   }
 }

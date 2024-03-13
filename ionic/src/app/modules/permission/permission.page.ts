@@ -15,6 +15,7 @@ import { FormComponent } from "@shared/components/form/form.component";
 import { ListComponent } from "@shared/components/list/list.component";
 
 import {
+  PermissionAttribute,
   PermissionResponse,
   PermissionResponseData,
   PermissionResponseMeta,
@@ -42,7 +43,8 @@ import { PermissionService } from "./services/permission.service";
 export class PermissionPage extends BaseComponent<
   PermissionResponse,
   PermissionResponseData,
-  PermissionResponseMeta
+  PermissionResponseMeta,
+  PermissionAttribute
 > {
   constructor(protected permissionService: PermissionService) {
     super(permissionService);

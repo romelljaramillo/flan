@@ -6,13 +6,16 @@
     <ion-thumbnail slot="start" class="logo" routerLink="/admin">
       <img alt="Silhouette of mountains" src="assets/img/logo.png" />
     </ion-thumbnail>
-    <ion-title class="logo-title" routerLink="/admin">Flan</ion-title>
+    <ion-title class="logo-title" routerLink="/admin" translate>nav.title</ion-title>
     <ion-buttons slot="end">
+      <ion-button  size="small" (click)="openMenu('localization')">
+        <ion-icon size="small" name="globe"></ion-icon>
+      </ion-button>
       <app-theme-switch />
-      <ion-button size="small" (click)="onSidebarRight('profile2')" >
+      <ion-button size="small" (click)="openMenu('profile2')" >
         <ion-icon slot="icon-only" size="small" name="notifications-outline"></ion-icon>
       </ion-button>
-      <ion-button (click)="onSidebarRight('profile')" [title]="user.name">
+      <ion-button (click)="openMenu('profile')" [title]="user.name">
         <ion-avatar  slot="icon-only" >
           <img [alt]="user.name" [src]="user.avatar" />
         </ion-avatar>

@@ -1,10 +1,4 @@
 import { Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
-import {
-  trigger,
-  style,
-  animate,
-  transition,
-} from '@angular/animations';
 import { FormService } from '../services/form.service';
 import { FieldModel } from '../fields/field-model';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
