@@ -33,7 +33,7 @@
             (change)="onImageChange($event)"
             accept="image/*"
           ></ion-input>
-          @if (previewImage) {
+          @if (previewImage || field.value) {
             <ion-thumbnail slot="end">
               <img alt="img-previe" [src]="previewImage || field.value" />
             </ion-thumbnail>

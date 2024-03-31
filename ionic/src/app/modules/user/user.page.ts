@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   IonGrid,
@@ -7,46 +7,59 @@ import {
   IonLabel,
   IonSpinner,
   IonContent,
-  IonCol,
-} from "@ionic/angular/standalone";
+  IonCol,IonButton, IonIcon } from "@ionic/angular/standalone";
 
 import { BaseComponent } from "@core/base.component";
 import { FormComponent } from "@shared/components/form/form.component";
 import { ListComponent } from "@shared/components/list/list.component";
+import { SidebarRightComponent } from "@shared/components/sidebar-right/sidebar-right.component";
 
-import {
-  UserAttribute,
-  UserResponse,
-  UserResponseData,
-  UserResponseMeta,
-} from "./interfaces/user.interface";
+import { UserAttribute } from "./interfaces/user.interface";
 import { UserService } from "./services/user.service";
+import { BreadcrumbComponent } from "../../admin/layout/breadcrumb/breadcrumb.component";
+import { addIcons } from "ionicons";
+import { personAddOutline } from "ionicons/icons";
 
 @Component({
-  selector: "app-user",
-  styles: [""],
-  templateUrl: "./user.page.html",
-  standalone: true,
-  imports: [
-    IonCol,
-    IonContent,
-    IonSpinner,
-    IonLabel,
-    IonItem,
-    IonRow,
-    IonGrid,
-    CommonModule,
-    FormComponent,
-    ListComponent,
-  ],
+    selector: "app-user",
+    styles: [""],
+    templateUrl: "./user.page.html",
+    standalone: true,
+    imports: [IonIcon, IonButton, 
+        IonCol,
+        IonContent,
+        IonSpinner,
+        IonLabel,
+        IonItem,
+        IonRow,
+        IonGrid,
+        CommonModule,
+        FormComponent,
+        ListComponent,
+        SidebarRightComponent,
+        BreadcrumbComponent
+    ]
 })
-export class UserPage extends BaseComponent<
-  UserResponse,
-  UserResponseData,
-  UserResponseMeta,
-  UserAttribute
-> {
+export class UserPage extends BaseComponent<UserAttribute> {
+
   constructor(protected userService: UserService) {
     super(userService);
+    addIcons({ personAddOutline });
+  }
+
+  override onEdit(item: UserAttribute) {
+    this.openMenu();
+    if (!item.id) return;
+    this.router.navigate([`/admin/${this.userService.entity}/edit/`, item.id]);
+  }
+
+  closeMenuEvent() {
+    // this.router.navigate([`/admin/${this.userService.entity}`]);
+    // this.getAll();
+  }
+
+  updateList() {
+    this.router.navigate([`/admin/${this.userService.entity}`]);
+    this.getAll();
   }
 }

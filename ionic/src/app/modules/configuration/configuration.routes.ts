@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 import { ConfigurationPage } from './configuration.page';
 import { ActionCrud, RouteDataPermission } from '@modules/permission/interfaces/permission.interface';
-import { AuthGuard } from '@auth/auth.guard';
+import { AuthGuard } from '@modules/auth/auth.guard';
 
 export const routesConfigurations: Routes = [
   {

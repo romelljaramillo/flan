@@ -6,8 +6,8 @@ use App\Models\SiteGroup;
 use Illuminate\Http\Request;
 use App\Http\Resources\SiteGroup\SiteGroupResource;
 use App\Http\Resources\SiteGroup\SiteGroupCollection;
-use App\Http\Requests\SiteGroup\SiteGroupStoreRequest;
-use App\Http\Requests\SiteGroup\SiteGroupUpdateRequest;
+use App\Http\Requests\SiteGroup\StoreSiteGroupRequest;
+use App\Http\Requests\SiteGroup\UpdateSiteGroupRequest;
 
 use App\Helpers\ApiResponse;
 
@@ -32,10 +32,10 @@ class SiteGroupController extends AdminController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\SiteGroupStoreRequest  $request
+     * @param  \App\Http\Requests\StoreSiteGroupRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SiteGroupStoreRequest $request)
+    public function store(StoreSiteGroupRequest $request)
     {
         if ($request->validated()) {
             $sitegroup = SiteGroup::create([
@@ -65,11 +65,11 @@ class SiteGroupController extends AdminController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\SiteGroupUpdateRequest  $request
+     * @param  \App\Http\Requests\UpdateSiteGroupRequest  $request
      * @param  \App\Models\SiteGroup  $siteGroup
      * @return \Illuminate\Http\Response
      */
-    public function update(SiteGroupUpdateRequest $request, SiteGroup $sitegroup)
+    public function update(UpdateSiteGroupRequest $request, SiteGroup $sitegroup)
     {
         $sitegroup->update($request->validated());
         return SiteGroupResource::make($sitegroup);

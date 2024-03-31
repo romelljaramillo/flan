@@ -32,7 +32,7 @@ import { addIcons } from "ionicons";
 import { closeOutline, notificationsOutline, globe } from "ionicons/icons";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 
-import { AuthService } from "@auth/auth.service";
+import { AuthService } from "@modules/auth/auth.service";
 import { UserAttribute } from "@modules/user/interfaces/user.interface";
 import { SidebarRightService } from "@shared/services/sidebar-right.service";
 import { ThemeSwitchComponent } from "@shared/components/theme-switch/theme-switch.component";

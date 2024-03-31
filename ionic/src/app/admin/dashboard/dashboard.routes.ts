@@ -4,7 +4,7 @@ import {
   ActionCrud,
   RouteDataPermission,
 } from "@modules/permission/interfaces/permission.interface";
-import { AuthGuard } from "@auth/auth.guard";
+import { AuthGuard } from "@modules/auth/auth.guard";
 import { DashboardPage } from "./dashboard.page";
 
 export const routesDashboard: Routes = [

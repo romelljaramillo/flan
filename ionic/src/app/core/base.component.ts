@@ -1,47 +1,43 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { Subscription } from "rxjs";
+import { Router } from "@angular/router";
 
 import {
   BaseAttribute,
   BaseResponse,
   BaseResponseData,
   BaseResponseMeta,
-} from './interfaces/base.interface';
-import { BaseService } from './services/base.service';
-import { AuthService } from '@auth/auth.service';
-import { NotificationService } from '@shared/services/notification.service';
-import { PermissionData } from '@modules/permission/interfaces/permission.interface';
-import { TypeForm } from '@shared/components/form/form.component';
+} from "./interfaces/base.interface";
+import { BaseService } from "./services/base.service";
+import { AuthService } from "@modules/auth/auth.service";
+import { NotificationService } from "@shared/services/notification.service";
+import { PermissionData } from "@modules/permission/interfaces/permission.interface";
+import { TypeForm } from "@shared/components/form/form.component";
 import {
   FieldList,
   OptionsQuery,
-} from '@shared/components/list/interfaces/list.interface';
-import { FieldModel } from '@shared/components/form/fields';
-import { FormService } from '@shared/components/form/services/form.service';
+} from "@shared/components/list/interfaces/list.interface";
+import { FieldModel } from "@shared/components/form/fields";
+import { FormService } from "@shared/components/form/services/form.service";
 import {
   IonGrid,
   IonRow,
   IonItem,
   IonLabel,
   IonSpinner,
-} from '@ionic/angular/standalone';
+  MenuController,
+} from "@ionic/angular/standalone";
 
 @Component({
-  selector: 'app-base',
+  selector: "app-base",
   standalone: true,
   imports: [IonSpinner, IonLabel, IonItem, IonRow, IonGrid, CommonModule],
   providers: [AuthService, NotificationService],
-  styles: [''],
-  templateUrl: './base.component.html',
+  styles: [""],
+  templateUrl: "./base.component.html",
 })
-export class BaseComponent<
-  T extends BaseResponse,
-  D extends BaseResponseData,
-  M extends BaseResponseMeta,
-  A extends BaseAttribute
-> implements OnInit
-{
+export class BaseComponent<A extends BaseAttribute> implements OnInit {
   protected formSubscription?: Subscription;
   protected formPostSubscription?: Subscription;
   public permission: PermissionData = { hasPermission: false };
@@ -53,35 +49,37 @@ export class BaseComponent<
   public filters: OptionsQuery = {
     perPage: 10,
     page: 1,
-    orderBy: 'DESC',
-    column: 'id',
-    filter: '',
+    orderBy: "DESC",
+    column: "id",
+    filter: "",
     filterAdvance: [],
   };
 
-  public items!: D[];
+  public items!: BaseResponseData[];
   public item!: A;
-  public meta: M = {
+  public meta: BaseResponseMeta = {
     current_page: 1,
     from: 0,
     last_page: 1,
     links: undefined,
-    path: '',
+    path: "",
     per_page: 10,
     to: 0,
     total: 0,
-  } as unknown as M;
+  };
 
   public fieldsList!: FieldList[];
   public fieldsForm!: FieldModel<string>[];
   public editable: boolean = false;
   public deletable: boolean = false;
 
+  protected router = inject(Router);
+  private menuCtrl = inject(MenuController);
   protected authService = inject(AuthService);
   protected notificationService = inject(NotificationService);
   protected formService = inject(FormService);
 
-  constructor(private baseService: BaseService<T, D, A>) {}
+  constructor(private baseService: BaseService<A>) {}
 
   ngOnInit(): void {
     this.authService.entity = this.baseService.entity;
@@ -97,10 +95,10 @@ export class BaseComponent<
       this.isLoading = false;
 
       if (response.data && response.data instanceof Array) {
-        this.items = response.data as unknown as D[];
+        this.items = response.data as unknown as BaseResponseData[];
 
         if (response.meta) {
-          this.meta = response.meta as unknown as M;
+          this.meta = response.meta as unknown as BaseResponseMeta;
         }
         this.getList();
       }
@@ -129,7 +127,7 @@ export class BaseComponent<
 
   add(data: A) {
     this.baseService.create(data).subscribe((response) => {
-      this.notificationService?.success('Se ha creado con éxito.');
+      this.notificationService?.success("Se ha creado con éxito.");
       this.activeForm(false);
       this.getAll();
     });
@@ -137,12 +135,26 @@ export class BaseComponent<
 
   update(data: A) {
     if (!data.id) return;
-    
-    this.baseService.update(data.id, data).subscribe((response) => {
-      this.notificationService?.success('Actualización exitosa.');
+
+    const differences = this.getDifferences(this.item, data);
+
+    this.baseService.update(data.id, differences).subscribe((response) => {
+      this.notificationService?.success("Actualización exitosa.");
       this.activeForm(false);
       this.getAll();
     });
+  }
+
+  getDifferences(data: any, dataForm: any): any {
+    const differences: any = {};
+
+    Object.keys(dataForm).forEach((key) => {
+      if (data.hasOwnProperty(key) && data[key] !== dataForm[key]) {
+        differences[key] = dataForm[key];
+      }
+    });
+
+    return differences;
   }
 
   activeForm(isActive: boolean = false) {
@@ -164,11 +176,16 @@ export class BaseComponent<
     this.getAll();
   }
 
+  onAdd() {
+    this.item = {} as A;
+
+    this.openMenu();
+    this.router.navigate([`/admin/${this.baseService.entity}/add`]);
+  }
+
   onEdit(item: A) {
     if (!item.id) return;
     this.baseService.getById(item.id).subscribe((response) => {
-      console.log(response.data);
-
       if (response.data && !(response.data instanceof Array)) {
         this.item = response.data.attribute as unknown as A;
         this.activeForm(true);
@@ -176,13 +193,21 @@ export class BaseComponent<
     });
   }
 
-  onDelete(item: D) {
+  onDelete(item: BaseResponseData) {
     if (!item.id) return;
     this.baseService.delete(item.id).subscribe((response) => {
       if (response) {
-        this.notificationService?.success('Se ha eliminado con éxito.');
+        this.notificationService?.success("Se ha eliminado con éxito.");
         this.getAll();
       }
     });
+  }
+
+  openMenu() {
+    this.menuCtrl.open(this.baseService.entity);
+  }
+
+  closeMenu() {
+    this.menuCtrl.close(this.baseService.entity);
   }
 }

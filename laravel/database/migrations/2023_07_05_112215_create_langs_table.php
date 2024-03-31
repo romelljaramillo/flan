@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('langs', function (Blueprint $table) {
             $table->id();
             $table->string('name', 32);
+            $table->string('image', 2048)->nullable();
             $table->tinyInteger('active');
             $table->string('iso_code', 2);
             $table->string('language_code', 5);

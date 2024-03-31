@@ -18,12 +18,12 @@ return new class extends Migration
             $table->string('first_name', 25);
             $table->string('last_name', 25);
             $table->string('name', 25);
-            $table->string('email', 50)->unique();
+            $table->string('email', 255)->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password', 255);
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
-            $table->string('profile_avatar', 2048)->nullable();
+            $table->string('avatar', 2048)->nullable();
             $table->boolean('active')->default(0);
             $table->timestamps();
             $table->softDeletes();

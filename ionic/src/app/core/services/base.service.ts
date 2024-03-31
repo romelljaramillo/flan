@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
-import { AuthService } from '@auth/auth.service';
+import { AuthService } from '@modules/auth/auth.service';
 import { ErrorHandlerService } from '@shared/services/error-handler.service';
 import { AdvanceSearchService } from '@shared/components/advancesearch/services/advancesearch.service';
 import { FieldResponseList, OptionsQuery } from '@shared/components/list/interfaces/list.interface';
@@ -13,11 +13,7 @@ import { BaseAttribute, BaseResponse, BaseResponseData } from '@core/interfaces/
 @Injectable({
   providedIn: 'root',
 })
-export abstract class BaseService<
-T extends BaseResponse,
-D extends BaseResponseData,
-A extends BaseAttribute
-> {
+export abstract class BaseService<A extends BaseAttribute> {
   public url: string = '';
   public entity: string = '';
   public baseUrl = environment.API_BASE_URL;
@@ -29,10 +25,12 @@ A extends BaseAttribute
     protected errorHandlerService: ErrorHandlerService
   ) {}
 
-  getAll(optionsQuery: OptionsQuery): Observable<T> {
+  getAll(optionsQuery: OptionsQuery): Observable<BaseResponse> {
+    
+    let params = new HttpParams();
+    
     const { page, perPage, orderBy, column, filter, filterAdvance } =
       optionsQuery;
-    let params = new HttpParams();
 
     if (filterAdvance && filterAdvance.length > 0) {
       const filters =
@@ -43,19 +41,19 @@ A extends BaseAttribute
     }
 
     return this.http
-      .get<T>(`${this.baseUrl}/${this.url}`, {
+      .get<BaseResponse>(`${this.baseUrl}/${this.url}`, {
         params,
       })
       .pipe(catchError((error) => this.errorHandlerService.handleError(error)));
   }
 
-  getById(id: string): Observable<T> {
+  getById(id: string): Observable<BaseResponse> {
     return this.http
-      .get<T>(`${this.baseUrl}/${this.url}/${id}`, {})
+      .get<BaseResponse>(`${this.baseUrl}/${this.url}/${id}`, {})
       .pipe(catchError((error) => this.errorHandlerService.handleError(error)));
   }
 
-  create<T>(record: T): Observable<T> {
+  create<A>(record: A): Observable<BaseResponse> {
     let formData: any = new FormData();
 
     for (const key in record) {
@@ -63,7 +61,7 @@ A extends BaseAttribute
     }
 
     return this.http
-      .post<T>(`${this.baseUrl}/${this.url}`, formData)
+      .post<BaseResponse>(`${this.baseUrl}/${this.url}`, formData)
       .pipe(catchError((error) => this.errorHandlerService.handleError(error)));
   }
 
@@ -74,7 +72,7 @@ A extends BaseAttribute
    * @param record Los datos actualizados del registro.
    * @returns Un Observable de tipo T con la respuesta del servidor.
    */
-  update(id: string, record: A): Observable<T> {
+  update(id: string, record: A): Observable<BaseResponse> {
     let formData = new FormData();
 
     Object.entries(record).forEach(([key, value]) => {
@@ -84,13 +82,13 @@ A extends BaseAttribute
     formData.append('_method', 'PUT');
 
     return this.http
-    .post<T>(`${this.baseUrl}/${this.url}/${id}`, formData)
+    .post<BaseResponse>(`${this.baseUrl}/${this.url}/${id}`, formData)
     .pipe(catchError(error => this.errorHandlerService.handleError(error)));
   }
 
-  delete(id: string): Observable<T> {
+  delete(id: string): Observable<BaseResponse> {
     return this.http
-      .delete<T>(`${this.baseUrl}/${this.url}/${id}`)
+      .delete<BaseResponse>(`${this.baseUrl}/${this.url}/${id}`)
       .pipe(catchError((error) => this.errorHandlerService.handleError(error)));
   }
 

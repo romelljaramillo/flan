@@ -18,6 +18,18 @@ class UpdateUserRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        if ($this->input('avatar') === 'null') {
+            $this->merge(['avatar' => null]);
+        }
+
+        $activeValue = $this->input('active');
+        if ($activeValue === "true" || $activeValue === 'false') {
+            $this->merge(["active" => $activeValue === "true" ? 1 : 0]);
+        }
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -25,14 +37,17 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules()
     {
-        $maxString = 'max:150';
+        $maxString = 'max:25';
+
         return [
-            'name' => ['required', 'string', $maxString, Rule::unique('users')->ignore($this->user->id)],
-            'first_name' => ['required', 'string', $maxString],
-            'last_name' => ['required', 'string', $maxString],
-            'email' => ['required', 'string', 'max:255', 'email', Rule::unique('users')->ignore($this->user->id)],
-            'password' => ['nullable', Password::min(8)],
-            'profile_avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'name' => ['sometimes', 'string', $maxString, Rule::unique('users')->ignore($this->user->id)],
+            'first_name' => ['sometimes', 'string', $maxString],
+            'last_name' => ['sometimes', 'string', $maxString],
+            'email' => ['sometimes', 'string', 'max:255', 'email', 
+                'regex:/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/',
+                Rule::unique('users')->ignore($this->user->id)],
+            'password' => ['sometimes', Password::min(8)],
+            'avatar' => ['sometimes', 'nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
             'active' => ['sometimes', 'boolean'],
         ];
     }

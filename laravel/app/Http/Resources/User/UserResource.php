@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Storage;
 
 class UserResource extends JsonResource
 {
+    protected $diskAvatar = 'avatar';
+    protected $diskImages = 'images';
     /**
      * Transform the resource into an array.
      *
@@ -28,8 +30,7 @@ class UserResource extends JsonResource
                 return $permi;
             });
         }
-
-
+        
         return [
             'type' => 'users',
             'id' => (string) $this->resource->id,
@@ -43,7 +44,7 @@ class UserResource extends JsonResource
                 'email_verified' => $this->resource->email_verified_at,
                 'two_factor_confirmed' => $this->resource->two_factor_confirmed_at,
                 'current_team_id' => $this->resource->current_team_id,
-                'avatar' => $this->resource->avatar ? $this->resource->avatar : '',
+                'avatar' => $this->getAvatarAttribute($this->resource->avatar),
                 'active' => $this->resource->active,
                 'roles' => $roles,
                 'created_at' => $this->resource->created_at,
@@ -54,5 +55,19 @@ class UserResource extends JsonResource
                 'self' => route('admin.users.show', $this->resource),
             ],
         ];
+    }
+
+    /**
+     * Obtiene la url del avatar del usuario
+     *
+     * @return string
+     */
+    public function getAvatarAttribute($avatar): string
+    {
+        if (!$avatar || !Storage::disk($this->diskAvatar)->exists($avatar)) {
+            return Storage::disk($this->diskImages)->url('avatar.png');
+        } 
+
+        return Storage::disk($this->diskAvatar)->url($avatar);
     }
 }

@@ -117,7 +117,7 @@ const clearPhotoFileInput = () => {
                 </SecondaryButton>
 
                 <SecondaryButton
-                    v-if="user.profile_avatar"
+                    v-if="user.avatar"
                     type="button"
                     class="mt-2"
                     @click.prevent="deletePhoto"

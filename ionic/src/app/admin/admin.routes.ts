@@ -1,5 +1,5 @@
 import { Routes } from "@angular/router";
-import { AuthGuard } from "../auth/auth.guard";
+import { AuthGuard } from "../modules/auth/auth.guard";
 import { AdminPage } from "./admin.page";
 import {
   ActionCrud,
@@ -29,7 +29,6 @@ export const adminRoutes: Routes = [
           action: ActionCrud.list,
         } as RouteDataPermission,
       },
-
       {
         path: "users",
         loadChildren: () =>
@@ -40,14 +39,6 @@ export const adminRoutes: Routes = [
           action: ActionCrud.list,
         } as RouteDataPermission,
       },
-      /* {
-        path: "profile",
-        loadComponent: () =>
-          import("@modules/user/profile/profile.component").then(
-            (m) => m.ProfileComponent
-          ),
-          outlet: "sidebar",
-      }, */
       {
         path: "langs",
         loadChildren: () =>

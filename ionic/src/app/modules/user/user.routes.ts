@@ -4,9 +4,8 @@ import {
   ActionCrud,
   RouteDataPermission,
 } from "@modules/permission/interfaces/permission.interface";
-import { AuthGuard } from "@auth/auth.guard";
+import { AuthGuard } from "@modules/auth/auth.guard";
 import { UserPage } from "./user.page";
-import { ProfileComponent } from "./profile/profile.component";
 
 export const routesUsers: Routes = [
   {
@@ -26,22 +25,30 @@ export const routesUsers: Routes = [
             (m) => m.ProfileComponent
           ),
       },
-      /* {
-        path: ':id',
+      {
+        path: "edit/:id",
         loadComponent: () =>
-          import("@admin/dashboard/profile2/profile2.component").then(
-            (m) => m.Profile2Component
-          ),
-      }, */
+          import('./form/form.component').then((m) => m.FormComponent),
+        data: {
+          title: "Users/Edit",
+          entity: "users",
+          action: ActionCrud.list,
+        } as RouteDataPermission,
+      },
+      {
+        path: "add",
+        loadComponent: () =>
+          import('./form/form.component').then((m) => m.FormComponent),
+        data: {
+          title: "Users/Add",
+          entity: "users",
+          action: ActionCrud.list,
+        } as RouteDataPermission,
+      },
       // {
-      //   path: 'edit/:id',
-      //   loadComponent: () =>
-      //     import('./user.page').then((m) => m.UserPage),
-      // },
-      // {
-      //   path: '',
-      //   redirectTo: 'users',
-      //   pathMatch: 'full',
+      //   path: "",
+      //   redirectTo: "users",
+      //   pathMatch: "full",
       // },
     ],
   },

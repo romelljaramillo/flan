@@ -1,4 +1,10 @@
-<ion-menu side="end" [menuId]="idMenu()" class="right-menu" [contentId]="idConten()" type="overlay">
+<ion-menu 
+side="end" 
+[menuId]="idMenu()" 
+class="right-menu" 
+[contentId]="idConten()" 
+type="push" 
+swipeGesture="false">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button (click)="closeMenu()">
@@ -7,7 +13,6 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-content>
-    <ng-template #containerRef></ng-template>
-    <ion-router-outlet id="sidebar"></ion-router-outlet>
+    <router-outlet></router-outlet>
   </ion-content>
 </ion-menu>

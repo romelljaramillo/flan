@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Dashboard\DashboardStoreRequest;
-use App\Http\Requests\Dashboard\DashboardUpdateRequest;
+use App\Http\Requests\Dashboard\StoreDashboardRequest;
+use App\Http\Requests\Dashboard\UpdateDashboardRequest;
 use App\Models\Dashboard;
 
 class DashboardController extends AdminController
@@ -31,10 +31,10 @@ class DashboardController extends AdminController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\DashboardStoreRequest  $request
+     * @param  \App\Http\Requests\StoreDashboardRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(DashboardStoreRequest $request)
+    public function store(StoreDashboardRequest $request)
     {
         //
     }
@@ -64,11 +64,11 @@ class DashboardController extends AdminController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\DashboardUpdateRequest  $request
+     * @param  \App\Http\Requests\UpdateDashboardRequest  $request
      * @param  \App\Models\Dashboard  $dashboard
      * @return \Illuminate\Http\Response
      */
-    public function update(DashboardUpdateRequest $request, Dashboard $dashboard)
+    public function update(UpdateDashboardRequest $request, Dashboard $dashboard)
     {
         //
     }

@@ -51,7 +51,7 @@
         <ion-row>
           <!-- Encabezado de la tabla -->
           @for (field of fields; track $index) {
-            <ion-col class="ion-text-start" [size]="($index === 0  ? 'auto': '')"
+            <ion-col class="ion-text-center" [size]="($index === 0  ? 'auto': '')"
               [ngClass]="{'ion-hide-sm-down': $index >= 3, 'ion-hide-md-down': $index >= 4, 'ion-hide-lg-down': $index >= 5 }">
               <b (click)="onSortColumn(field['key'])">
                 {{field.label}}
@@ -73,7 +73,7 @@
               @if(field['type']) {
                 @switch(field.type) {
                   @case ("image") {
-                  <ion-col>
+                  <ion-col class="ion-text-start">
                     <ion-avatar>
                       <img src="{{ item.attribute[field['key']] | noimage }}" alt="{{item.id}}" />
                     </ion-avatar>
@@ -97,14 +97,14 @@
                   </ion-col>
                   }
                   @default {
-                  <ion-col [size]="(i === 0  ? 'auto': '')"
+                  <ion-col  class="ion-text-start" [size]="(i === 0  ? 'auto': '')"
                     [ngClass]="{'ion-hide-sm-down': i >= 3, 'ion-hide-md-down': i >= 4, 'ion-hide-lg-down': i >= 5 }">
                     {{ item.attribute[field['key']] }}</ion-col>
                   }
                 }
               }
               @else {
-              <ion-col [size]="(i === 0  ? 'auto': '')"
+              <ion-col  class="ion-text-start" [size]="(i === 0  ? 'auto': '')"
                 [ngClass]="{'ion-hide-sm-down': i >= 3, 'ion-hide-md-down': i >= 4, 'ion-hide-lg-down': i >= 5 }">
                 {{ item.attribute[field['key']] }}</ion-col>
               }
@@ -126,22 +126,26 @@
       </ion-grid>
     </div>
 
-    <ion-toolbar class="pagination">
-      <ion-buttons slot="start">
-        <ion-button fill="clear" size="small" (click)="previousPage()" [disabled]="filters.page <= 1">
-          <ion-icon slot="start" name="chevron-back-outline"></ion-icon>
-          <ion-text class="ion-hide-sm-down">Anterior</ion-text>
-        </ion-button>
-      </ion-buttons>
-      <ion-title>Page {{ filters.page }} de {{ totalPages }}</ion-title>
-      <ion-buttons slot="end">
-        <ion-button fill="clear" size="small" (click)="nextPage()" [disabled]="filters.page >= totalPages">
-          <ion-text class="ion-hide-sm-down">Siguiente</ion-text>
-          <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-toolbar>
+    <!-- Paginación -->
+    @if(totalPages > 1) {
+      <ion-toolbar class="pagination">
+        <ion-buttons slot="start">
+          <ion-button fill="clear" size="small" (click)="previousPage()" [disabled]="filters.page <= 1">
+            <ion-icon slot="start" name="chevron-back-outline"></ion-icon>
+            <ion-text class="ion-hide-sm-down">Anterior</ion-text>
+          </ion-button>
+        </ion-buttons>
+        <ion-title>Page {{ filters.page }} de {{ totalPages }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button fill="clear" size="small" (click)="nextPage()" [disabled]="filters.page >= totalPages">
+            <ion-text class="ion-hide-sm-down">Siguiente</ion-text>
+            <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
     }
+  }
+    
 
   </ion-card-content>
 </ion-card>

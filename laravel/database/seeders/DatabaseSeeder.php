@@ -17,11 +17,10 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RolePermissionSeeder::class,
-            SiteGroupSeeder::class,
             SiteSeeder::class,
-            SiteUrlSeeder::class,
             LangSeeder::class,
-            ConfigurationSeeder::class
+            ConfigurationSeeder::class,
+            CurrencySeeder::class
         ]);
         
         User::factory()->create([

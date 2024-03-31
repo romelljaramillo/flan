@@ -7,8 +7,8 @@ use App\Facades\FieldForm;
 use App\Helpers\ApiResponse;
 use App\Helpers\Form\HelperForm;
 use App\Helpers\List\HelperList;
-use App\Http\Requests\Lang\LangStoreRequest;
-use App\Http\Requests\Lang\LangUpdateRequest;
+use App\Http\Requests\Lang\StoreLangRequest;
+use App\Http\Requests\Lang\UpdateLangRequest;
 use App\Http\Resources\Lang\LangCollection;
 use App\Http\Resources\Lang\LangResource;
 use App\Models\Lang;
@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 
 class LangController extends AdminController
 {
+    protected $disk = 'lang';
+
     /**
      * Display a listing of the resource.
      *
@@ -35,14 +37,26 @@ class LangController extends AdminController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\LangStoreRequest  $request
+     * @param  \App\Http\Requests\StoreLangRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(LangStoreRequest $request)
+    public function store(StoreLangRequest $request)
     {
-        if ($request->validated()) {
+        $validated = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = ImagesController::save($image, 32, 32, $this->disk);
+            $validated['image'] = $filename;
+        }
+
+        $lang = Lang::create([$validated]);
+        $lang->sites()->attach($request->sites);
+        
+        /* if ($request->validated()) {
             $lang = Lang::create([
                 'name' => $request->name,
+                'image' => $request->image,
                 'active' => $request->active,
                 'iso_code' => $request->iso_code,
                 'language_code' => $request->language_code,
@@ -54,12 +68,12 @@ class LangController extends AdminController
 
             // Asociar el idioma con las tiendas
             $lang->sites()->attach($request->sites);
-        }
+        } */
 
         return LangResource::make($lang);
     }
 
-    /**LangStoreRequest
+    /**StoreLangRequest
      * Display the specified resource.
      *
      * @param  \App\Models\Lang  $lang
@@ -73,13 +87,30 @@ class LangController extends AdminController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\LangUpdateRequest  $request
+     * @param  \App\Http\Requests\UpdateLangRequest  $request
      * @param  \App\Models\Lang  $lang
-     * @return \Illuminate\Http\ResponseLangStoreRequest
+     * @return \Illuminate\Http\ResponseStoreLangRequest
      */
-    public function update(LangUpdateRequest $request, Lang $lang)
+    public function update(UpdateLangRequest $request, Lang $lang)
     {
-        $lang->update($request->validated());
+        // $request->active = $request->active === 'true' ? 1 : 0;
+
+        $validated = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+
+            $filename = ImagesController::save($image, 32, 32, $this->disk);
+
+            if ($lang->image) {
+                ImagesController::delete($lang->image, $this->disk);
+            }
+
+            $validated['image'] = $filename;
+        }
+
+        $lang->update($validated);
+        
         return LangResource::make($lang);
     }
 
@@ -113,6 +144,7 @@ class LangController extends AdminController
         $this->fields = new HelperForm();
         $this->fields->add('id', FieldForm::number(), ['primarykey' => true]);
         $this->fields->add('name', FieldForm::text(), ['label' => 'Nombre', 'required' => true]);
+        $this->fields->add('image', FieldForm::image(), ['label' => 'Imagen']);
         $this->fields->add('iso_code', FieldForm::text(), ['label' => 'Código ISO', 'required' => true]);
         $this->fields->add('language_code', FieldForm::text(), ['label' => 'Código del idioma', 'required' => true]);
         $this->fields->add('date_format_lite', FieldForm::text(), ['label' => 'Formato de fecha', 'required' => true]);
@@ -134,6 +166,7 @@ class LangController extends AdminController
         $this->fields = new HelperList();
         $this->fields->add('id', ColumnList::number());
         $this->fields->add('name', ColumnList::text(), ['label' => 'Nombre']);
+        $this->fields->add('image', ColumnList::image(), ['label' => 'Imagen']);
         $this->fields->add('iso_code', ColumnList::text(), ['label' => 'Código ISO']);
         $this->fields->add('language_code', ColumnList::text(), ['label' => 'Código del idioma']);
         $this->fields->add('date_format_lite', ColumnList::text(), ['label' => 'Formato de fecha']);

@@ -28,6 +28,11 @@ class Site extends Model
         return $this->belongsToMany(Lang::class);
     }
 
+    public function Currencies()
+    {
+        return $this->belongsToMany(Currency::class);
+    }
+
     public function siteGroup()
     {
         return $this->belongsTo(SiteGroup::class);

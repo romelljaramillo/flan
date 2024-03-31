@@ -14,12 +14,7 @@ import { BaseComponent } from "@core/base.component";
 import { FormComponent } from "@shared/components/form/form.component";
 import { ListComponent } from "@shared/components/list/list.component";
 
-import {
-  SiteAttribute,
-  SiteResponse,
-  SiteResponseData,
-  SiteResponseMeta,
-} from "./interfaces/site.interface";
+import { SiteAttribute } from "./interfaces/site.interface";
 import { SiteService } from "./services/site.service";
 
 @Component({
@@ -40,12 +35,7 @@ import { SiteService } from "./services/site.service";
   styles: [""],
   templateUrl: "./site.page.html",
 })
-export class SitePage extends BaseComponent<
-  SiteResponse,
-  SiteResponseData,
-  SiteResponseMeta,
-  SiteAttribute
-> {
+export class SitePage extends BaseComponent<SiteAttribute> {
   constructor(protected siteService: SiteService) {
     super(siteService);
   }

@@ -25,13 +25,10 @@ ion-card.list-card {
 	ion-grid.table {
 		ion-row {
 			ion-col {
-				@media screen and (max-width: 992px) {
-					ion-avatar {
-						width: 40px;
-						height: auto;
-						margin-inline: auto;
-					}
-
+				ion-avatar {
+					width: 40px;
+					height: auto;
+					margin-inline: auto;
 				}
 
 				text-align: left;

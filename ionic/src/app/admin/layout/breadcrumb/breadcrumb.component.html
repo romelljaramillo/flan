@@ -1,8 +1,7 @@
 <ion-grid>
   <ion-row>
-    
     <ion-col size-xs="12" class="ion-align-self-end">
-      <ion-breadcrumbs>
+      <ion-breadcrumbs [maxItems]="4">
         <ion-breadcrumb routerLink="/admin/dashboard">Home</ion-breadcrumb>
         <ion-breadcrumb href="">{{ title }}</ion-breadcrumb>
       </ion-breadcrumbs>

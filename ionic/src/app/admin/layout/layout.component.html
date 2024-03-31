@@ -15,12 +15,12 @@
   <div class="ion-page" id="admin-content">
     <app-nav />
     <ion-content>
-      <app-content />
+      <app-breadcrumb />
+      <router-outlet id="admin"></router-outlet>
     </ion-content>
     <app-footer />
   </div>
 </ion-split-pane>
-
 <ion-menu side="end" menuId="right-menu" class="right-menu" contentId="admin-content" type="overlay">
   <ion-toolbar>
     <ion-buttons slot="start">

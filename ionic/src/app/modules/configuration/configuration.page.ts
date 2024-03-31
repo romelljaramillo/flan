@@ -17,14 +17,8 @@ import {
 } from "@shared/components/form/form.component";
 import { ListComponent } from "@shared/components/list/list.component";
 
-import {
-  ConfigurationAttribute,
-  ConfigurationResponse,
-  ConfigurationResponseData,
-  ConfigurationResponseMeta,
-} from "./interfaces/configuration.interface";
+import { ConfigurationAttribute } from "./interfaces/configuration.interface";
 import { ConfigurationService } from "./services/configuration.service";
-
 
 @Component({
   selector: "app-configuration",
@@ -44,12 +38,7 @@ import { ConfigurationService } from "./services/configuration.service";
   styles: [""],
   templateUrl: "./configuration.page.html",
 })
-export class ConfigurationPage extends BaseComponent<
-  ConfigurationResponse,
-  ConfigurationResponseData,
-  ConfigurationResponseMeta,
-  ConfigurationAttribute
-> {
+export class ConfigurationPage extends BaseComponent<ConfigurationAttribute> {
   constructor(protected configurationService: ConfigurationService) {
     super(configurationService);
     this.typeForm = TypeForm.default;

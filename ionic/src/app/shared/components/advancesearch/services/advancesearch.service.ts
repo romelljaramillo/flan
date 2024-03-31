@@ -2,7 +2,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 
 import { map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { AuthService } from '@auth/auth.service';
+import { AuthService } from '@modules/auth/auth.service';
 import { environment } from 'src/environments/environment';
 import { OptionsQuery } from '@shared/components/list/interfaces/list.interface';
 import { DataSearch, OptionsSearchResponse } from '../interfaces/advancesearch.interface';

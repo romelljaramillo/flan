@@ -4,7 +4,7 @@ import {
   ActionCrud,
   RouteDataPermission,
 } from "../permission/interfaces/permission.interface";
-import { AuthGuard } from "@auth/auth.guard";
+import { AuthGuard } from "@modules/auth/auth.guard";
 import { RoleComponent } from "./role.page";
 
 export const routesRoles: Routes = [

@@ -14,12 +14,7 @@ import { BaseComponent } from "@core/base.component";
 import { FormComponent } from "@shared/components/form/form.component";
 import { ListComponent } from "@shared/components/list/list.component";
 
-import {
-  LangAttribute,
-  LangResponse,
-  LangResponseData,
-  LangResponseMeta,
-} from "./interfaces/lang.interface";
+import { LangAttribute } from "./interfaces/lang.interface";
 import { LangService } from "./services/lang.service";
 
 @Component({
@@ -40,12 +35,7 @@ import { LangService } from "./services/lang.service";
   styles: [""],
   templateUrl: "./lang.page.html",
 })
-export class LangPage extends BaseComponent<
-  LangResponse,
-  LangResponseData,
-  LangResponseMeta,
-  LangAttribute
-> {
+export class LangPage extends BaseComponent<LangAttribute> {
   constructor(protected langService: LangService) {
     super(langService);
   }

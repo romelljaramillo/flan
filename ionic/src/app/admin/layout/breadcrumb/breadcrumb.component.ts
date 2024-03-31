@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ActivationEnd, Router } from '@angular/router';
-import { IonBreadcrumb, IonBreadcrumbs, IonGrid, IonCol, IonRow } from '@ionic/angular/standalone';
+import { IonBreadcrumb, IonBreadcrumbs, IonGrid, IonCol, IonRow, IonContent } from '@ionic/angular/standalone';
 import { Subscription, filter, map } from 'rxjs';
 
 @Component({
@@ -8,7 +8,7 @@ import { Subscription, filter, map } from 'rxjs';
   templateUrl: './breadcrumb.component.html',
   styleUrls: ['./breadcrumb.component.scss'],
   standalone: true,
-  imports: [IonRow, IonCol, IonGrid, IonBreadcrumb, IonBreadcrumbs]
+  imports: [IonContent, IonRow, IonCol, IonGrid, IonBreadcrumb, IonBreadcrumbs]
 })
 export class BreadcrumbComponent implements OnDestroy {
   

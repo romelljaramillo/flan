@@ -38,7 +38,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'profile_avatar',
+        'avatar',
         'active',
     ];
 
@@ -121,20 +121,6 @@ class User extends Authenticatable
         if ($password) {
             $this->attributes['password'] = Hash::needsRehash($password) ? Hash::make($password) : $password;
         }
-    }
-
-    /**
-     * Obtiene la url del avatar del usuario
-     *
-     * @return string
-     */
-    public function getAvatarAttribute(): string
-    {
-        if (!$this->profile_avatar || !Storage::disk($this->diskAvatar)->exists($this->profile_avatar)) {
-            return Storage::disk($this->diskImages)->url('avatar.png');
-        } 
-
-        return Storage::disk($this->diskAvatar)->url($this->profile_avatar);
     }
 
     /**

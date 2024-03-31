@@ -7,8 +7,8 @@ use App\Models\SiteUrl;
 use Illuminate\Http\Request;
 use App\Http\Resources\SiteUrl\SiteUrlResource;
 use App\Http\Resources\SiteUrl\SiteUrlCollection;
-use App\Http\Requests\SiteUrl\SiteUrlStoreRequest;
-use App\Http\Requests\SiteUrl\SiteUrlUpdateRequest;
+use App\Http\Requests\SiteUrl\StoreSiteUrlRequest;
+use App\Http\Requests\SiteUrl\UpdateSiteUrlRequest;
 use App\Helpers\ApiResponse;
 
 class SiteUrlController extends AdminController
@@ -32,10 +32,10 @@ class SiteUrlController extends AdminController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\SiteUrlStoreRequest  $request
+     * @param  \App\Http\Requests\StoreSiteUrlRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SiteUrlStoreRequest $request)
+    public function store(StoreSiteUrlRequest $request)
     {
         $validatedData = $request->validated();
 
@@ -64,11 +64,11 @@ class SiteUrlController extends AdminController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\SiteUrlUpdateRequest  $request
+     * @param  \App\Http\Requests\UpdateSiteUrlRequest  $request
      * @param  \App\Models\SiteUrl  $siteUrl
      * @return \Illuminate\Http\Response
      */
-    public function update(SiteUrlUpdateRequest $request, SiteUrl $siteurl)
+    public function update(UpdateSiteUrlRequest $request, SiteUrl $siteurl)
     {
         $validatedData = $request->validated();
 

@@ -8,8 +8,8 @@ use App\Helpers\ApiResponse;
 use App\Helpers\Form\HelperForm;
 use App\Helpers\List\HelperList;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Requests\Permission\PermissionStoreRequest;
-use App\Http\Requests\Permission\PermissionUpdateRequest;
+use App\Http\Requests\Permission\StorePermissionRequest;
+use App\Http\Requests\Permission\UpdatePermissionRequest;
 use App\Http\Resources\Permission\PermissionCollection;
 use App\Http\Resources\Permission\PermissionResource;
 use App\Models\Permission;
@@ -39,7 +39,7 @@ class PermissionController extends AdminController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PermissionStoreRequest $request)
+    public function store(StorePermissionRequest $request)
     {
         if ($request->validated()) {
             $permission = Permission::create([
@@ -74,7 +74,7 @@ class PermissionController extends AdminController
      * @param  \App\Models\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function update(PermissionUpdateRequest $request, Permission $permission)
+    public function update(UpdatePermissionRequest $request, Permission $permission)
     {
         $permission->update($request->validated());
         $permissions = explode(',', $request->permissions);

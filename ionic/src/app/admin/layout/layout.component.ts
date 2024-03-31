@@ -18,7 +18,6 @@ import {
   IonHeader,
   IonButton,
   IonButtons, IonFooter, IonRouterOutlet, IonThumbnail, IonRouterLink } from '@ionic/angular/standalone';
-import { ContentComponent } from './content/content.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { NavComponent } from './nav/nav.component';
 import { FooterComponent } from './footer/footer.component';
@@ -51,6 +50,7 @@ import { Profile2Component } from '@admin/dashboard/profile2/profile2.component'
 import { ProfileComponent } from '@modules/user/profile/profile.component';
 import { SidebarRightComponent } from '@shared/components/sidebar-right/sidebar-right.component';
 import { LocalizationComponent } from '@shared/components/localization/localization.component';
+import { BreadcrumbComponent } from "./breadcrumb/breadcrumb.component";
 
 @Component({
     selector: 'app-layout',
@@ -70,7 +70,6 @@ import { LocalizationComponent } from '@shared/components/localization/localizat
         IonList,
         IonContent,
         IonSplitPane,
-        ContentComponent,
         SidebarComponent,
         NavComponent,
         FooterComponent,
@@ -80,7 +79,7 @@ import { LocalizationComponent } from '@shared/components/localization/localizat
         RouterModule,
         ProfileComponent,
         Profile2Component,
-        SidebarRightComponent]
+        SidebarRightComponent, BreadcrumbComponent]
 })
 export class LayoutComponent implements AfterViewInit, OnDestroy {
   private menuCtrl = inject(MenuController);
@@ -91,7 +90,6 @@ export class LayoutComponent implements AfterViewInit, OnDestroy {
   // private vcr = inject(ViewContainerRef);
   @ViewChild('templateRightMenu', { read: ViewContainerRef }) vcr!: ViewContainerRef;
   componentRef!: ComponentRef<ProfileComponent | Profile2Component | LocalizationComponent>;
-
 
   constructor() {
     addIcons({
@@ -141,16 +139,6 @@ export class LayoutComponent implements AfterViewInit, OnDestroy {
       default:
         this.componenteActivo = 'No hay componente activo';
     }
-    
-    // if(component === 'profile') {
-    //   this.componentRef = this.vcr.createComponent(ProfileComponent);
-    // } else {
-    //   this.componentRef = this.vcr.createComponent(Profile2Component);
-    // }
-
-    // Si quieres pasar datos o suscribirte a eventos del componente dinámico, puedes hacerlo así:
-    // this.componentRef.instance.algunaPropiedad = 'algún valor';
-    // this.componentRef.instance.algunEvento.subscribe(() => hacerAlgo());
   }
 
   closeMenu() {

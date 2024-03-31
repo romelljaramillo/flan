@@ -9,7 +9,7 @@ import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { AuthService } from './app/auth/auth.service';
+import { AuthService } from './app/modules/auth/auth.service';
 import { NotificationService } from '@shared/services/notification.service';
 import { headerInterceptor } from '@shared/interceptors/header.interceptor';
 

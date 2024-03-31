@@ -1,0 +1,111 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="form" autocomplete="off">
+  <div class="content-avatar">
+    @if (previewImage()) {
+      <ion-avatar class="custom-avatar">
+        <img alt="img-preview" [src]="previewImage()" class="avatar-img" />
+        <ion-icon
+          name="trash-outline"
+          class="delete-icon"
+          (click)="deleteAvatar()"
+        ></ion-icon>
+      </ion-avatar>
+    }
+    <div class="drop-zone" (drop)="drop($event)" (dragover)="allowDrop($event)">
+      <input
+        type="file"
+        #fileInput
+        style="display: none"
+        (change)="onAvatarChange($event)"
+        accept="image/*"
+      />
+      <ion-button size="small" color="light" (click)="fileInput.click()"
+        >Choose File</ion-button
+      >
+      <p>Drag and drop your avatar here</p>
+    </div>
+  </div>
+  <ion-list>
+    <ion-item>
+      <ion-input
+        label="Name"
+        type="text"
+        formControlName="name"
+        label-placement="floating"
+        required="true"
+        minlength="2"
+        maxlength="25"
+        errorText="Invalid name"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input
+        label="First name"
+        type="text"
+        formControlName="first_name"
+        label-placement="floating"
+        required="true"
+        minlength="2"
+        maxlength="25"
+        errorText="Invalid first name"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input
+        label="Last name"
+        type="text"
+        formControlName="last_name"
+        label-placement="floating"
+        minlength="2"
+        maxlength="25"
+        errorText="Invalid last name"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input
+        label="Email"
+        type="email"
+        formControlName="email"
+        label-placement="floating"
+        required="true"
+        minlength="2"
+        maxlength="255"
+        errorText="Invalid email"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input
+        label="Password"
+        type="password"
+        formControlName="password"
+        label-placement="floating"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-select
+        label="Roles"
+        formControlName="roles"
+        multiple="true"
+        cancelText="Cancelar"
+        okText="Aceptar"
+        label-placement="floating"
+      >
+        <ion-select-option *ngFor="let role of roles" [value]="role.id">{{
+          role.value
+        }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-toggle formControlName="active"> Active </ion-toggle>
+    </ion-item>
+  </ion-list>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" fill="solid" (click)="closeMenu()"
+        >Cancel</ion-button
+      >
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button type="submit" color="primary" fill="solid">Save</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</form>

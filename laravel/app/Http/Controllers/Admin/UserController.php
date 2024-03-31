@@ -16,8 +16,6 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
 
 class UserController extends AdminController
 {
@@ -47,15 +45,15 @@ class UserController extends AdminController
      */
     public function store(StoreUserRequest $request)
     {
-        $validatedData = $request->validated();
+        $validated = $request->validated();
 
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
-            $filename = $this->saveAvatar($avatar);
-            $validatedData['profile_avatar'] = $filename;
+            $filename = ImagesController::save($avatar, 200, 200, $this->diskAvatar);
+            $validated['avatar'] = $filename;
         }
 
-        $user = User::create($validatedData);
+        $user = User::create($validated);
 
         $roles = explode(',', $request->roles);
         $roles = Role::whereIn('id', $roles)->pluck('id', 'id');
@@ -84,23 +82,25 @@ class UserController extends AdminController
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $request->active = $request->active === 'true' ? 1 : 0;
-
-        $validatedData = $request->validated();
+        $validated = $request->validated();
 
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
 
-            $filename = $this->saveAvatar($avatar);
+            $filename = ImagesController::save($avatar, 200, 200, $this->diskAvatar);
 
-            if ($user->profile_avatar) {
-                $this->deleteAvatar($user->profile_avatar);
+            if ($user->avatar) {
+                ImagesController::delete($user->avatar, $this->diskAvatar);
             }
 
-            $validatedData['profile_avatar'] = $filename;
+            $validated['avatar'] = $filename;
+        } elseif(isset($request->avatar) && $request->avatar === null) {
+            if ($user->avatar) {
+                ImagesController::delete($user->avatar, $this->diskAvatar);
+            }
         }
 
-        $user->update($validatedData);
+        $user->update($validated);
 
         $roles = explode(',', $request->roles);
         $roles = Role::whereIn('id', $roles)->pluck('id', 'id');
@@ -183,60 +183,5 @@ class UserController extends AdminController
         $this->fields->add('created_at', ColumnList::dateTime(), ['label' => 'Create']);
 
         return parent::getFieldsList();
-    }
-
-    /**
-     * Guarda la imagen del avatar
-     *
-     * @param string $avatar
-     * @return string $path
-     */
-    public function saveAvatar($avatar, $width = 200, $height = 200)
-    {
-
-        if (!$avatar || $avatar->extension() === null) {
-            return false;
-        }
-
-        $image = Image::make($avatar);
-
-        $image->resize($width, $height, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-
-        $resizedContent = $image->stream()->detach();
-
-        $filename = time() . '.' . $avatar->extension();
-
-        Storage::disk($this->diskAvatar)->put($filename, $resizedContent);
-
-        return $filename;
-
-    }
-
-    /**
-     * Devuelve la url de imagen del avatar
-     *
-     * @param string $filename
-     * @return string $path
-     */
-    public function getAvatar(string $filename): string
-    {
-        if (!Storage::disk($this->diskAvatar)->exists($filename)) {
-            return Storage::disk('images')->url('avatar.png');
-        }
-
-        return Storage::disk($this->diskAvatar)->url($filename);
-    }
-
-    /**
-     * Elimina la imagen del avatar
-     *
-     * @param string $filename
-     * @return bool
-     */
-    public function deleteAvatar($filename): bool
-    {
-        return Storage::disk($this->diskAvatar)->delete($filename);
     }
 }

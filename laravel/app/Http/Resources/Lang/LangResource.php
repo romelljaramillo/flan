@@ -25,6 +25,7 @@ class LangResource extends JsonResource
             'attribute' => [
                 'id' => (string) $this->resource->id,
                 'name' => $this->resource->name,
+                'image' => $this->resource->image,
                 'active' => $this->resource->active,
                 'iso_code' => $this->resource->iso_code,
                 'language_code' => $this->resource->language_code,

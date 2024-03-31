@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { BaseService } from '@core/services/base.service';
-import { SiteAttribute, SiteResponse, SiteResponseData } from '../interfaces/site.interface';
+import { Injectable } from "@angular/core";
+import { BaseService } from "@core/services/base.service";
+import { SiteAttribute } from "../interfaces/site.interface";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
-export class SiteService extends BaseService<SiteResponse, SiteResponseData, SiteAttribute> {
-  override url = 'sites';
-  override entity = 'sites';
+export class SiteService extends BaseService<SiteAttribute> {
+  override url = "sites";
+  override entity = "sites";
 }

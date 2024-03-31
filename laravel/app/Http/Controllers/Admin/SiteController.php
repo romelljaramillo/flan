@@ -7,8 +7,8 @@ use App\Facades\FieldForm;
 use App\Helpers\ApiResponse;
 use App\Helpers\Form\HelperForm;
 use App\Helpers\List\HelperList;
-use App\Http\Requests\Site\SiteStoreRequest;
-use App\Http\Requests\Site\SiteUpdateRequest;
+use App\Http\Requests\Site\StoreSiteRequest;
+use App\Http\Requests\Site\UpdateSiteRequest;
 use App\Http\Resources\Site\SiteCollection;
 use App\Http\Resources\Site\SiteResource;
 use App\Models\Site;
@@ -36,10 +36,10 @@ class SiteController extends AdminController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\SiteStoreRequest  $request
+     * @param  \App\Http\Requests\StoreSiteRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SiteStoreRequest $request)
+    public function store(StoreSiteRequest $request)
     {
         if ($request->validated()) {
             $site = Site::create([
@@ -69,11 +69,11 @@ class SiteController extends AdminController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\SiteUpdateRequest  $request
+     * @param  \App\Http\Requests\UpdateSiteRequest  $request
      * @param  \App\Models\Site  $site
      * @return \Illuminate\Http\Response
      */
-    public function update(SiteUpdateRequest $request, Site $site)
+    public function update(UpdateSiteRequest $request, Site $site)
     {
         $site->update($request->validated());
         return SiteResource::make($site);

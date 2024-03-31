@@ -14,12 +14,7 @@ import { BaseComponent } from "@core/base.component";
 import { FormComponent } from "@shared/components/form/form.component";
 import { ListComponent } from "@shared/components/list/list.component";
 
-import {
-  PermissionAttribute,
-  PermissionResponse,
-  PermissionResponseData,
-  PermissionResponseMeta,
-} from "./interfaces/permission.interface";
+import { PermissionAttribute } from "./interfaces/permission.interface";
 import { PermissionService } from "./services/permission.service";
 
 @Component({
@@ -40,12 +35,7 @@ import { PermissionService } from "./services/permission.service";
   styles: [""],
   templateUrl: "./permission.page.html",
 })
-export class PermissionPage extends BaseComponent<
-  PermissionResponse,
-  PermissionResponseData,
-  PermissionResponseMeta,
-  PermissionAttribute
-> {
+export class PermissionPage extends BaseComponent<PermissionAttribute> {
   constructor(protected permissionService: PermissionService) {
     super(permissionService);
   }

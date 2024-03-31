@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
-import { AuthService } from "@auth/auth.service";
+import { AuthService } from "@modules/auth/auth.service";
 import {
   IonTitle,
   IonFooter,

@@ -8,8 +8,8 @@ use App\Helpers\ApiResponse;
 use App\Helpers\Form\HelperForm;
 use App\Helpers\List\HelperList;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Requests\Role\RoleStoreRequest;
-use App\Http\Requests\Role\RoleUpdateRequest;
+use App\Http\Requests\Role\StoreRoleRequest;
+use App\Http\Requests\Role\UpdateRoleRequest;
 use App\Http\Resources\Role\RoleCollection;
 use App\Http\Resources\Role\RoleResource;
 use App\Models\Permission;
@@ -40,7 +40,7 @@ class RoleController extends AdminController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RoleStoreRequest $request)
+    public function store(StoreRoleRequest $request)
     {
         if ($request->validated()) {
             $role = Role::create([
@@ -74,7 +74,7 @@ class RoleController extends AdminController
      * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(RoleUpdateRequest $request, Role $role)
+    public function update(UpdateRoleRequest $request, Role $role)
     {
         $role->update($request->validated());
         $permissions = explode(',', $request->permissions);

@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FieldModel } from './field-model';
 import { CommonModule } from '@angular/common';
-import { FileFieldComponent } from './file/file-field.component';
 import {
   IonInput,
   IonTextarea,
@@ -20,7 +19,6 @@ import {
   imports: [IonItem, 
     CommonModule,
     ReactiveFormsModule,
-    FileFieldComponent,
     IonLabel,
     IonToggle,
     IonCheckbox,

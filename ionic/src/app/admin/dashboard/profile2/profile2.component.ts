@@ -39,20 +39,7 @@ export class Profile2Component implements OnInit {
       
       this.clientFind = this.client.find(client => client.id === clientId);
     });
-    // this.openMenu();
-
   }
-
-  // ngAfterViewInit() {
-  //   this.openMenu();
-  //   const animation: Animation = this.animationCtrl.create()
-  //     .addElement(this.miElemento.nativeElement)
-  //     .duration(500)
-  //     .fromTo('transform', 'translateX(-100%)', 'translateX(0%)')
-  //     .fromTo('opacity', 0, 1);
-
-  //   animation.play();
-  // }
 
   openMenu() {
     this.menuCtrl.open('profile-menu');

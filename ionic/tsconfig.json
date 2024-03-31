@@ -5,7 +5,7 @@
       "@core/*": ["./src/app/core/*"],
       "@admin/*": ["./src/app/admin/*"],
       "@front/*": ["./src/app/front/*"],
-      "@auth/*": ["./src/app/auth/*"],
+      "@auth/*": ["src/app/modules/auth/*"],
       "@shared/*": ["./src/app/shared/*"],
       "@modules/*": ["./src/app/modules/*"],
     },

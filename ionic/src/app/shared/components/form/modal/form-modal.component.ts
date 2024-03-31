@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import {
   IonButton,
@@ -71,6 +71,7 @@ export class FormModalComponent implements OnInit, OnDestroy {
     this.formService!.activeForm.emit(false);
   }
 
+
   onSubmit() {
     if (this.form.invalid) {
       return Object.values(this.form.controls).forEach((control) => {
@@ -87,6 +88,7 @@ export class FormModalComponent implements OnInit, OnDestroy {
     const values = this.form.value;
     this.showModal = false;
     this.formControlService.processCheckboxFields(values);
+
     this.formSubmit.emit(values);
   }
 

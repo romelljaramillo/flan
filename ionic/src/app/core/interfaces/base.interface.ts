@@ -7,7 +7,7 @@ export interface BaseResponse {
 export interface BaseResponseData {
   type:      string;
   id:        string;
-  attribute: { [key: string]: any };
+  attribute: BaseAttribute;
   links:     BaseLink;
 }
 

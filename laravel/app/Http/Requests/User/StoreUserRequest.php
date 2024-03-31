@@ -17,6 +17,18 @@ class StoreUserRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        if ($this->input('avatar') === 'null') {
+            $this->merge(['avatar' => null]);
+        }
+
+        $activeValue = $this->input('active');
+        if ($activeValue === "true" || $activeValue === 'false') {
+            $this->merge(["active" => $activeValue === "true" ? 1 : 0]);
+        }
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,14 +36,15 @@ class StoreUserRequest extends FormRequest
      */
     public function rules()
     {
-        $maxString = 'max:150';
+        $maxString = 'max:25';
         return [
             'name' => ['required', 'string', $maxString, 'unique:users'],
             'first_name' => ['required', 'string', $maxString],
             'last_name' => ['required', 'string', $maxString],
-            'email' => ['required', 'string', 'max:255', 'email', 'unique:users'],
+            'email' => ['required', 'string', 'max:255', 'email', 'unique:users',
+                'regex:/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/'],
             'password' => ['required', 'string', Password::min(8)],
-            'profile_avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
             'active' => ['boolean'],
         ];
     }
