@@ -36,11 +36,10 @@ class StoreUserRequest extends FormRequest
      */
     public function rules()
     {
-        $maxString = 'max:25';
         return [
-            'name' => ['required', 'string', $maxString, 'unique:users'],
-            'first_name' => ['required', 'string', $maxString],
-            'last_name' => ['required', 'string', $maxString],
+            'name' => ['required', 'string', 'max:25', 'unique:users'],
+            'first_name' => ['required', 'string', 'max:25'],
+            'last_name' => ['required', 'string', 'max:25'],
             'email' => ['required', 'string', 'max:255', 'email', 'unique:users',
                 'regex:/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/'],
             'password' => ['required', 'string', Password::min(8)],

@@ -7,13 +7,16 @@ import {
 import { AuthGuard } from "@modules/auth/auth.guard";
 import { UserPage } from "./user.page";
 
+const entity = 'users';
+const title = 'Users'
+
 export const routesUsers: Routes = [
   {
     path: "",
     component: UserPage,
     data: {
-      title: "Users",
-      entity: "users",
+      title: title,
+      entity: entity,
       action: ActionCrud.list,
     } as RouteDataPermission,
     canLoad: [AuthGuard],
@@ -28,28 +31,28 @@ export const routesUsers: Routes = [
       {
         path: "edit/:id",
         loadComponent: () =>
-          import('./form/form.component').then((m) => m.FormComponent),
+          import("./form/form.component").then((m) => m.FormComponent),
         data: {
-          title: "Users/Edit",
-          entity: "users",
+          title: `${title}/Edit`,
+          entity: entity,
           action: ActionCrud.list,
         } as RouteDataPermission,
       },
       {
         path: "add",
         loadComponent: () =>
-          import('./form/form.component').then((m) => m.FormComponent),
+          import("./form/form.component").then((m) => m.FormComponent),
         data: {
-          title: "Users/Add",
-          entity: "users",
+          title: `${title}/Add`,
+          entity: entity,
           action: ActionCrud.list,
         } as RouteDataPermission,
       },
-      // {
-      //   path: "",
-      //   redirectTo: "users",
-      //   pathMatch: "full",
-      // },
+      {
+        path: "",
+        redirectTo: entity,
+        pathMatch: "full",
+      },
     ],
   },
 ];

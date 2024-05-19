@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable } from 'rxjs';
 
@@ -8,7 +8,7 @@ import { ErrorHandlerService } from '@shared/services/error-handler.service';
 import { AdvanceSearchService } from '@shared/components/advancesearch/services/advancesearch.service';
 import { FieldResponseList, OptionsQuery } from '@shared/components/list/interfaces/list.interface';
 import { FieldResponseForm } from '@shared/components/form/interfaces/form.interface';
-import { BaseAttribute, BaseResponse, BaseResponseData } from '@core/interfaces/base.interface';
+import { BaseAttribute, BaseResponse } from '@core/interfaces/base.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +17,7 @@ export abstract class BaseService<A extends BaseAttribute> {
   public url: string = '';
   public entity: string = '';
   public baseUrl = environment.API_BASE_URL;
+  public saveEvent = new EventEmitter<boolean>()
 
   constructor(
     protected http: HttpClient,
@@ -53,7 +54,7 @@ export abstract class BaseService<A extends BaseAttribute> {
       .pipe(catchError((error) => this.errorHandlerService.handleError(error)));
   }
 
-  create<A>(record: A): Observable<BaseResponse> {
+  create(record: A): Observable<BaseResponse> {
     let formData: any = new FormData();
 
     for (const key in record) {

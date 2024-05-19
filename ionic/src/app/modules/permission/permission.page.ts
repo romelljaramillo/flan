@@ -8,11 +8,16 @@ import {
   IonSpinner,
   IonContent,
   IonCol,
+  IonButton,
+  IonIcon,
 } from "@ionic/angular/standalone";
+import { addIcons } from "ionicons";
+import { addOutline } from "ionicons/icons";
 
 import { BaseComponent } from "@core/base.component";
-import { FormComponent } from "@shared/components/form/form.component";
 import { ListComponent } from "@shared/components/list/list.component";
+import { SidebarRightComponent } from "@shared/components/sidebar-right/sidebar-right.component";
+import { BreadcrumbComponent } from "@admin/layout/breadcrumb/breadcrumb.component";
 
 import { PermissionAttribute } from "./interfaces/permission.interface";
 import { PermissionService } from "./services/permission.service";
@@ -21,6 +26,8 @@ import { PermissionService } from "./services/permission.service";
   selector: "app-permission",
   standalone: true,
   imports: [
+    IonIcon,
+    IonButton,
     IonCol,
     IonContent,
     IonSpinner,
@@ -29,8 +36,9 @@ import { PermissionService } from "./services/permission.service";
     IonRow,
     IonGrid,
     CommonModule,
-    FormComponent,
     ListComponent,
+    SidebarRightComponent,
+    BreadcrumbComponent,
   ],
   styles: [""],
   templateUrl: "./permission.page.html",
@@ -38,5 +46,6 @@ import { PermissionService } from "./services/permission.service";
 export class PermissionPage extends BaseComponent<PermissionAttribute> {
   constructor(protected permissionService: PermissionService) {
     super(permissionService);
+    addIcons({ addOutline });
   }
 }

@@ -1,0 +1,40 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="form" autocomplete="off">
+  <ion-list>
+    <ion-item>
+      <ion-input
+        label="Name"
+        type="text"
+        formControlName="name"
+        label-placement="floating"
+        required="true"
+        minlength="2"
+        maxlength="25"
+        errorText="Invalid name"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-select
+        label="Permissions"
+        formControlName="permissions"
+        multiple="true"
+        cancelText="Cancelar"
+        okText="Aceptar"
+        label-placement="floating"
+      >
+        <ion-select-option *ngFor="let permission of permissions" [value]="permission.id">{{
+          permission.value
+        }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" fill="solid" (click)="closeMenu()"
+        >Cancel</ion-button
+      >
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button type="submit" color="primary" fill="solid">Save</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</form>

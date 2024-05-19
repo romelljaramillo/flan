@@ -18,6 +18,11 @@ class UpdateUserRequest extends FormRequest
         return true;
     }
 
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
     protected function prepareForValidation()
     {
         if ($this->input('avatar') === 'null') {
@@ -37,12 +42,10 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules()
     {
-        $maxString = 'max:25';
-
         return [
-            'name' => ['sometimes', 'string', $maxString, Rule::unique('users')->ignore($this->user->id)],
-            'first_name' => ['sometimes', 'string', $maxString],
-            'last_name' => ['sometimes', 'string', $maxString],
+            'name' => ['sometimes', 'string', 'max:25', Rule::unique('users')->ignore($this->user->id)],
+            'first_name' => ['sometimes', 'string', 'max:25'],
+            'last_name' => ['sometimes', 'string', 'max:25'],
             'email' => ['sometimes', 'string', 'max:255', 'email', 
                 'regex:/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/',
                 Rule::unique('users')->ignore($this->user->id)],

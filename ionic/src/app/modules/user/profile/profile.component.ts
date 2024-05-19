@@ -61,7 +61,6 @@ import {
     IonMenuToggle,
     CommonModule,
   ],
-  template: `<p>profile works!</p>`,
   styleUrl: "./profile.component.scss",
   templateUrl: "./profile.component.html",
 })

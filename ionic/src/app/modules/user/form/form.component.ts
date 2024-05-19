@@ -150,13 +150,7 @@ export class FormComponent implements OnInit, OnDestroy {
           Validators.maxLength(25),
         ],
       ],
-      last_name: [
-        "Jaramillo",
-        [
-          Validators.required,
-          Validators.maxLength(25),
-        ],
-      ],
+      last_name: ["Jaramillo", [Validators.required, Validators.maxLength(25)]],
       email: [
         "romell@roanja.com",
         [
@@ -167,18 +161,23 @@ export class FormComponent implements OnInit, OnDestroy {
           Validators.maxLength(255),
         ],
       ],
-      password: ["password", [Validators.minLength(8), Validators.maxLength(255)]],
+      password: [
+        "password",
+        [Validators.minLength(8), Validators.maxLength(255)],
+      ],
       active: [1],
       roles: [[1, 2]],
       avatar: [null],
     });
     this.getRoles();
-    this.openMenu();
   }
 
   ngOnInit() {
     const userId = this.route.snapshot.paramMap.get("id");
-    this.getUser(userId);
+    if(userId) {
+      this.openMenu();
+      this.getUser(userId);
+    }
   }
 
   getRoles() {
@@ -205,8 +204,6 @@ export class FormComponent implements OnInit, OnDestroy {
           avatar: this.user.avatar,
           roles: this.user.roles.map((role: any) => role.id),
         });
-
-        console.log("this.previewImage", this.previewImage());
       }
     });
   }
@@ -226,8 +223,8 @@ export class FormComponent implements OnInit, OnDestroy {
 
     const data = this.form.value;
     if (!data) return;
-    
-    if (this.user && this.user.id && this.user.id.trim()){
+
+    if (this.user && this.user.id && this.user.id.trim()) {
       this.update(data);
     } else {
       this.add(data);
@@ -238,17 +235,21 @@ export class FormComponent implements OnInit, OnDestroy {
     this.userService.create(data).subscribe((response) => {
       if (response.data && !(response.data instanceof Array)) {
         const item = response.data.attribute as UserAttribute;
-        this.notificationService?.success("Add user successful.");
         this.router.navigate([`/admin/${this.userService.entity}/edit/`, item.id]);
+        this.notificationService?.success("Add user successful.");
+        this.userService.saveEvent.emit(true);
       }
     });
   }
 
   update(data: UserAttribute) {
     if (!this.user.id) return;
+
     const differences = this.getDifferences(this.user, data);
+
     this.userService.update(this.user.id, differences).subscribe((response) => {
       this.notificationService?.success("Update successful.");
+      this.userService.saveEvent.emit(true);
     });
   }
 

@@ -17,15 +17,13 @@ export class RoleService extends BaseService<RoleAttribute> {
           if (response.data && response.data instanceof Array) {
             const roles = response.data.map((role) => {
               let roleAttribute = role.attribute as RoleAttribute;
-              return { id: Number(roleAttribute.id), value: roleAttribute.name }; // Convert the id property to a number
+              return { id: Number(roleAttribute.id), value: roleAttribute.name };
             });
             return roles;
           }
-          return []; // Add this line to return an empty array if the condition is not met
+          return [];
         })
       )
       .pipe(catchError((error) => this.errorHandlerService.handleError(error)));
   }
-
-
 }

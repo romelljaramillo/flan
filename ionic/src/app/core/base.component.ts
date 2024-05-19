@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, OnDestroy, OnInit, WritableSignal, inject, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
@@ -37,7 +37,7 @@ import {
   styles: [""],
   templateUrl: "./base.component.html",
 })
-export class BaseComponent<A extends BaseAttribute> implements OnInit {
+export class BaseComponent<A extends BaseAttribute> implements OnInit, OnDestroy {
   protected formSubscription?: Subscription;
   protected formPostSubscription?: Subscription;
   public permission: PermissionData = { hasPermission: false };
@@ -79,7 +79,15 @@ export class BaseComponent<A extends BaseAttribute> implements OnInit {
   protected notificationService = inject(NotificationService);
   protected formService = inject(FormService);
 
-  constructor(private baseService: BaseService<A>) {}
+  subSaveEvent: Subscription;
+
+  constructor(private baseService: BaseService<A>) {
+    this.subSaveEvent = this.baseService.saveEvent.subscribe(event => {
+      if(event) {
+        this.getAll();
+      }
+    }); 
+  }
 
   ngOnInit(): void {
     this.authService.entity = this.baseService.entity;
@@ -183,7 +191,7 @@ export class BaseComponent<A extends BaseAttribute> implements OnInit {
     this.router.navigate([`/admin/${this.baseService.entity}/add`]);
   }
 
-  onEdit(item: A) {
+  /* onEdit(item: A) {
     if (!item.id) return;
     this.baseService.getById(item.id).subscribe((response) => {
       if (response.data && !(response.data instanceof Array)) {
@@ -191,6 +199,12 @@ export class BaseComponent<A extends BaseAttribute> implements OnInit {
         this.activeForm(true);
       }
     });
+  } */
+
+  onEdit(item: A) {
+    this.openMenu();
+    if (!item.id) return;
+    this.router.navigate([`/admin/${this.baseService.entity}/edit/`, item.id]);
   }
 
   onDelete(item: BaseResponseData) {
@@ -203,11 +217,20 @@ export class BaseComponent<A extends BaseAttribute> implements OnInit {
     });
   }
 
+  updateList() {
+    this.router.navigate([`/admin/${this.baseService.entity}`]);
+    this.getAll();
+  }
+
   openMenu() {
     this.menuCtrl.open(this.baseService.entity);
   }
 
   closeMenu() {
     this.menuCtrl.close(this.baseService.entity);
+  }
+
+  ngOnDestroy() {
+    this.subSaveEvent.unsubscribe();
   }
 }

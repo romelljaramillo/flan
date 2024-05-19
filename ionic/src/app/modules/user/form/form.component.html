@@ -1,14 +1,14 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="form" autocomplete="off">
   <div class="content-avatar">
     @if (previewImage()) {
-      <ion-avatar class="custom-avatar">
-        <img alt="img-preview" [src]="previewImage()" class="avatar-img" />
-        <ion-icon
-          name="trash-outline"
-          class="delete-icon"
-          (click)="deleteAvatar()"
-        ></ion-icon>
-      </ion-avatar>
+    <ion-avatar class="custom-avatar">
+      <img alt="img-preview" [src]="previewImage()" class="avatar-img" />
+      <ion-icon
+        name="trash-outline"
+        class="delete-icon"
+        (click)="deleteAvatar()"
+      ></ion-icon>
+    </ion-avatar>
     }
     <div class="drop-zone" (drop)="drop($event)" (dragover)="allowDrop($event)">
       <input
@@ -89,9 +89,11 @@
         okText="Aceptar"
         label-placement="floating"
       >
-        <ion-select-option *ngFor="let role of roles" [value]="role.id">{{
+        @for (role of roles; track role.id) {
+        <ion-select-option [value]="role.id">{{
           role.value
         }}</ion-select-option>
+        }
       </ion-select>
     </ion-item>
     <ion-item>

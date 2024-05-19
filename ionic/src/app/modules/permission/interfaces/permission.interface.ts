@@ -2,8 +2,8 @@ export interface PermissionAttribute {
   id: string;
   name: string;
   description: string;
-  created_at: string;
-  updated_at: string;
+  created: string;
+  updated: string;
 }
 
 export interface HasPermissionResponse {
@@ -30,3 +30,7 @@ export enum ActionCrud {
   delete = 'delete',
 }
 
+export interface Permission {
+  id:    number;
+  value: string;
+}

@@ -14,7 +14,7 @@ export interface RoleResponseData {
 export interface RoleAttribute {
   id: string;
   name: string;
-  permissions: RolePermissions;
+  permissions: Permissions[];
   created: string;
   updated: string;
 }
@@ -23,7 +23,7 @@ export interface RoleLink {
   self: string;
 }
 
-export interface RolePermissions {
+export interface Permissions {
   id: string;
   name: string;
 }

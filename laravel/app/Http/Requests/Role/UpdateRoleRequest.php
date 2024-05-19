@@ -17,6 +17,14 @@ class UpdateRoleRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        $permissions = $this->input('permissions');
+        if ($permissions) {
+            $this->merge(['permissions' => explode(',', $permissions)]);
+        }
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,8 +32,12 @@ class UpdateRoleRequest extends FormRequest
      */
     public function rules()
     {
+        $activeValue = $this->input('permissions');
+
         return [
-            'name' => ['required', 'string', 'max:125', Rule::unique('roles')->ignore($this->role->id)],
+            'name' => ['sometimes', 'string', 'max:125', Rule::unique('roles')->ignore($this->role->id)],
+            'permissions' => ['sometimes', 'array'],
+            'permissions.*' => 'exists:permissions,id',
         ];
     }
 }

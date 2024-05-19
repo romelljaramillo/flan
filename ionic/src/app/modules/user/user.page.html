@@ -41,6 +41,6 @@
 <app-sidebar-right
   [idMenu]="userService.entity"
   [idConten]="userService.entity"
-  (ionDidClose)="closeMenuEvent()"
+  (ionDidClose)="closeMenu()"
   (ionWillClose)="updateList()"
 ></app-sidebar-right>
