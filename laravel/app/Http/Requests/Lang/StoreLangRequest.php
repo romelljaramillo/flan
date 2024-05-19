@@ -16,6 +16,23 @@ class StoreLangRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        if ($this->input('image') === 'null') {
+            $this->merge(['image' => null]);
+        }
+
+        $activeValue = $this->input('active');
+        if ($activeValue === "true" || $activeValue === 'false') {
+            $this->merge(["active" => $activeValue === "true" ? 1 : 0]);
+        }
+
+        $isRtlValue = $this->input('is_rtl');
+        if ($isRtlValue === "true" || $isRtlValue === 'false') {
+            $this->merge(["is_rtl" => $isRtlValue === "true" ? 1 : 0]);
+        }
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *

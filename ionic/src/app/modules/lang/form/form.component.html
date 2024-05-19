@@ -1,0 +1,109 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="form" autocomplete="off">
+  <div class="content-image">
+    @if (previewImage()) {
+    <ion-avatar class="custom-image">
+      <img alt="img-preview" [src]="previewImage()" class="avatar-img" />
+      <ion-icon
+        name="trash-outline"
+        class="delete-icon"
+        (click)="deleteImage()"
+      ></ion-icon>
+    </ion-avatar>
+    }
+    <div class="drop-zone" (drop)="drop($event)" (dragover)="allowDrop($event)">
+      <input
+        type="file"
+        #fileInput
+        style="display: none"
+        (change)="onImageChange($event)"
+        accept="image/*"
+      />
+      <ion-button size="small" color="light" (click)="fileInput.click()"
+        >Choose File</ion-button
+      >
+      <p>Drag and drop your image here</p>
+    </div>
+  </div>
+  <ion-list>
+    <ion-item>
+      <ion-input
+        label="Name"
+        type="text"
+        formControlName="name"
+        label-placement="floating"
+        required="true"
+        minlength="2"
+        maxlength="50"
+        errorText="Invalid name"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input
+        label="ISO code"
+        type="text"
+        formControlName="iso_code"
+        label-placement="floating"
+        required="true"
+        minlength="2"
+        maxlength="2"
+        errorText="Invalid ISO code"
+      ></ion-input>
+      <div slot="helper">Two-letter ISO code (e.g. FR, EN, DE).</div>
+    </ion-item>
+    <ion-item>
+      <ion-input
+        label="Language code"
+        type="text"
+        formControlName="language_code"
+        label-placement="floating"
+        required="true"
+        minlength="2"
+        maxlength="5"
+        errorText="Invalid Language code"
+      ></ion-input>
+      <div slot="helper">IETF language tag (e.g. en-US, pt-BR).</div>
+    </ion-item>
+    <ion-item>
+      <ion-input
+        label="Date format"
+        type="text"
+        formControlName="date_format_lite"
+        label-placement="floating"
+        required="true"
+        minlength="2"
+        maxlength="50"
+        errorText="Invalid Date format"
+      ></ion-input>
+      <div slot="helper">Short date format (e.g., Y-m-d).</div>
+    </ion-item>
+    <ion-item>
+      <ion-input
+        label="Date format (full)"
+        type="text"
+        formControlName="date_format_full"
+        label-placement="floating"
+        required="true"
+        minlength="2"
+        maxlength="50"
+        errorText="Invalid Date format (full)"
+      ></ion-input>
+      <div slot="helper">Full date format (e.g., Y-m-d H:i:s).</div>
+    </ion-item>
+    <ion-item>
+      <ion-toggle formControlName="is_rtl"> RTL language </ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-toggle formControlName="active"> Active </ion-toggle>
+    </ion-item>
+  </ion-list>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" fill="solid" (click)="closeMenu()"
+        >Cancel</ion-button
+      >
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button type="submit" color="primary" fill="solid">Save</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</form>

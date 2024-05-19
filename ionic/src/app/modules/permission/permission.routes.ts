@@ -1,11 +1,11 @@
 import { Routes } from "@angular/router";
 
+import { AuthGuard } from "@modules/auth/auth.guard";
 import { PermissionPage } from "./permission.page";
 import {
   ActionCrud,
   RouteDataPermission,
 } from "./interfaces/permission.interface";
-import { AuthGuard } from "@modules/auth/auth.guard";
 
 const entity = "permissions";
 const title = "Permissions";

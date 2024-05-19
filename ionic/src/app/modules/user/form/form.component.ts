@@ -265,6 +265,19 @@ export class FormComponent implements OnInit, OnDestroy {
     return differences;
   }
 
+  openMenu() {
+    this.menuCtrl.open(this.userService.entity);
+  }
+
+  closeMenu() {
+    this.menuCtrl.close(this.userService.entity);
+    this.router.navigate([`/admin/${this.userService.entity}`]);
+  }
+
+  ngOnDestroy(): void {
+    this.menuCtrl.close("users");
+  }
+
   onAvatarChange(file: File | Event) {
     if (file instanceof File) {
       this.avatarFile = file;
@@ -295,7 +308,7 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   allowDrop(event: DragEvent) {
-    event.preventDefault(); // Esto es necesario para permitir el drop
+    event.preventDefault();
   }
 
   drop(event: DragEvent) {
@@ -309,18 +322,5 @@ export class FormComponent implements OnInit, OnDestroy {
   deleteAvatar() {
     this.previewImage.set(null);
     this.form.patchValue({ avatar: null });
-  }
-
-  openMenu() {
-    this.menuCtrl.open(this.userService.entity);
-  }
-
-  closeMenu() {
-    this.menuCtrl.close(this.userService.entity);
-    this.router.navigate([`/admin/${this.userService.entity}`]);
-  }
-
-  ngOnDestroy(): void {
-    this.menuCtrl.close("users");
   }
 }

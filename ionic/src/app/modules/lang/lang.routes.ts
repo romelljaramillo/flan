@@ -7,23 +7,44 @@ import {
 import { AuthGuard } from "@modules/auth/auth.guard";
 import { LangPage } from "./lang.page";
 
+const entity = "langs";
+const title = "Langs";
+
 export const routesLangs: Routes = [
   {
     path: "",
     component: LangPage,
     data: {
-      title: "Langs",
-      entity: "langs",
+      title: title,
+      entity: entity,
       action: ActionCrud.list,
     } as RouteDataPermission,
     canLoad: [AuthGuard],
     children: [
       {
-        path: ":id",
+        path: "edit/:id",
         loadComponent: () =>
-          import("@admin/dashboard/profile2/profile2.component").then(
-            (m) => m.Profile2Component
-          ),
+          import("./form/form.component").then((m) => m.FormComponent),
+        data: {
+          title: `${title}/Edit`,
+          entity: entity,
+          action: ActionCrud.list,
+        } as RouteDataPermission,
+      },
+      {
+        path: "add",
+        loadComponent: () =>
+          import("./form/form.component").then((m) => m.FormComponent),
+        data: {
+          title: `${title}/Add`,
+          entity: entity,
+          action: ActionCrud.list,
+        } as RouteDataPermission,
+      },
+      {
+        path: "",
+        redirectTo: entity,
+        pathMatch: "full",
       },
     ],
   },

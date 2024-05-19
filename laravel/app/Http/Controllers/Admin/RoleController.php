@@ -77,7 +77,6 @@ class RoleController extends AdminController
     public function update(UpdateRoleRequest $request, Role $role)
     {
         $role->update($request->validated());
-        // $permissions = explode(',', $request->permissions);
         $permissions = Permission::whereIn('id', $request->permissions)->pluck('id', 'id');
         $role->syncPermissions($permissions);
 

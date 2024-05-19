@@ -1,28 +1,46 @@
-<ion-grid>
-  @if (isLoading) {
-  <ion-row>
-    <ion-col size="12">
-      <ion-item>
-        <ion-label>Cargando</ion-label>
-        <ion-spinner name="dots"></ion-spinner>
-      </ion-item>
-    </ion-col>
-  </ion-row>
-  }
+<ion-content id="langs" scrollY="false">
+  <ion-grid>
+    @if (isLoading) {
+    <ion-row>
+      <ion-col size="12">
+        <ion-item>
+          <ion-label>Cargando</ion-label>
+          <ion-spinner name="dots"></ion-spinner>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    }
+  
+    <ion-row>
+      <ion-col size="12" class="ion-text-end">
+        <ion-button (click)="onAdd()">
+          <ion-icon slot="start" name="add-outline"></ion-icon>
+          add new
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  
+    <ion-row>
+      <ion-col size="12">
+        <app-list
+            [fields]="fieldsList"
+            [deletable]="deletable"
+            [editable]="editable"
+            [items]="items"
+            [total]="total"
+            (edit)="onEdit($event)"
+            (delete)="onDelete($event)"
+            (filter)="onFilter($event)"
+          >
+          </app-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
 
-  <ion-row>
-    <ion-col size="12" class="ion-text-end">
-      <app-form [typeForm]="typeForm" [data]="item" [fields]="fieldsForm" [isActive]="isFormActive"
-        (submitAction)="onSubmitAction($event)">
-      </app-form>
-    </ion-col>
-  </ion-row>
-
-  <ion-row>
-    <ion-col size="12">
-      <app-list [fields]="fieldsList" [deletable]="deletable" [editable]="editable" [items]="items" [total]="total"
-        (edit)="onEdit($event)" (delete)="onDelete($event)" (filter)="onFilter($event)">
-      </app-list>
-    </ion-col>
-  </ion-row>
-</ion-grid>
+<app-sidebar-right
+  [idMenu]="langService.entity"
+  [idConten]="langService.entity"
+  (ionDidClose)="closeMenu()"
+  (ionWillClose)="updateList()"
+></app-sidebar-right>

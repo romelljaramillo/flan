@@ -2,13 +2,12 @@ export interface LangAttribute {
     id:               string;
     name:             string;
     image:            string;
-    active:           number;
+    active:           boolean;
     iso_code:         string;
     language_code:    string;
-    locale:           string;
     date_format_lite: string;
     date_format_full: string;
-    is_rtl:           number;
+    is_rtl:           boolean;
     sites:            Site[];
 }
 
